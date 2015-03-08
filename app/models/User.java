@@ -25,7 +25,6 @@ public class User {
         this.password = password;
     }
 
-
     public static User findById(long id){
         return JPA.em().find(User.class, id);
     }
