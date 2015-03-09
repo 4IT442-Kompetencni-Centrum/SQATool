@@ -3,7 +3,6 @@ package models;
 
 import play.data.validation.Constraints;
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,10 +34,10 @@ public class User {
 
     public static class Page{
 
-        private int pageSize;
-        private long totalRowCount;
-        private int pageIndex;
-        private List<User> userList;
+        private final int pageSize;
+        private final long totalRowCount;
+        private final int pageIndex;
+        private final List<User> userList;
 
         public Page(int pageSize, long totalRowCount, int pageIndex, List<User> userList){
             this.totalRowCount = totalRowCount;
@@ -55,5 +54,20 @@ public class User {
             return (totalRowCount / pageSize) >= pageIndex;
         }
 
+        public int getPageSize(){
+            return pageSize;
+        }
+
+        public long getTotalRowCount() {
+            return totalRowCount;
+        }
+
+        public int getPageIndex() {
+            return pageIndex;
+        }
+
+        public List<User> getUserList() {
+            return userList;
+        }
     }
 }
