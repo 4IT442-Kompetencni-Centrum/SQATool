@@ -1,5 +1,6 @@
-package daos;
+package daos.impl;
 
+import daos.ProjectDao;
 import models.Project;
 
 /**

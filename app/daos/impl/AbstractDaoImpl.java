@@ -1,7 +1,8 @@
-package daos;
+package daos.impl;
 
 import java.lang.reflect.ParameterizedType;
 
+import daos.AbstractDao;
 import models.AbstractVersionedEntity;
 import play.db.jpa.JPA;
 

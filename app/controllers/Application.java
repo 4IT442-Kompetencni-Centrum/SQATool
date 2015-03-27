@@ -6,7 +6,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 import views.html.login;
-import daos.DAOs;
+import daos.impl.DAOs;
 
 public class Application extends Controller {
 
