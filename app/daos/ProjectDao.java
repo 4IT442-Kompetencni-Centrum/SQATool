@@ -3,7 +3,7 @@ package daos;
 import models.Project;
 
 /**
- * DAO for accessing Project objects.
+ * DAO for DB operations for Project objects.
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
