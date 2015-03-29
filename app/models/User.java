@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "SQA_USER")
-public class User {
+public class User extends AbstractVersionedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,14 +22,6 @@ public class User {
     public User(String userName, String password){
         this.userName = userName;
         this.password = password;
-    }
-
-    public static User findById(long id){
-        return JPA.em().find(User.class, id);
-    }
-
-    public void save(){
-        JPA.em().persist(this);
     }
 
     public static class Page{

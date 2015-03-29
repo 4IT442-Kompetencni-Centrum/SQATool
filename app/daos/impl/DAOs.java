@@ -1,10 +1,6 @@
 package daos.impl;
 
-import daos.ContactPersonDao;
-import daos.HoursWorkedDao;
-import daos.PartnerDao;
-import daos.ProjectDao;
-import daos.UserOnProjectDao;
+import daos.*;
 
 /**
  * Storage class for DAOs.
@@ -17,6 +13,8 @@ public class DAOs {
 	private static HoursWorkedDao hoursWorkedDao;
 	private static PartnerDao partnerDao;
 	private static UserOnProjectDao userOnProjectDao;
+    private static UserDao userDao;
+
 	
 	public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -52,6 +50,13 @@ public class DAOs {
 		}
 		return userOnProjectDao;
 	}
+
+    public static UserDao getUserDao(){
+        if(userDao == null){
+            userDao = new UserDaoImpl();
+        }
+        return userDao;
+    }
 	
 	
 	
