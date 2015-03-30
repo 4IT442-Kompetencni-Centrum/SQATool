@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="SQA_USER_LOGGED_ON_ACTIVITY")
-public class UserLoggedOnActivity {
+public class UserLoggedOnActivity extends AbstractVersionedEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "SQA_ROLE_ON_ACTIVITY")
-public class RoleOnActivity {
+public class RoleOnActivity extends AbstractVersionedEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long roleOnActivity;
