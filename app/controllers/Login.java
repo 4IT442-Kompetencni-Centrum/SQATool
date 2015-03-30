@@ -5,6 +5,7 @@ import daos.impl.DAOs;
 import daos.impl.UserDaoImpl;
 import models.User;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.formData.LoginForm;
@@ -16,6 +17,7 @@ public class Login extends Controller {
 
     private static UserDao userDao = DAOs.getUserDao();
 
+    @Transactional
     public static Result authenticate(){
         Form<LoginForm> bindForm = Form.form(LoginForm.class).bindFromRequest();
         if(bindForm.hasErrors()){

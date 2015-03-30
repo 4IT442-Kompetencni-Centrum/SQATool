@@ -4,6 +4,7 @@ import daos.UserDao;
 import models.User;
 import play.db.jpa.JPA;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -17,10 +18,6 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao{
 
     @Override
     public User getValidUser(String userName, String password) {
-        String queryString = "select * from SQA_USER where USERNAME like :username and PASSWORD like :password";
-        TypedQuery<User> query = JPA.em().createQuery(queryString, User.class);
-        query.setParameter("username", userName);
-        query.setParameter("password", password);
-        return query.getSingleResult();
+        return null;
     }
 }
