@@ -25,13 +25,13 @@ public class Login extends Controller {
             return redirect(routes.Application.showLoginPage());
         }
         LoginForm filledForm = bindForm.get();
-        User candidate = new User(filledForm.userName, filledForm.password);
-        if(userDao.getValidUser(candidate.userName, candidate.password) == null){
+        User candidate = new User(filledForm.username, filledForm.password);
+        if(userDao.getValidUser(candidate.username, candidate.password) == null){
             flash("error", "Wrong username or password");
             return redirect(routes.Application.showLoginPage());
         }
         session().clear();
-        session("user", "secretToken" + bindForm.get().userName); // CREATE THE VERY SECRET TOKEN
+        session("user", "secretToken" + bindForm.get().username); // CREATE THE VERY SECRET TOKEN
         return TODO;
     }
 

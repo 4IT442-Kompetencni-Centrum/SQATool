@@ -5,6 +5,6 @@ package views.formData;
  */
 public class LoginForm {
 
-    public String userName;
+    public String username;
     public String password;
 }

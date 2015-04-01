@@ -15,12 +15,12 @@ public class User extends AbstractVersionedEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
     @Constraints.Required
-    public String userName;
+    public String username;
     @Constraints.Required
     public String password;
 
-    public User(String userName, String password){
-        this.userName = userName;
+    public User(String username, String password){
+        this.username = username;
         this.password = password;
     }
 
