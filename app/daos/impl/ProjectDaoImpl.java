@@ -1,7 +1,10 @@
 package daos.impl;
 
-import daos.ProjectDao;
+import java.util.ArrayList;
+import java.util.List;
+
 import models.Project;
+import daos.ProjectDao;
 
 /**
  * Implementation of DAO for DB operations for Project objects. 
@@ -16,5 +19,11 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project> implements ProjectD
 		/*
 		 *Because of this, no controllers can create new instances of DAO. 
 		 */
+	}
+
+	@Override
+	public List<Project> getAllProjectsForUser(Long userId) {
+		//TODO tmichalicka
+		return new ArrayList<Project>();
 	}
 }

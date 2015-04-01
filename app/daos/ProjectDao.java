@@ -1,5 +1,7 @@
 package daos;
 
+import java.util.List;
+
 import models.Project;
 
 /**
@@ -8,5 +10,11 @@ import models.Project;
  *
  */
 public interface ProjectDao extends AbstractDao<Project> {
-
+	/**
+	 * Method returns list of project where user with given id participates
+	 * @param userId
+	 * @return
+	 */
+	public List<Project> getAllProjectsForUser(Long userId);
+	
 }
