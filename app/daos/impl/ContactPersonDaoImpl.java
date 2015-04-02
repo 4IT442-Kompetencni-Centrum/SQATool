@@ -8,9 +8,9 @@ import models.ContactPerson;
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
-public class ContactPersonDaoImpl extends AbstractDaoImpl<ContactPerson> implements ContactPersonDao {
+public class ContactPersonDaoImpl extends AbstractVersionedDaoImpl<ContactPerson> implements ContactPersonDao {
 
-	public ContactPersonDaoImpl() {
+	ContactPersonDaoImpl() {
 		
 	}
 	

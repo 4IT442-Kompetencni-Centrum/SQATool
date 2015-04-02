@@ -1,9 +1,12 @@
 package controllers;
 
 import models.Project;
+import models.User;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import service.ActionsEnum;
+import service.SecurityService;
 import views.html.index;
 import views.html.login;
 import daos.impl.DAOs;
@@ -20,6 +23,8 @@ public class Application extends Controller {
 
     @Transactional(readOnly=false)
     public static Result testDAO() {
+    	User user = new User("aaa", "bbb");
+    	SecurityService.hasAccess(user.getRoleInBusiness(), ActionsEnum.PROJECT_EDIT);
     	Project project = DAOs.getProjectDao().findById(1l);
     	project.setName("Updated name");
     	DAOs.getProjectDao().update(project);

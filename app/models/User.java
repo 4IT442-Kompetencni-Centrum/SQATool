@@ -18,8 +18,20 @@ public class User {
     public String userName;
     @Constraints.Required
     public String password;
+    @OneToMany(mappedBy="user")
+    private List<RoleInBusiness> roleInBusiness;
+    
+    
 
-    public User(String userName, String password){
+    public List<RoleInBusiness> getRoleInBusiness() {
+		return roleInBusiness;
+	}
+
+	public void setRoleInBusiness(List<RoleInBusiness> roleInBusiness) {
+		this.roleInBusiness = roleInBusiness;
+	}
+
+	public User(String userName, String password){
         this.userName = userName;
         this.password = password;
     }

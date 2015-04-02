@@ -4,6 +4,7 @@ import daos.ContactPersonDao;
 import daos.HoursWorkedDao;
 import daos.PartnerDao;
 import daos.ProjectDao;
+import daos.TypeRoleInBusinessDao;
 import daos.UserOnProjectDao;
 
 /**
@@ -17,6 +18,7 @@ public class DAOs {
 	private static HoursWorkedDao hoursWorkedDao;
 	private static PartnerDao partnerDao;
 	private static UserOnProjectDao userOnProjectDao;
+	private static TypeRoleInBusinessDao typeRoleInBusinessDao;
 	
 	public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -51,6 +53,13 @@ public class DAOs {
 			userOnProjectDao = new UserOnProjectDaoImpl();
 		}
 		return userOnProjectDao;
+	}
+	
+	public static TypeRoleInBusinessDao getTypeRoleInBusinessDao() {
+		if (typeRoleInBusinessDao == null) {
+			typeRoleInBusinessDao = new TypeRoleInBusinessDaoImpl();
+		}
+		return typeRoleInBusinessDao;
 	}
 	
 	

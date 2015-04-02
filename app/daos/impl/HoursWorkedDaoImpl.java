@@ -8,10 +8,10 @@ import daos.HoursWorkedDao;
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
-public class HoursWorkedDaoImpl extends AbstractDaoImpl<HoursWorked> implements
+public class HoursWorkedDaoImpl extends AbstractVersionedDaoImpl<HoursWorked> implements
 		HoursWorkedDao {
 
-	public HoursWorkedDaoImpl() {
+	HoursWorkedDaoImpl() {
 
 	}
 }

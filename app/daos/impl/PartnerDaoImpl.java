@@ -8,9 +8,9 @@ import daos.PartnerDao;
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
-public class PartnerDaoImpl extends AbstractDaoImpl<Partner> implements
+public class PartnerDaoImpl extends AbstractVersionedDaoImpl<Partner> implements
 		PartnerDao {
-	public PartnerDaoImpl() {
+	PartnerDaoImpl() {
 	
 	}
 }

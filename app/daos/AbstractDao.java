@@ -1,13 +1,12 @@
 package daos;
 
-import models.AbstractVersionedEntity;
 /**
- * Abstract DAO interface which is ancestor of every DAO interface
+ * DAO interface which is ancestor of every DAO interface
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
- * @param <T extends AbstractVersionedEntity>
+ * @param <T>
  */
-public interface AbstractDao<T extends AbstractVersionedEntity> {
+public interface AbstractDao<T> {
 	/**
 	 * Method creates new row in db.
 	 * @param object

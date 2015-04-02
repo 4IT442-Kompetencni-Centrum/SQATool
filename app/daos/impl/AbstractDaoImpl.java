@@ -2,18 +2,17 @@ package daos.impl;
 
 import java.lang.reflect.ParameterizedType;
 
-import daos.AbstractDao;
-import models.AbstractVersionedEntity;
 import play.db.jpa.JPA;
+import daos.AbstractDao;
 
 /**
- * Abstract class which is ancestor of all DAOs.
+ * Abstract class which is ancestor of AbstractNonVersionedDaoImpl and AbstractVersionedDaoImpl.
  * 
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  * @param <T>
  */
-public abstract class AbstractDaoImpl<T extends AbstractVersionedEntity>
+public abstract class AbstractDaoImpl<T>
 		implements AbstractDao<T> {
 
 	protected Class<T> entityClass;
@@ -47,10 +46,7 @@ public abstract class AbstractDaoImpl<T extends AbstractVersionedEntity>
 	 * Method deletes row in database. Delete is implemented as set of visible
 	 * flag to false.
 	 */
-	public void delete(T object) {
-		object.setVisible(false);
-		update(object);
-	}
+	public abstract void delete(T object);
 
 	/**
 	 * Method finds row in db with given id

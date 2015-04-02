@@ -11,7 +11,7 @@ import daos.ProjectDao;
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
-public class ProjectDaoImpl extends AbstractDaoImpl<Project> implements ProjectDao{
+public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements ProjectDao{
 	/**
 	 * Package visible constructor
 	 */
