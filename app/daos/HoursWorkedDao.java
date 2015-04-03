@@ -7,6 +7,6 @@ import models.HoursWorked;
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
-public interface HoursWorkedDao extends AbstractDao<HoursWorked>{
+public interface HoursWorkedDao extends AbstractVersionedDao<HoursWorked>{
 
 }

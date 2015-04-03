@@ -9,7 +9,7 @@ import models.Project;
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
-public interface ProjectDao extends AbstractDao<Project> {
+public interface ProjectDao extends AbstractVersionedDao<Project> {
 	/**
 	 * Method returns list of project where user with given id participates
 	 * @param userId

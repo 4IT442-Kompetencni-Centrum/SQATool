@@ -7,6 +7,6 @@ import models.Partner;
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
  *
  */
-public interface PartnerDao extends AbstractDao<Partner> {
+public interface PartnerDao extends AbstractVersionedDao<Partner> {
 
 }
