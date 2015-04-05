@@ -48,14 +48,20 @@ public class ProjectController extends Controller{
 	@Transactional(readOnly=false)
 	public static Result saveNewProject() {
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class).bindFromRequest();
-		DAOs.getProjectDao().create(ProjectConverter.convertToEntity(userForm.get()));
+		Project newProject = ProjectConverter.convertToEntity(userForm.get());
+		newProject.setVisible(true);
+		DAOs.getProjectDao().create(newProject);
 		return redirect("/projekty");
 	}
 	
 	@Transactional(readOnly=false)
 	public static Result detail(Long projectId) {
 		Project project = DAOs.getProjectDao().findById(projectId);
-		return ok(projectDetail.render(project));
+		if (project == null) {
+			return redirect("/projekty/nenalezen/"+projectId);
+		} else {
+			return ok(projectDetail.render(project));
+		}
 	}
 	
 	/**
@@ -78,6 +84,15 @@ public class ProjectController extends Controller{
 	public static Result delete(Long projectId) {
 		//TODO tmichalicka
 		return null;
+	}
+	
+	/**
+	 * Action shows page which informs that project with given id was not found.
+	 * @param projectId
+	 * @return
+	 */
+	public static Result projectNotFound(Long projectId) {
+		return ok(views.html.projectNotFound.render(projectId));
 	}
 	
 }

@@ -41,13 +41,13 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 			limit = 30;
 			Logger.debug("No limit was given to getAllProject. 30 is now set as limit.");
 		}
-		Query query = JPA.em().createQuery("SELECT p FROM Project p").setMaxResults(limit).setFirstResult(start);
+		Query query = JPA.em().createQuery("SELECT p FROM Project p WHERE p.visible = TRUE").setMaxResults(limit).setFirstResult(start);
 		return query.getResultList();
 	}
 
 	@Override
 	public Integer getNumberOfProjects() {
-		TypedQuery<Long> q = JPA.em().createQuery("SELECT count(p) FROM Project p", Long.class);
+		TypedQuery<Long> q = JPA.em().createQuery("SELECT count(p) FROM Project p WHERE p.visible = TRUE", Long.class);
 		return q.getSingleResult().intValue();
 	}
 }

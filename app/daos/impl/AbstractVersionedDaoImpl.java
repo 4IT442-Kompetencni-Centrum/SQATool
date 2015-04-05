@@ -1,5 +1,6 @@
 package daos.impl;
 
+import play.db.jpa.JPA;
 import models.AbstractVersionedEntity;
 import daos.AbstractVersionedDao;
 
@@ -19,6 +20,15 @@ public abstract class AbstractVersionedDaoImpl<T extends AbstractVersionedEntity
 	public void delete(T object) {
 		object.setVisible(false);
 		update(object);
+	}
+	
+	@Override
+	public T findById(Long id) {
+		T res = JPA.em().find(entityClass, id);
+		if (res.getVisible() == null || !res.getVisible()) {
+			return null;
+		}
+		return res;
 	}
 	
 }

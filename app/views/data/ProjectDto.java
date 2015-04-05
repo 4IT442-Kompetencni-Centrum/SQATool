@@ -2,13 +2,16 @@ package views.data;
 
 import java.util.Date;
 
+import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 
 public class ProjectDto {
     private Long projectId;
     @Required
 	private String name;
+    @Formats.DateTime(pattern="dd.MM.yyyy")
 	private Date dateStart;
+    @Formats.DateTime(pattern="dd.MM.yyyy")
 	private Date dateEnd;
 	@Required
 	private String description;
