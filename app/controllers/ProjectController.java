@@ -9,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import service.ProjectConverter;
 import views.data.ProjectDto;
+import views.html.projectDetail;
 import views.html.projects;
 import views.html.projectsCreate;
 import daos.impl.DAOs;
@@ -49,6 +50,12 @@ public class ProjectController extends Controller{
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class).bindFromRequest();
 		DAOs.getProjectDao().create(ProjectConverter.convertToEntity(userForm.get()));
 		return redirect("/projekty");
+	}
+	
+	@Transactional(readOnly=false)
+	public static Result detail(Long projectId) {
+		Project project = DAOs.getProjectDao().findById(projectId);
+		return ok(projectDetail.render(project));
 	}
 	
 	/**

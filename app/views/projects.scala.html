@@ -10,7 +10,7 @@
 		@for(index <- 0 until projects.size) {
 		<tr>
 			<td>@(index+1)</td>
-			<td>@Html(projects(index).getName())</td>
+			<td><a href="/projekty/detail/@projects(index).getProjectId()">@Html(projects(index).getName())</a></td>
 			<td>TODO</td>
 		</tr>
 		}
