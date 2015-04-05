@@ -1,4 +1,4 @@
-@(projects: List[Project])
+@(projects: List[Project], numberOfPages: Int, activePage: Integer)
 @main("Projekty"){
 	<h1>Projekty</h1>
 	<table class="table table-stripped table-hover">
@@ -15,4 +15,11 @@
 		</tr>
 		}
 	</table>
+	
+	<ul class="pagination">
+	@for(page <- 0 until numberOfPages) {
+		<li @if(page == activePage) { class="active" }><a href="/projekty/@page">@(page+1)</a></li>
+	}
+	</ul>
+
 }

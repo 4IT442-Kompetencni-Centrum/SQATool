@@ -25,4 +25,10 @@ public interface ProjectDao extends AbstractVersionedDao<Project> {
 	 */
 	public List<Project> getAllProject(Integer start, Integer limit);
 	
+	/**
+	 * Method returns total number of all projects
+	 * @return
+	 */
+	public Integer getNumberOfProjects();
+	
 }

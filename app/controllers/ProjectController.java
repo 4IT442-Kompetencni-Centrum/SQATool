@@ -3,15 +3,19 @@ package controllers;
 import java.util.List;
 
 import models.Project;
-import play.mvc.Result;
+import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
-import views.html.*;
+import play.mvc.Result;
+import service.ProjectConverter;
+import views.data.ProjectDto;
+import views.html.projects;
+import views.html.projectsCreate;
 import daos.impl.DAOs;
 
 public class ProjectController extends Controller{
 
-	private static final Integer PAGE_SIZE = 30;
+	private static final Integer PAGE_SIZE = 20;
 	
 	/**
 	 * Action shows all projects where user participates
@@ -25,7 +29,26 @@ public class ProjectController extends Controller{
 		}
 		List<Project> proj= DAOs.getProjectDao().getAllProject(page * PAGE_SIZE, PAGE_SIZE);
 		
-		return ok(projects.render(proj));
+		Integer totalProjects = DAOs.getProjectDao().getNumberOfProjects();
+		Integer numberOfPages = totalProjects % PAGE_SIZE == 0 ? totalProjects/PAGE_SIZE : totalProjects/PAGE_SIZE + 1; 
+		
+		return ok(projects.render(proj, numberOfPages, page));
+	}
+	
+	/**
+	 * Action shows form for adding new project
+	 * @return
+	 */
+	public static Result create() {
+		Form<ProjectDto> userForm = Form.form(ProjectDto.class);
+		return ok(projectsCreate.render(userForm));
+	}
+	
+	@Transactional(readOnly=false)
+	public static Result saveNewProject() {
+		Form<ProjectDto> userForm = Form.form(ProjectDto.class).bindFromRequest();
+		DAOs.getProjectDao().create(ProjectConverter.convertToEntity(userForm.get()));
+		return redirect("/projekty");
 	}
 	
 	/**

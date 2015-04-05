@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
+import models.Project;
 import play.Logger;
 import play.db.jpa.JPA;
-import models.Project;
 import daos.ProjectDao;
 
 /**
@@ -42,5 +43,11 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 		}
 		Query query = JPA.em().createQuery("SELECT p FROM Project p").setMaxResults(limit).setFirstResult(start);
 		return query.getResultList();
+	}
+
+	@Override
+	public Integer getNumberOfProjects() {
+		TypedQuery<Long> q = JPA.em().createQuery("SELECT count(p) FROM Project p", Long.class);
+		return q.getSingleResult().intValue();
 	}
 }
