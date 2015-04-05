@@ -1,0 +1,18 @@
+@(projects: List[Project])
+@main("Projekty"){
+	<h1>Projekty</h1>
+	<table class="table table-stripped table-hover">
+		<tr>
+			<th>#</th>
+			<th>Název</th>
+			<th colspan='2'>Operace</th>
+		</tr>
+		@for(index <- 0 until projects.size) {
+		<tr>
+			<td>@(index+1)</td>
+			<td>@Html(projects(index).getName())</td>
+			<td>TODO</td>
+		</tr>
+		}
+	</table>
+}

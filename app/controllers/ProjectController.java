@@ -1,10 +1,17 @@
 package controllers;
 
-import play.api.mvc.Result;
+import java.util.List;
+
+import models.Project;
+import play.mvc.Result;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
+import views.html.*;
+import daos.impl.DAOs;
 
-public class Project extends Controller{
+public class ProjectController extends Controller{
+
+	private static final Integer PAGE_SIZE = 30;
 	
 	/**
 	 * Action shows all projects where user participates
@@ -13,8 +20,12 @@ public class Project extends Controller{
 	 */
 	@Transactional(readOnly=true)
 	public static Result showAll(Integer page) {
-		//TODO tmichalicka
-		return null;
+		if (page == null) {
+			page = 0;
+		}
+		List<Project> proj= DAOs.getProjectDao().getAllProject(page * PAGE_SIZE, PAGE_SIZE);
+		
+		return ok(projects.render(proj));
 	}
 	
 	/**
