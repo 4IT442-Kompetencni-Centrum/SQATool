@@ -6,11 +6,11 @@
 	<table>
 		<tr>
 			<td>Termín zahájení:</td>
-			<td></td>
+			<td>@if(project.getDateStart() != null) { @project.getDateStart().format("dd.MM.yyyy") }</td>
 		</tr>
 		<tr>
 			<td>Termín ukončení:</td>
-			<td></td>
+			<td>@if(project.getDateEnd() != null){ @project.getDateEnd().format("dd.MM.yyyy") }</td>
 		</tr>
 		<tr>
 			<td>Vedoucí projektu:</td>
