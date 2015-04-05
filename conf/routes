@@ -7,6 +7,19 @@ GET        /                    controllers.Application.index()
 # Login page
 GET        /login               controllers.Application.login()
 GET        /test               	controllers.Application.testDAO()
-GET        /initRoles           controllers.Init.initRolesInBusiness()
+
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.at(path="/public", file)
+
+#projects pages
+GET			/projekty/novy			controllers.ProjectController.create()
+POST		/projekty/novyUlozit	controllers.ProjectController.saveNewProject()
+GET			/projekty/detail/:projectId	controllers.ProjectController.detail(projectId: Long)
+GET			/projekty/nenalezen/:projectId	controllers.ProjectController.projectNotFound(projectId: Long)
+GET			/projekty/				controllers.ProjectController.showAll(page: Integer ?= 0)
+GET			/projekty/:page				controllers.ProjectController.showAll(page: Integer)
+GET			/projekty				controllers.ProjectController.showAll(page: Integer ?= 0)
+
+
+#tests 
+GET        /initRoles           controllers.Init.initRolesInBusiness()

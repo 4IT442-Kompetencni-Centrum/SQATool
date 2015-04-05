@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,7 +36,8 @@ public class Project extends AbstractVersionedEntity {
 	private List<HoursWorked> hoursWorked;
 	@ManyToMany(fetch=FetchType.LAZY)
 	private List<Partner> partners;
-	//TODO tmichalicka projectState
+	@ManyToOne(fetch=FetchType.EAGER)
+	private StateProject stateProject;
 	
 	
 	public Long getProjectId() {
@@ -92,5 +94,12 @@ public class Project extends AbstractVersionedEntity {
 	public void setHoursWorked(List<HoursWorked> hoursWorked) {
 		this.hoursWorked = hoursWorked;
 	}
+	public StateProject getStateProject() {
+		return stateProject;
+	}
+	public void setStateProject(StateProject stateProject) {
+		this.stateProject = stateProject;
+	}
+
 
 }

@@ -17,4 +17,18 @@ public interface ProjectDao extends AbstractVersionedDao<Project> {
 	 */
 	public List<Project> getAllProjectsForUser(Long userId);
 	
+	/**
+	 * Method returns list of all projects
+	 * @param start - index of first project
+	 * @param limit - maximum number of projects
+	 * @return
+	 */
+	public List<Project> getAllProject(Integer start, Integer limit);
+	
+	/**
+	 * Method returns total number of all projects
+	 * @return
+	 */
+	public Integer getNumberOfProjects();
+	
 }
