@@ -12,14 +12,19 @@ GET        /test               	controllers.Application.testDAO()
 GET        /assets/*file        controllers.Assets.at(path="/public", file)
 
 #projects pages
-GET			/projekty/novy			controllers.ProjectController.create()
-POST		/projekty/novyUlozit	controllers.ProjectController.saveNewProject()
-GET			/projekty/detail/:projectId	controllers.ProjectController.detail(projectId: Long)
+GET			/projekty/novy					controllers.ProjectController.create()
+POST		/projekty/novyUlozit			controllers.ProjectController.saveNewProject()
+GET			/projekty/detail/:projectId		controllers.ProjectController.detail(projectId: Long)
+GET			/projekty/upravit/:projectId	controllers.ProjectController.edit(projectId: Long)
+GET			/projekty/smazat/:projectId		controllers.ProjectController.delete(projectId: Long)
 GET			/projekty/nenalezen/:projectId	controllers.ProjectController.projectNotFound(projectId: Long)
-GET			/projekty/				controllers.ProjectController.showAll(page: Integer ?= 0)
-GET			/projekty/:page				controllers.ProjectController.showAll(page: Integer)
-GET			/projekty				controllers.ProjectController.showAll(page: Integer ?= 0)
+GET			/projekty/						controllers.ProjectController.showAll(page: Integer ?= 0)
+GET			/projekty/:page					controllers.ProjectController.showAll(page: Integer)
+GET			/projekty						controllers.ProjectController.showAll(page: Integer ?= 0)
 
+#partner pages
+GET			/partneri/json/:query			controllers.PartnerController.getPartnersByPattern(query: String)
 
 #tests 
-GET        /initRoles           controllers.Init.initRolesInBusiness()
+GET        /initRoles           	controllers.Init.initRolesInBusiness()
+GET        /initPartners           	controllers.Init.initPartners()

@@ -1,8 +1,10 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Project;
+import models.User;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -60,7 +62,7 @@ public class ProjectController extends Controller{
 		if (project == null) {
 			return redirect("/projekty/nenalezen/"+projectId);
 		} else {
-			return ok(projectDetail.render(project));
+			return ok(projectDetail.render(project, null, new ArrayList<User>()));
 		}
 	}
 	
@@ -71,8 +73,8 @@ public class ProjectController extends Controller{
 	 */
 	@Transactional(readOnly=false)
 	public static Result edit(Long projectId) {
-		//TODO tmichalicka
-		return null;
+		Project project = DAOs.getProjectDao().findById(projectId);
+		return ok();
 	}
 	
 	/**
@@ -82,8 +84,11 @@ public class ProjectController extends Controller{
 	 */
 	@Transactional(readOnly=false)
 	public static Result delete(Long projectId) {
-		//TODO tmichalicka
-		return null;
+		Project project = DAOs.getProjectDao().findById(projectId);
+		if (project != null) {
+			DAOs.getProjectDao().delete(project);
+		}
+		return redirect("/projekty");
 	}
 	
 	/**
