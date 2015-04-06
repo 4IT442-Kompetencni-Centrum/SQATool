@@ -11,7 +11,14 @@
 		<tr>
 			<td>@(index+1)</td>
 			<td><a href="/projekty/detail/@projects(index).getProjectId()">@Html(projects(index).getName())</a></td>
-			<td>TODO</td>
+			<td>
+			<a href="/projekty/upravit/@projects(index).getProjectId()" class="btn btn-default">
+  				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
+			</a>
+			<a href="/projekty/smazat/@projects(index).getProjectId()" class="btn btn-danger">
+  				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+			</a>
+			</td>
 		</tr>
 		}
 	</table>
