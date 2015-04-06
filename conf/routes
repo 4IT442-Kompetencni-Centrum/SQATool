@@ -22,6 +22,9 @@ GET			/projekty/						controllers.ProjectController.showAll(page: Integer ?= 0)
 GET			/projekty/:page					controllers.ProjectController.showAll(page: Integer)
 GET			/projekty						controllers.ProjectController.showAll(page: Integer ?= 0)
 
+#partner pages
+GET			/partneri/json/:query			controllers.PartnerController.getPartnersByPattern(query: String)
 
 #tests 
-GET        /initRoles           controllers.Init.initRolesInBusiness()
+GET        /initRoles           	controllers.Init.initRolesInBusiness()
+GET        /initPartners           	controllers.Init.initPartners()

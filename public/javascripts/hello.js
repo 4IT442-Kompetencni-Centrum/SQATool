@@ -7,6 +7,10 @@ $(document).ready(function(){
 	    format: 'dd.mm.yyyy'
 	});
 });
+
+
+
+
 if (window.console) {
   console.log("Welcome to your Play application's JavaScript!");
 }
