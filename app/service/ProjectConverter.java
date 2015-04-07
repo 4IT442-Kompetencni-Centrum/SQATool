@@ -3,6 +3,7 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.Logger;
 import daos.impl.DAOs;
 import models.Partner;
 import models.Project;
@@ -21,7 +22,12 @@ public class ProjectConverter {
 		if (orig.getPartnerIds() != null) {
 			List<Partner> partners = new ArrayList<Partner>();
 			for(Long partnerId : orig.getPartnerIds()) {
-				partners.add(DAOs.getPartnerDao().findById(partnerId));
+				Partner partner = DAOs.getPartnerDao().findById(partnerId);
+				if (partner == null) {
+					Logger.error("Partner with ID {} was not found." + partnerId);
+				} else {
+					partners.add(partner);
+				}
 			}
 			res.setPartners(partners);
 		}
