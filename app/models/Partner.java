@@ -29,7 +29,7 @@ public class Partner extends AbstractVersionedEntity {
 	private String houseNumber;
 	private String description;
 	
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY, mappedBy="partners")
 	private List<Project> projects;
 
 	public Long getPartnerId() {

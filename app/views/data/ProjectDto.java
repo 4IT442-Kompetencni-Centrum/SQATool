@@ -1,6 +1,7 @@
 package views.data;
 
 import java.util.Date;
+import java.util.List;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
@@ -17,6 +18,7 @@ public class ProjectDto {
 	private String description;
 	private Integer laboriousnessGues;
 	private Integer laboriousnessReal;
+	private List<Long> partnerIds;
 	
 	
 	public Long getProjectId() {
@@ -61,4 +63,21 @@ public class ProjectDto {
 	public void setLaboriousnessReal(Integer laboriousnessReal) {
 		this.laboriousnessReal = laboriousnessReal;
 	}
+	public List<Long> getPartnerIds() {
+		return partnerIds;
+	}
+	public void setPartnerIds(List<Long> partnerIds) {
+		this.partnerIds = partnerIds;
+	}
+	@Override
+	public String toString() {
+		return "ProjectDto [projectId=" + projectId + ", name=" + name
+				+ ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
+				+ ", description=" + description + ", laboriousnessGues="
+				+ laboriousnessGues + ", laboriousnessReal="
+				+ laboriousnessReal + ", partnerIds=" + partnerIds + "]";
+	}
+	
+	
+	
 }
