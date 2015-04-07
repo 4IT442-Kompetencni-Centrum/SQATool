@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Project;
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -50,6 +51,7 @@ public class ProjectController extends Controller{
 	@Transactional(readOnly=false)
 	public static Result saveNewProject() {
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class).bindFromRequest();
+		Logger.debug("Project data " + userForm.get().getPartnerIds().size());
 		Project newProject = ProjectConverter.convertToEntity(userForm.get());
 		newProject.setVisible(true);
 		DAOs.getProjectDao().create(newProject);

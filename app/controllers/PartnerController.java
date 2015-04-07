@@ -62,6 +62,7 @@ public class PartnerController extends Controller {
 		for (Partner p : partners) {
 			ObjectNode tmp = Json.newObject();
 			tmp.put("value", p.getName());
+			tmp.put("id", p.getPartnerId());
 			tmp.put("tokens", Json.newObject().arrayNode().add(p.getName()));
 			result.add(tmp);
 		}
