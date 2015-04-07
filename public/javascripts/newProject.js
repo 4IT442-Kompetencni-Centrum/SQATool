@@ -19,10 +19,21 @@ $(document).ready(function(){
 		});
 		console.log("B"+$('.partnerRow .partnerElem.tt-input').length);
 		bindSelectedAction();
-
+		var selectedPartner = null;
 		function bindSelectedAction() {
 			console.log("C"+$('.partnerRow .partnerElem.tt-input').length);
 			$('.partnerRow .partnerElem.tt-input').off('typeahead:selected');
+			$('.partnerRow .partnerElem.tt-input').change( function(e){
+				selectedPartner = $(e.target);
+				$("#unknowPartnerModal").modal({
+					backdrop: 'static',
+					keyboard: false
+				});
+			});
+			$("#unknowPartnerModalCancel").click(function(){
+				selectedPartner.val("");
+				$("#unknowPartnerModal").modal('hide');
+			});
 			$('.partnerRow .partnerElem.tt-input').on('typeahead:selected', function(evt, item) {
 				var hiddenArea = $("#projectPartnersIds");
 				var id = actualItems[item.value].id;

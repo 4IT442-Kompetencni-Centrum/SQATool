@@ -7,13 +7,13 @@
 		<label for="projectName" class="col-sm-2 control-label">Název</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="projectName"
-				placeholder="Název projektu" name="name">
+				placeholder="Název projektu" name="name" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="projectDescription" class="col-sm-2 control-label">Popis</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="projectDescription" placeholder="Popis projektu" name="description"></textarea>
+			<textarea class="form-control" id="projectDescription" placeholder="Popis projektu" name="description" required></textarea>
 		</div>
 	</div>
 	<div class="form-group">
@@ -64,4 +64,22 @@
 		</div>
 	</div>
 </form>
+
+<!-- modals for user warnings -->
+<div id="unknowPartnerModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h3>Neznámý partner</h3>
+    </div>
+    <div class="modal-body">
+        <p>Tak tohle asi nepůjde. Totohle partnera fakt neznám. Partnera nejdříve přidej na <a href="/partneri/novy" target="_blank">této stránce</a>.</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" id="unknowPartnerModalCancel">Zrušit</button>
+        <a href="/partneri/novy" target="_blank" class="btn btn-primary">Přidat partnera</a>
+    </div>
+    </div>
+    </div>
+</div>
 }
