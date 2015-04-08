@@ -17,7 +17,7 @@ public class Application extends Controller {
         return ok(index.render("4IT442 - Software Quality Assurance Tool"));
     }
 
-    public static Result login(){
+    public static Result showLoginPage(){
         return ok(login.render());
     }
 
