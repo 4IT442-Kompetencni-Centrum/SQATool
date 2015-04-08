@@ -1,0 +1,32 @@
+@(projects: List[Project], numberOfPages: Int, activePage: Integer)
+@main("Projekty"){
+	<h1>Projekty</h1>
+	<table class="table table-stripped table-hover">
+		<tr>
+			<th>#</th>
+			<th>Název</th>
+			<th colspan='2'>Operace</th>
+		</tr>
+		@for(index <- 0 until projects.size) {
+		<tr>
+			<td>@(index+1)</td>
+			<td><a href="/projekty/detail/@projects(index).getProjectId()">@Html(projects(index).getName())</a></td>
+			<td>
+			<a href="/projekty/upravit/@projects(index).getProjectId()" class="btn btn-default">
+  				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
+			</a>
+			<a href="/projekty/smazat/@projects(index).getProjectId()" class="btn btn-danger">
+  				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+			</a>
+			</td>
+		</tr>
+		}
+	</table>
+	
+	<ul class="pagination">
+	@for(page <- 0 until numberOfPages) {
+		<li @if(page == activePage) { class="active" }><a href="/projekty/@page">@(page+1)</a></li>
+	}
+	</ul>
+
+}

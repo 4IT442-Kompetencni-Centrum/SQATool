@@ -1,5 +1,7 @@
 package daos;
 
+import java.util.List;
+
 import models.Partner;
 
 /**
@@ -8,5 +10,5 @@ import models.Partner;
  *
  */
 public interface PartnerDao extends AbstractVersionedDao<Partner> {
-
+	public List<Partner> findByName(String name);
 }
