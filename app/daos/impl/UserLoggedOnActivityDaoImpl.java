@@ -8,7 +8,7 @@ import models.UserLoggedOnActivity;
  *
  * @author Aleš Jiránek <a.jiranek@gmail.com>
  */
-public class UserLoggedOnActivityDaoImpl extends AbstractDaoImpl<UserLoggedOnActivity>
+public class UserLoggedOnActivityDaoImpl extends AbstractVersionedDaoImpl<UserLoggedOnActivity>
         implements UserLoggedOnActivityDao {
 
     public UserLoggedOnActivityDaoImpl() {

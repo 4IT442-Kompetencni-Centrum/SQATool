@@ -8,7 +8,7 @@ import models.TypeActivity;
  *
  * @author Aleš Jiránek <a.jiranek@gmail.com>
  */
-public class TypeActivityDaoImpl extends AbstractDaoImpl<TypeActivity>
+public class TypeActivityDaoImpl extends AbstractNonVersionedDaoImpl<TypeActivity>
         implements TypeActivityDao {
 
     public TypeActivityDaoImpl() {

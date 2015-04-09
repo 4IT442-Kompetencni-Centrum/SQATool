@@ -7,6 +7,6 @@ import models.RoleOnActivity;
  *
  * @author Aleš Jiránek <a.jiranek@gmail.com>
  */
-public interface RoleOnActivityDao extends AbstractDao<RoleOnActivity> {
+public interface RoleOnActivityDao extends AbstractVersionedDao<RoleOnActivity> {
 
 }

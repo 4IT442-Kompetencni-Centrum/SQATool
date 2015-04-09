@@ -8,7 +8,7 @@ import models.RoleOnActivity;
  *
  * @author Aleš Jiránek <a.jiranek@gmail.com>
  */
-public class RoleOnActivityDaoImpl extends AbstractDaoImpl<RoleOnActivity>
+public class RoleOnActivityDaoImpl extends AbstractVersionedDaoImpl<RoleOnActivity>
         implements RoleOnActivityDao {
 
     public RoleOnActivityDaoImpl() {

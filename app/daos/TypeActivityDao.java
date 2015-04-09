@@ -7,6 +7,6 @@ import models.TypeActivity;
  *
  * @author Aleš Jiránek <a.jiranek@gmail.com>
  */
-public interface TypeActivityDao extends AbstractDao<TypeActivity> {
+public interface TypeActivityDao extends AbstractNonVersionedDao<TypeActivity> {
 
 }
