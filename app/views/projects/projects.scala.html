@@ -1,5 +1,6 @@
 @import views.data.MenuDto
-@(projects: List[Project], submenu: List[MenuDto], numberOfPages: Int, activePage: Integer)
+@import views.data.ProjectDto
+@(projects: List[ProjectDto], submenu: List[MenuDto], numberOfPages: Int, activePage: Integer)
 @main("Projekty", "projects", submenu){
 <script src="@routes.Assets.at("javascripts/projects/projects.js")" type="text/javascript"></script>
 	<h1>Projekty</h1>

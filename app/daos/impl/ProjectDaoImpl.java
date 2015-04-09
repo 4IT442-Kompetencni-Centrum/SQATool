@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import models.Project;
 import play.Logger;
 import play.db.jpa.JPA;
+import service.Configuration;
 import daos.ProjectDao;
 
 /**
@@ -38,8 +39,8 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 			start = 0;
 		}
 		if (limit == null) {
-			limit = 30;
-			Logger.debug("No limit was given to getAllProject. 30 is now set as limit.");
+			limit = Configuration.PAGE_SIZE;
+			Logger.debug("No limit was given to getAllProject. {} is now set as limit.", Configuration.PAGE_SIZE);
 		}
 		Query query = JPA.em().createQuery("SELECT p FROM Project p WHERE p.visible = TRUE ORDER BY p.dateStart").setMaxResults(limit).setFirstResult(start);
 		return query.getResultList();

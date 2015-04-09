@@ -11,4 +11,11 @@ import models.Partner;
  */
 public interface PartnerDao extends AbstractVersionedDao<Partner> {
 	public List<Partner> findByName(String name);
+	public List<Partner> getAllPartners(Integer start, Integer limit);
+	
+	/**
+	 * Method returns total number of all partners
+	 * @return
+	 */
+	public Integer getNumberOfPartners();
 }

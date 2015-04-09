@@ -5,11 +5,11 @@ import java.util.List;
 
 import models.Project;
 import models.User;
-import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import service.Configuration;
 import service.ProjectConverter;
 import views.data.MenuDto;
 import views.data.ProjectDto;
@@ -21,7 +21,6 @@ import daos.impl.DAOs;
 
 public class ProjectController extends Controller{
 
-	private static final Integer PAGE_SIZE = 20;
 	
 	/**
 	 * Action shows all projects where user participates
@@ -33,11 +32,11 @@ public class ProjectController extends Controller{
 		if (page == null) {
 			page = 0;
 		}
-		List<Project> proj= DAOs.getProjectDao().getAllProject(page * PAGE_SIZE, PAGE_SIZE);
+		List<Project> proj= DAOs.getProjectDao().getAllProject(page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
 		
 		Integer totalProjects = DAOs.getProjectDao().getNumberOfProjects();
-		Integer numberOfPages = totalProjects % PAGE_SIZE == 0 ? totalProjects/PAGE_SIZE : totalProjects/PAGE_SIZE + 1; 
-		return ok(projects.render(proj, getMainMenu(), numberOfPages, page));
+		Integer numberOfPages = totalProjects % Configuration.PAGE_SIZE == 0 ? totalProjects/Configuration.PAGE_SIZE : totalProjects/Configuration.PAGE_SIZE + 1; 
+		return ok(projects.render(ProjectConverter.convertListToDto(proj), getMainMenu(), numberOfPages, page));
 	}
 	
 	/**
@@ -55,11 +54,10 @@ public class ProjectController extends Controller{
 	@Transactional(readOnly=false)
 	public static Result saveNewProject() {
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class).bindFromRequest();
-		Logger.debug("Project data " + userForm.get().getPartnerIds().size());
 		Project newProject = ProjectConverter.convertToEntity(userForm.get());
 		newProject.setVisible(true);
 		DAOs.getProjectDao().create(newProject);
-		return redirect("/projekty");
+		return redirect(routes.ProjectController.showAll(0).absoluteURL(request()));
 	}
 	/**
 	 * Action shows detail of project
@@ -70,7 +68,7 @@ public class ProjectController extends Controller{
 	public static Result detail(Long projectId) {
 		Project project = DAOs.getProjectDao().findById(projectId);
 		if (project == null) {
-			return redirect("/projekty/nenalezen/"+projectId);
+			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
 			return ok(projectDetail.render(project, getBackToListMenu(), null, new ArrayList<User>()));
 		}
@@ -98,7 +96,7 @@ public class ProjectController extends Controller{
 		if (project != null) {
 			DAOs.getProjectDao().delete(project);
 		}
-		return redirect("/projekty");
+		return redirect(routes.ProjectController.showAll(0).absoluteURL(request()));
 	}
 	
 	/**

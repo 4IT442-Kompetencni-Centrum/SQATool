@@ -2,6 +2,7 @@ package daos.impl;
 
 import java.lang.reflect.ParameterizedType;
 
+import play.Logger;
 import play.db.jpa.JPA;
 import daos.AbstractDao;
 
@@ -31,6 +32,7 @@ public abstract class AbstractDaoImpl<T>
 	 * Method creates new row in database.
 	 */
 	public T create(T object) {
+		Logger.debug("Creating new object {}.", object);
 		JPA.em().persist(object);
 		return object;
 	}

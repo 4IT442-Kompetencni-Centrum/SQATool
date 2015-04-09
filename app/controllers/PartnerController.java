@@ -1,13 +1,19 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Partner;
+import models.Project;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import service.Configuration;
+import service.PartnerConverter;
+import views.data.MenuDto;
+import views.html.partners.partners;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -22,8 +28,15 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=true)
 	public static Result showAll(Integer page) {
-		//TODO tmichalicka
-		return ok();
+		if (page == null) {
+			page = 0;
+		}
+		List<Partner> proj= DAOs.getPartnerDao().getAllPartners(page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
+		
+		Integer totalPartners = DAOs.getPartnerDao().getNumberOfPartners();
+		Integer numberOfPages = totalPartners % Configuration.PAGE_SIZE == 0 ? totalPartners/Configuration.PAGE_SIZE : totalPartners/Configuration.PAGE_SIZE + 1; 
+		return ok(partners.render(PartnerConverter.convertListToDto(proj), getMainMenu(), numberOfPages, page));
+	
 	}
 	
 	/**
@@ -46,14 +59,18 @@ public class PartnerController extends Controller {
 	}
 	
 	/**
-	 * Action deletes project.
-	 * @param projectId
+	 * Action deletes partner.
+	 * @param partner
 	 * @return
 	 */
 	@Transactional(readOnly=false)
-	public static Result delete(Long projectId) {
-		//TODO tmichalicka
-		return null;
+	public static Result delete(Long partnerId) {
+		Partner partner = DAOs.getPartnerDao().findById(partnerId);
+		if (partner != null) {
+			partner.setProjects(new ArrayList<Project>());
+			DAOs.getPartnerDao().delete(partner);
+		}
+		return redirect(routes.PartnerController.showAll(0).absoluteURL(request()));
 	}
 	
 	@Transactional(readOnly=true)
@@ -84,5 +101,29 @@ public class PartnerController extends Controller {
 	
 	public static Result partnerNotFound(Long partnerId) {
 		return ok();
+	}
+	
+	private static List<MenuDto> getBackToListMenu() {
+		List<MenuDto> result = new ArrayList<MenuDto>();
+		
+		MenuDto back = new MenuDto();
+		back.setGlyphicon("triangle-left");
+		back.setLabel("Zpět na seznam partnerů");
+		back.setUrl(routes.PartnerController.showAll(0).absoluteURL(request()));
+		result.add(back);
+		
+		return result;
+	}
+	
+	private static List<MenuDto> getMainMenu() {
+		List<MenuDto> result = new ArrayList<MenuDto>();
+		
+		MenuDto newProject = new MenuDto();
+		newProject.setGlyphicon("plus");
+		newProject.setLabel("Přidat partnera");
+		newProject.setUrl(routes.PartnerController.create().absoluteURL(request()));
+		result.add(newProject);
+		
+		return result;		
 	}
 }

@@ -21,7 +21,9 @@ GET         /projekty/smazat/:projectId           controllers.ProjectController.
 GET         /projekty/nenalezen/:projectId        controllers.ProjectController.projectNotFound(projectId: Long)
 GET         /projekty/                            controllers.ProjectController.showAll(page: Integer ?= 0)
 GET         /projekty/:page                       controllers.ProjectController.showAll(page: Integer)
-GET         /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
+GET	        /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
+POST        /projekty/                            controllers.ProjectController.showAll(page: Integer ?= 0)
+POST        /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
 
 #partners pages
 GET         /partneri/novy                        controllers.PartnerController.create()
@@ -32,6 +34,8 @@ GET         /partneri/nenalezen/:partnerId        controllers.PartnerController.
 GET         /partneri/                            controllers.PartnerController.showAll(page: Integer ?= 0)
 GET         /partneri/:page                       controllers.PartnerController.showAll(page: Integer)
 GET         /partneri                             controllers.PartnerController.showAll(page: Integer ?= 0)
+POST        /partneri/                            controllers.PartnerController.showAll(page: Integer ?= 0)
+POST        /partneri                             controllers.PartnerController.showAll(page: Integer ?= 0)
 
 
 #partner pages
