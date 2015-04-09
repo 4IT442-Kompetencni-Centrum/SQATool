@@ -12,12 +12,12 @@
 		@for(index <- 0 until projects.size) {
 		<tr>
 			<td>@(index+1)</td>
-			<td><a href="/projekty/detail/@projects(index).getProjectId()">@Html(projects(index).getName())</a></td>
+			<td><a href="@routes.ProjectController.detail(projects(index).getProjectId())">@Html(projects(index).getName())</a></td>
 			<td>
-			<a href="/projekty/upravit/@projects(index).getProjectId()" class="btn btn-default">
+			<a href="@routes.ProjectController.edit(projects(index).getProjectId())" class="btn btn-default">
   				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
 			</a>
-			<button data-projectName="@Html(projects(index).getName())" data-projectId="@projects(index).getProjectId()" data-projectDeleteUrl="/projekty/smazat/@projects(index).getProjectId()" class="btn btn-danger deleteButton">
+			<button data-projectName="@Html(projects(index).getName())" data-projectId="@projects(index).getProjectId()" data-projectDeleteUrl="@routes.ProjectController.delete(projects(index).getProjectId())" class="btn btn-danger deleteButton">
   				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
 			</button>
 			</td>
@@ -27,7 +27,7 @@
 	
 	<ul class="pagination">
 	@for(page <- 0 until numberOfPages) {
-		<li @if(page == activePage) { class="active" }><a href="/projekty/@page">@(page+1)</a></li>
+		<li @if(page == activePage) { class="active" }><a href="@routes.ProjectController.showAll(page)">@(page+1)</a></li>
 	}
 	</ul>
 

@@ -26,7 +26,7 @@
 				<tr>
 					<td>Partner projektu:</td>
 					<td>@for(index <- 0 until project.getPartners().size) {
-						<a href="/partneri/detail/@project.getPartners()(index).getPartnerId()">@Html(project.getPartners()(index).getName())</a> 
+						<a href="@routes.PartnerController.detail(project.getPartners()(index).getPartnerId())">@Html(project.getPartners()(index).getName())</a> 
 					}</td>
 				</tr>
 				<tr>

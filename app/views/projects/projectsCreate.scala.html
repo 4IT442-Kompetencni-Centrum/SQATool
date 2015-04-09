@@ -3,7 +3,7 @@
 @main("Projekty", "projects", submenu){
 <script src="@routes.Assets.at("javascripts/projects/newProject.js")" type="text/javascript"></script>
 <h1>Vytvořit projekt</h1>
-<form class="form-horizontal" action="novyUlozit" method="POST">
+<form class="form-horizontal" action="@routes.ProjectController.showAll(0)" method="POST">
 	<div class="form-group">
 		<label for="projectName" class="col-sm-2 control-label">Název</label>
 		<div class="col-sm-10">
@@ -81,13 +81,13 @@
 			<div class="modal-body">
 				<p>
 					Tak tohle asi nepůjde. Totohle partnera fakt neznám. Partnera
-					nejdříve přidej na <a href="/partneri/novy" target="_blank">této
+					nejdříve přidej na <a href="@routes.PartnerController.create()" target="_blank">této
 						stránce</a>.
 				</p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-warning" id="unknowPartnerModalCancel">Zrušit</button>
-				<a href="/partneri/novy" target="_blank" class="btn btn-primary">Přidat
+				<a href="@routes.PartnerController.create()" target="_blank" class="btn btn-primary">Přidat
 					partnera</a>
 			</div>
 		</div>

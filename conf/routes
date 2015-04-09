@@ -23,6 +23,17 @@ GET         /projekty/                            controllers.ProjectController.
 GET         /projekty/:page                       controllers.ProjectController.showAll(page: Integer)
 GET         /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
 
+#partners pages
+GET         /partneri/novy                        controllers.PartnerController.create()
+GET         /partneri/detail/:partnerId           controllers.PartnerController.detail(partnerId: Long)
+GET         /partneri/upravit/:partnerId          controllers.PartnerController.edit(partnerId: Long)
+GET         /partneri/smazat/:partnerId           controllers.PartnerController.delete(partnerId: Long)
+GET         /partneri/nenalezen/:partnerId        controllers.PartnerController.partnerNotFound(partnerId: Long)
+GET         /partneri/                            controllers.PartnerController.showAll(page: Integer ?= 0)
+GET         /partneri/:page                       controllers.PartnerController.showAll(page: Integer)
+GET         /partneri                             controllers.PartnerController.showAll(page: Integer ?= 0)
+
+
 #partner pages
 GET         /partneri/json/:query                 controllers.PartnerController.getPartnersByPattern(query: String)
 

@@ -24,9 +24,9 @@
                 <ul class="nav nav-pills">
                     <li @if(selectedMenuItem == "profile") { class="active" }><a href="#">Můj profil</a></li>
                     <li @if(selectedMenuItem == "members") { class="active" }><a href="#">Členové</a></li>
-                    <li @if(selectedMenuItem == "projects") { class="active" }><a href="/projekty">Projekty</a></li>
-                    <li @if(selectedMenuItem == "activities") { class="active" }><a href="#">Aktivity</a></li>
-                    <li @if(selectedMenuItem == "partners") { class="active" }><a href="/partneri">Partneři</a></li>
+                    <li @if(selectedMenuItem == "projects") { class="active" }><a href="@routes.ProjectController.showAll(0)">Projekty</a></li>
+                    <li @if(selectedMenuItem == "activities") { class="active" }><a href="@routes.ActivityController.showAll(0)">Aktivity</a></li>
+                    <li @if(selectedMenuItem == "partners") { class="active" }><a href="@routes.PartnerController.showAll(0)">Partneři</a></li>
                 </ul>
             </div>
         </div>

@@ -48,7 +48,10 @@ public class ProjectController extends Controller{
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class);
 		return ok(projectsCreate.render(userForm, getBackToListMenu()));
 	}
-	
+	/**
+	 * Action saves new project
+	 * @return
+	 */
 	@Transactional(readOnly=false)
 	public static Result saveNewProject() {
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class).bindFromRequest();
@@ -58,7 +61,11 @@ public class ProjectController extends Controller{
 		DAOs.getProjectDao().create(newProject);
 		return redirect("/projekty");
 	}
-	
+	/**
+	 * Action shows detail of project
+	 * @param projectId
+	 * @return
+	 */
 	@Transactional(readOnly=false)
 	public static Result detail(Long projectId) {
 		Project project = DAOs.getProjectDao().findById(projectId);

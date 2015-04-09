@@ -9,7 +9,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -24,7 +23,15 @@ public class PartnerController extends Controller {
 	@Transactional(readOnly=true)
 	public static Result showAll(Integer page) {
 		//TODO tmichalicka
-		return null;
+		return ok();
+	}
+	
+	/**
+	 * Action shows form for adding new partner
+	 * @return
+	 */
+	public static Result create() {
+		return ok();
 	}
 	
 	/**
@@ -68,5 +75,14 @@ public class PartnerController extends Controller {
 		}
 
 		return ok(result);
+	}
+	
+	@Transactional(readOnly=false)
+	public static Result detail(Long projectId) {
+		return ok();
+	}
+	
+	public static Result partnerNotFound(Long partnerId) {
+		return ok();
 	}
 }
