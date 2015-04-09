@@ -14,5 +14,6 @@ libraryDependencies ++= Seq(
   "org.hibernate" % "hibernate-entitymanager" % "4.2.5.Final",
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
   cache,
-  javaWs
+  javaWs,
+  "com.adrianhurt" %% "play-bootstrap3" % "0.4"
 )
