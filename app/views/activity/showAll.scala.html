@@ -23,7 +23,7 @@
                 <td>@activity.getPlace()</td>
                 <td>
                     <a href="#" class="btn btn-xs btn-warning">Upravit</a>
-                    <a href="#" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">Smazat</a>
+                    <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">Smazat</a>
                 </td>
             </tr>
         }

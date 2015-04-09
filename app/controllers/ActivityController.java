@@ -37,5 +37,15 @@ public class ActivityController extends Controller {
         return ok(show.render(activity));
     }
 
+    @Transactional(readOnly=false)
+    public static Result delete(Long activityId) {
+        Activity activity = DAOs.getActivityDao().findById(activityId);
+        if(activity == null)
+            return notFound();
+
+        DAOs.getActivityDao().delete(activity);
+
+        return redirect(controllers.routes.ActivityController.showAll(0));
+    }
 
 }
