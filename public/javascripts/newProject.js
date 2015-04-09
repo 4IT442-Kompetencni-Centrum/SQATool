@@ -1,6 +1,5 @@
 $(document).ready(function(){
 		var actualItems = {};
-		console.log("A"+$('.partnerRow .partnerElem').length);
 		$(".partnerRow .partnerElem").typeahead(null, {
 			  displayKey: 'value',
 			  highlight: true,
@@ -9,7 +8,6 @@ $(document).ready(function(){
 				  $.getJSON("/partneri/json/"+query, function(data){
 					  actualItems = {};
 					  for (var i=0; i < data.length; i++) {
-						  console.log(data[i]);
 					        var jsonData = data[i];
 					        actualItems[jsonData.value] = jsonData;
 					    }
@@ -17,11 +15,9 @@ $(document).ready(function(){
 				  });
 			  }
 		});
-		console.log("B"+$('.partnerRow .partnerElem.tt-input').length);
 		bindSelectedAction();
 		var selectedPartner = null;
 		function bindSelectedAction() {
-			console.log("C"+$('.partnerRow .partnerElem.tt-input').length);
 			$('.partnerRow .partnerElem.tt-input').off('typeahead:selected');
 			$('.partnerRow .partnerElem.tt-input').change( function(e){
 				selectedPartner = $(e.target);

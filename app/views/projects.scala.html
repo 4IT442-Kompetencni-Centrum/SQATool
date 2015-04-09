@@ -1,5 +1,6 @@
 @(projects: List[Project], numberOfPages: Int, activePage: Integer)
-@main("Projekty"){
+@main("Projekty", "projects"){
+<script src="@routes.Assets.at("javascripts/projects.js")" type="text/javascript"></script>
 	<h1>Projekty</h1>
 	<table class="table table-stripped table-hover">
 		<tr>
@@ -15,9 +16,9 @@
 			<a href="/projekty/upravit/@projects(index).getProjectId()" class="btn btn-default">
   				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
 			</a>
-			<a href="/projekty/smazat/@projects(index).getProjectId()" class="btn btn-danger">
+			<button data-projectName="@Html(projects(index).getName())" data-projectId="@projects(index).getProjectId()" data-projectDeleteUrl="/projekty/smazat/@projects(index).getProjectId()" class="btn btn-danger deleteButton">
   				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
-			</a>
+			</button>
 			</td>
 		</tr>
 		}
@@ -29,4 +30,22 @@
 	}
 	</ul>
 
+<div id="deleteWarning" class="modal fade" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Jste si jistý?</h3>
+			</div>
+			<div class="modal-body">
+				<p>Opravdu si přejete smazat projekt <span class="projectName"></span> s ID <span class="projectID"></span>?
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success" id="deleteCancel">Ne</button>
+				<a href="genegatedValue" class="btn btn-danger deleteConfirm">Ano</a>
+			</div>
+		</div>
+	</div>
+</div>
 }

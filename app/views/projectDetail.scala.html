@@ -1,5 +1,5 @@
 @(project: Project, manager: User, members: List[User])
-@main("Projekty"){
+@main("Projekty", "projects"){
 	<h1>Detail projektu</h1>
 	<h2>@Html(project.getName())</h2>
 	<p>@Html(project.getDescription())</p>
