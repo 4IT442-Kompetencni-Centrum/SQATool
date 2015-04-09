@@ -11,6 +11,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.ProjectConverter;
+import views.data.MenuDto;
 import views.data.ProjectDto;
 import views.html.projects.projectDetail;
 import views.html.projects.projectNotFound;
@@ -36,8 +37,7 @@ public class ProjectController extends Controller{
 		
 		Integer totalProjects = DAOs.getProjectDao().getNumberOfProjects();
 		Integer numberOfPages = totalProjects % PAGE_SIZE == 0 ? totalProjects/PAGE_SIZE : totalProjects/PAGE_SIZE + 1; 
-		
-		return ok(projects.render(proj, numberOfPages, page));
+		return ok(projects.render(proj, getMainMenu(), numberOfPages, page));
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class ProjectController extends Controller{
 	 */
 	public static Result create() {
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class);
-		return ok(projectsCreate.render(userForm));
+		return ok(projectsCreate.render(userForm, getBackToListMenu()));
 	}
 	
 	@Transactional(readOnly=false)
@@ -65,7 +65,7 @@ public class ProjectController extends Controller{
 		if (project == null) {
 			return redirect("/projekty/nenalezen/"+projectId);
 		} else {
-			return ok(projectDetail.render(project, null, new ArrayList<User>()));
+			return ok(projectDetail.render(project, getBackToListMenu(), null, new ArrayList<User>()));
 		}
 	}
 	
@@ -100,7 +100,31 @@ public class ProjectController extends Controller{
 	 * @return
 	 */
 	public static Result projectNotFound(Long projectId) {
-		return ok(projectNotFound.render(projectId));
+		return ok(projectNotFound.render(projectId, getBackToListMenu()));
+	}
+	
+	private static List<MenuDto> getBackToListMenu() {
+		List<MenuDto> result = new ArrayList<MenuDto>();
+		
+		MenuDto back = new MenuDto();
+		back.setGlyphicon("triangle-left");
+		back.setLabel("Zpět na seznam projektů");
+		back.setUrl(routes.ProjectController.showAll(0).absoluteURL(request()));
+		result.add(back);
+		
+		return result;
+	}
+	
+	private static List<MenuDto> getMainMenu() {
+		List<MenuDto> result = new ArrayList<MenuDto>();
+		
+		MenuDto newProject = new MenuDto();
+		newProject.setGlyphicon("plus");
+		newProject.setLabel("Přidat projekt");
+		newProject.setUrl(routes.ProjectController.create().absoluteURL(request()));
+		result.add(newProject);
+		
+		return result;		
 	}
 	
 }

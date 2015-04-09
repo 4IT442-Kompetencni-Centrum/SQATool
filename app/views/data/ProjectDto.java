@@ -19,6 +19,7 @@ public class ProjectDto {
 	private Integer laboriousnessGues;
 	private Integer laboriousnessReal;
 	private List<Long> partnerIds;
+	private List<String> partnerNames;
 	
 	
 	public Long getProjectId() {
@@ -77,7 +78,11 @@ public class ProjectDto {
 				+ laboriousnessGues + ", laboriousnessReal="
 				+ laboriousnessReal + ", partnerIds=" + partnerIds + "]";
 	}
-	
-	
+	public List<String> getPartnerNames() {
+		return partnerNames;
+	}
+	public void setPartnerNames(List<String> partnerNames) {
+		this.partnerNames = partnerNames;
+	}
 	
 }

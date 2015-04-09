@@ -33,7 +33,22 @@ $(document).ready(function(){
 			$('.partnerRow .partnerElem.tt-input').on('typeahead:selected', function(evt, item) {
 				var hiddenArea = $("#projectPartnersIds");
 				var id = actualItems[item.value].id;
-				hiddenArea.append("<input type='hidden' name='partnerIds[]' value='"+id+"'>");
+				var defaultElem = $(event.target);
+				var order = 0;
+				var elems = $('.partnerRow .partnerElem.tt-input');
+				for (var index = 0; i < .length; i++) {
+					if ($(elems[i]) == defaultElem) {
+						order = index;
+						break;
+					}
+				}
+				console.log(order);
+				var storageInput = hiddenArea.find("input[name='partnerIds["+order+"]']");
+				if (storageInput.length == 0) {
+					hiddenArea.append("<input type='hidden' name='partnerIds["+order+"]'>");
+					storageInput = hiddenArea.find("input[name='partnerIds["+order+"]']");
+				}
+				storageInput.val(id);
 				var defaultPartnerRow = $(".defaultPartnerRowWrap");
 				var newPartnerRow = defaultPartnerRow.clone();
 				newPartnerRow.find(".partnerElem").val("");

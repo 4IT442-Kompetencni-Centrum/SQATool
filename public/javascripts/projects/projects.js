@@ -1,11 +1,13 @@
 $(document).ready(function(){
 	$(".deleteButton").on("click", function(event){
 		var elem = $(event.target);
-		var projectId = elem.attr("data-projectId");
+		if (elem.hasClass("glyphicon")) {
+			elem = elem.parents(".deleteButton");
+		}
+		var projectId = elem.attr("data-projectID");
 		var projectName = elem.attr("data-projectName");
 		var projectUrl = elem.attr("data-projectDeleteUrl");
 		var modal = $("#deleteWarning");
-		console.log(projectId);
 		modal.find(".projectName").html(projectName);
 		modal.find(".projectID").html(projectId);
 		modal.find(".deleteConfirm").attr("href", projectUrl);

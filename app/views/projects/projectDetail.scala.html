@@ -1,5 +1,6 @@
-@(project: Project, manager: User, members: List[User])
-@main("Projekty", "projects"){
+@import views.data.MenuDto
+@(project: Project, submenu: List[MenuDto], manager: User, members: List[User])
+@main("Projekty", "projects", submenu){
 	<h1>Detail projektu</h1>
 	<h2>@Html(project.getName())</h2>
 	<p>@Html(project.getDescription())</p>

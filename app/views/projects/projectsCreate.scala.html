@@ -1,5 +1,6 @@
-@(createProjectForm: Form[views.data.ProjectDto]) @main("Projekty",
-"projects"){
+@import views.data.MenuDto
+@(createProjectForm: Form[views.data.ProjectDto], submenu: List[MenuDto])
+@main("Projekty", "projects", submenu){
 <script src="@routes.Assets.at("javascripts/projects/newProject.js")" type="text/javascript"></script>
 <h1>Vytvořit projekt</h1>
 <form class="form-horizontal" action="novyUlozit" method="POST">

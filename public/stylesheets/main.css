@@ -94,3 +94,14 @@
 .sqaicon{
     padding-left: 0px;
 }
+
+.menuItem {
+	width: 100%;
+	margin: 5px auto;
+	text-align: left !important;
+}
+
+.menuItem span {
+	float: right;
+	font-size: 20px;
+}

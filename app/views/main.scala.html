@@ -1,4 +1,5 @@
-@(title: String, selectedMenuItem: String = null)(content: Html)
+@import views.data.MenuDto
+@(title: String, selectedMenuItem: String = null, submenu: List[MenuDto] = null)(content: Html)
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,20 +24,20 @@
                 <ul class="nav nav-pills">
                     <li @if(selectedMenuItem == "profile") { class="active" }><a href="#">Můj profil</a></li>
                     <li @if(selectedMenuItem == "members") { class="active" }><a href="#">Členové</a></li>
-                    <li @if(selectedMenuItem == "projects") { class="active" }><a href="#">Projekty</a></li>
+                    <li @if(selectedMenuItem == "projects") { class="active" }><a href="/projekty">Projekty</a></li>
                     <li @if(selectedMenuItem == "activities") { class="active" }><a href="#">Aktivity</a></li>
-                    <li @if(selectedMenuItem == "partners") { class="active" }><a href="#">Partneři</a></li>
+                    <li @if(selectedMenuItem == "partners") { class="active" }><a href="/partneri">Partneři</a></li>
                 </ul>
             </div>
         </div>
         <div class="container-fluid">
             <div id="sidebar" class="col-md-3">
                 <nav id="sidebar-nav" class="sidebar">
-                    <ul class="nav">
-                        <li><a href="#">Upravit profil</a></li>
-                        <li><a href="#">Zadat odměnu</a></li>
-                        <li><a href="#">Administrace</a></li>
-                    </ul>
+                		@if(submenu != null) {
+	                		@for(item <- submenu) {
+	                        	<a class="btn menuItem @if(item.isSelected()) { btn-primary disabled } else {btn-default }" href="@item.getUrl()">@item.getLabel() <span class="glyphicon glyphicon-@item.getGlyphicon"></span></a>
+	                        }
+                        }
                 </nav>
             </div>
             <div class="col-lg-9 text-center" id="main-content">

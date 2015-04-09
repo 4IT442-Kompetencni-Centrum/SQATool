@@ -1,5 +1,6 @@
-@(projectId: Long)
-@main("Projekty", "projects"){
+@import views.data.MenuDto
+@(projectId: Long, submenu: List[MenuDto])
+@main("Projekty", "projects", submenu){
 	<h1>Projekt nenalezen!</h1>
 	<p>Projekt s id @projectId nebyl nalezen.</p>
 }
