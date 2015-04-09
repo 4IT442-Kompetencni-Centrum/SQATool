@@ -1,0 +1,35 @@
+@(activity: Activity)
+@main("Aktivita"){
+    <h1>Aktivita</h1>
+
+    <div class="btn-group btn-group-xs">
+        <a class="btn btn-info btn-xs" href="@routes.ActivityController.showAll()">Zpět</a>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <tr>
+            <th>Id</th>
+            <td>@activity.getActivityId()</td>
+        </tr>
+        <tr>
+            <th>Název</th>
+            <td>@activity.getName()</td>
+        </tr>
+        <tr>
+            <th>Datum</th>
+            <td>@activity.getDate()</td>
+        </tr>
+        <tr>
+            <th>Čas</th>
+            <td>@activity.getTime()</td>
+        </tr>
+        <tr>
+            <th>Místo</th>
+            <td>@activity.getPlace()</td>
+        </tr>
+        <tr>
+            <th>Popis</th>
+            <td>@activity.getDescription()</td>
+        </tr>
+    </table>
+}
