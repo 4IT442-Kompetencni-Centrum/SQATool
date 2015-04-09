@@ -37,6 +37,14 @@ GET         /partneri                             controllers.PartnerController.
 POST        /partneri/                            controllers.PartnerController.showAll(page: Integer ?= 0)
 POST        /partneri                             controllers.PartnerController.showAll(page: Integer ?= 0)
 
+# Rewards
+GET         /odmeny                               controllers.RewardController.showAll(page: Integer ?= 0)
+GET         /odmeny/nova                          controllers.RewardController.newItem()
+POST        /odmeny/nova/vytvorit                 controllers.RewardController.create()
+GET         /odmeny/upravit/ulozit                controllers.RewardController.update()
+GET         /odmeny/upravit/:rewardId             controllers.RewardController.edit(rewardId: Long)
+GET         /odmeny/:rewardId                     controllers.RewardController.show(rewardId: Long)
+GET         /odmeny/smazat/:rewardId              controllers.RewardController.delete(rewardId: Long)
 
 #partner pages
 GET         /partneri/json/:query                 controllers.PartnerController.getPartnersByPattern(query: String)

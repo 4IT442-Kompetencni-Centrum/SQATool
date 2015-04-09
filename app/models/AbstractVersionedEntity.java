@@ -14,7 +14,11 @@ public abstract class AbstractVersionedEntity {
 	@Version
 	protected Integer version;
 	protected Boolean visible;
-	
+
+	public AbstractVersionedEntity() {
+		this.setVisible(true);
+		this.setVersion(0);
+	}
 	public Integer getVersion() {
 		return version;
 	}

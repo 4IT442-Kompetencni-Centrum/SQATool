@@ -19,6 +19,7 @@ public class DAOs {
 	private static TypeActivityDao typeActivityDao;
 	private static RoleOnActivityDao roleOnActivityDao;
 	private static UserLoggedOnActivityDao userLoggedOnActivityDao;
+	private static RewardDao rewardDao;
 
 	public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -96,4 +97,11 @@ public class DAOs {
         }
         return userLoggedOnActivityDao;
     }
+
+	public static RewardDao getRewardDao() {
+		if(rewardDao == null) {
+			rewardDao = new RewardDaoImpl();
+		}
+		return rewardDao;
+	}
 }

@@ -1,0 +1,18 @@
+@(form: Form[forms.RewardForm])
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+@main("Odměna"){
+    <h1>Nová odměna</h1>
+
+    @b3.form(action = routes.RewardController.update()){
+        @b3.select(form("userId"), options = Seq("1" -> "Aleš"), '_label -> "Uživatel")
+        @b3.inputWrapped( "text", form("amount"), '_label -> "Výše odměny") { input =>
+            <div class="input-group">
+                @input
+                <span class="input-group-addon">Kč</span>
+            </div>
+        }
+        @b3.textarea(form("description"), '_label -> "Popis")
+        @b3.hidden(form("rewardId").name, form("rewardId").value)
+        @b3.submit('class -> "btn btn-primary"){ Uložit }
+    }
+}
