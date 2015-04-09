@@ -12,9 +12,10 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import service.ProjectConverter;
 import views.data.ProjectDto;
-import views.html.projectDetail;
-import views.html.projects;
-import views.html.projectsCreate;
+import views.html.projects.projectDetail;
+import views.html.projects.projectNotFound;
+import views.html.projects.projects;
+import views.html.projects.projectsCreate;
 import daos.impl.DAOs;
 
 public class ProjectController extends Controller{
@@ -99,7 +100,7 @@ public class ProjectController extends Controller{
 	 * @return
 	 */
 	public static Result projectNotFound(Long projectId) {
-		return ok(views.html.projectNotFound.render(projectId));
+		return ok(projectNotFound.render(projectId));
 	}
 	
 }

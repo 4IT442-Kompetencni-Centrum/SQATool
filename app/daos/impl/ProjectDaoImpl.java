@@ -41,7 +41,7 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 			limit = 30;
 			Logger.debug("No limit was given to getAllProject. 30 is now set as limit.");
 		}
-		Query query = JPA.em().createQuery("SELECT p FROM Project p WHERE p.visible = TRUE ORDER BY p.dateStart DESC").setMaxResults(limit).setFirstResult(start);
+		Query query = JPA.em().createQuery("SELECT p FROM Project p WHERE p.visible = TRUE ORDER BY p.dateStart").setMaxResults(limit).setFirstResult(start);
 		return query.getResultList();
 	}
 
