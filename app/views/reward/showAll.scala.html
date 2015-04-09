@@ -1,0 +1,30 @@
+@(rewards: List[Reward], numberOfPages: Integer, activePage: Integer)
+@main("Odměny"){
+    <h1>Odměny</h1>
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <th>Id</th>
+            <th>Komu</th>
+            <th>Kolik</th>
+            <th>Popis</th>
+            <th>Akce</th>
+        </thead>
+        <tbody>
+        @for(reward <- rewards) {
+            <tr>
+                <td>
+                    <a href="@routes.RewardController.show(reward.getRewardId())">@reward.getRewardId()</a></td>
+                <td> ------ <!--- bude doplněno po implementaci uživatele ---></td>
+                <td>@reward.getAmount() Kč</td>
+                <td>@reward.getDescription()</td>
+                <td>
+                    <a href="@routes.RewardController.edit(reward.getRewardId())" class="btn btn-xs btn-warning">Upravit</a>
+                    <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @reward.getRewardId()?');">Smazat</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+}

@@ -1,5 +1,7 @@
 package models;
 
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,15 +19,19 @@ public class Reward extends AbstractVersionedEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long rewardId;
 
+    @Constraints.Required
     protected Integer amount;
 
     protected Date date;
 
     protected String description;
 
+    @ManyToOne(fetch=FetchType.EAGER)
+    private User user;
+
 
     /**
-     * Get Reward Id
+     * Get Reward Idw
      *
      * @return Long
      */
@@ -111,6 +117,29 @@ public class Reward extends AbstractVersionedEntity {
      */
     public Reward setDescription(String description) {
         this.description = description;
+
+        return this;
+    }
+
+
+    /**
+     * Get User
+     *
+     * @return User
+     */
+    public User getUser() {
+        return user;
+    }
+
+
+    /**
+     * Set User
+     *
+     * @param User user
+     * @return Reward
+     */
+    public Reward setUser(User user) {
+        this.user = user;
 
         return this;
     }

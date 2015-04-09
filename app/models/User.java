@@ -22,7 +22,7 @@ public class User extends AbstractVersionedEntity {
     @OneToMany(mappedBy="user")
     private List<RoleInBusiness> roleInBusiness;
     
-    
+
 
     public List<RoleInBusiness> getRoleInBusiness() {
 		return roleInBusiness;

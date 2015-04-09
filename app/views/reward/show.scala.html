@@ -1,0 +1,27 @@
+@(reward: Reward)
+@main("Odměna"){
+    <h1>Odměna</h1>
+
+    <div class="btn-group btn-group-xs">
+        <a class="btn btn-info btn-xs" href="@routes.RewardController.showAll()">Zpět</a>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <tr>
+            <th>Id</th>
+            <td>@reward.getRewardId()</td>
+        </tr>
+        <tr>
+            <th>Komu</th>
+            <td> ------- <!--- bude doplněno po implementaci uživatele ---> </td>
+        </tr>
+        <tr>
+            <th>Kolik</th>
+            <td>@reward.getAmount()</td>
+        </tr>
+        <tr>
+            <th>Popis</th>
+            <td>@reward.getDescription()</td>
+        </tr>
+    </table>
+}
