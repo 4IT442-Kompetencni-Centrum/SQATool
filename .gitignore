@@ -16,6 +16,8 @@ server.pid
 /dist/
 .cache
 .settings
+.classpath
+.project
 # Created by https://www.gitignore.io
 
 ### JetBrains ###
