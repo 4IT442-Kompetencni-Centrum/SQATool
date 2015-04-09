@@ -25,16 +25,23 @@ public class Activity extends AbstractVersionedEntity {
     @Constraints.Required
     protected String name;
 
-    protected Date date;
+    @ManyToOne(fetch = FetchType.EAGER)
+    protected TypeActivity typeActivity;
 
-    protected Time time;
+    protected Integer capacity;
+
+    protected Integer capacityMax;
+
+    protected Date timeFrom;
+
+    protected Date timeTo;
 
     protected String place;
 
     protected String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    protected TypeActivity typeActivity;
+    protected StateActivity stateActivity;
 
 
     /**
@@ -82,47 +89,48 @@ public class Activity extends AbstractVersionedEntity {
         return this;
     }
 
-    /**
-     * Get Activity date
-     *
-     * @return Date
-     */
-    public Date getDate() {
-        return date;
-    }
-
 
     /**
-     * Set Activity Date
-     *
-     * @param Date date
-     * @return Activity
-     */
-    public Activity setDate(Date date) {
-        this.date = date;
-
-        return this;
-    }
-
-
-    /**
-     * Get Activity Time
+     * Get Activity Time From
      *
      * @return Time
      */
-    public Time getTime() {
-        return time;
+    public Date getTimeFrom() {
+        return timeFrom;
     }
 
 
     /**
      * Set Activity Time
      *
-     * @param Time time
+     * @param Date time
      * @return Activity
      */
-    public Activity setTime(Time time) {
-        this.time = time;
+    public Activity setTimeFrom(Date time) {
+        this.timeFrom = time;
+
+        return this;
+    }
+
+
+    /**
+     * Get Activity Time To
+     *
+     * @return Time
+     */
+    public Date getTimeTo() {
+        return timeTo;
+    }
+
+
+    /**
+     * Set Activity Time
+     *
+     * @param Date time
+     * @return Activity
+     */
+    public Activity setTimeTo(Date time) {
+        this.timeTo = time;
 
         return this;
     }
@@ -192,6 +200,75 @@ public class Activity extends AbstractVersionedEntity {
      */
     public Activity setTypeActivity(TypeActivity typeActivity) {
         this.typeActivity = typeActivity;
+
+        return this;
+    }
+
+
+    /**
+     * Get Capacity
+     *
+     * @return Integer
+     */
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+
+    /**
+     * Set Capacity
+     *
+     * @param TypeActivity typeActivity
+     * @return Activity
+     */
+    public Activity setCapacity(Integer capacity) {
+        this.capacity = capacity;
+
+        return this;
+    }
+
+
+    /**
+     * Get Max Capacity
+     *
+     * @return Integer
+     */
+    public Integer getCapacityMax() {
+        return capacityMax;
+    }
+
+
+    /**
+     * Set Max Capacity
+     *
+     * @param TypeActivity typeActivity
+     * @return Activity
+     */
+    public Activity setCapacityMax(Integer capacityMax) {
+        this.capacityMax = capacityMax;
+
+        return this;
+    }
+
+
+    /**
+     * Get State Activity
+     *
+     * @return StateActivity
+     */
+    public StateActivity getStateActivity() {
+        return stateActivity;
+    }
+
+
+    /**
+     * Set stateActivity
+     *
+     * @param StateActivity stateActivity
+     * @return Activity
+     */
+    public Activity setStateActivity(StateActivity stateActivity) {
+        this.stateActivity = stateActivity;
 
         return this;
     }

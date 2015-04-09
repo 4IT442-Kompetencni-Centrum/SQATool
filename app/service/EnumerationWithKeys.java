@@ -11,4 +11,7 @@ public class EnumerationWithKeys {
 	public static final String MEMBER_KEY = "clen";
 
 	public static final String ACTIVITY_TYPE_DEFAULT = "aktivita";
+	public static final String ACTIVITY_STATE_EMPTY = "volna";
+	public static final String ACTIVITY_STATE_FULL = "plna";
+
 }

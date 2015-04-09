@@ -6,8 +6,8 @@
         <thead>
             <th>Id</th>
             <th>Název</th>
-            <th>Datum</th>
-            <th>Čas</th>
+            <th>Od</th>
+            <th>Do</th>
             <th>Místo</th>
             <th>Akce</th>
         </thead>
@@ -18,8 +18,8 @@
                     <a href="@routes.ActivityController.show(activity.getActivityId())">@activity.getActivityId()</a>
                 </td>
                 <td>@activity.getName()</td>
-                <td>@activity.getDate()</td>
-                <td>@activity.getTime()</td>
+                <td>@activity.getTimeFrom()</td>
+                <td>@activity.getTimeTo()</td>
                 <td>@activity.getPlace()</td>
                 <td>
                     <a href="#" class="btn btn-xs btn-warning">Upravit</a>
