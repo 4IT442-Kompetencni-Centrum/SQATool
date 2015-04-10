@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,8 @@ public class Project extends AbstractVersionedEntity {
 	private Date dateStart;
 	private Date dateEnd;
 	private String description;
+	@Column(unique=true)
+	private String shortcut;
 	private Integer laboriousnessGues;
 	private Integer laboriousnessReal;
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="project")
@@ -103,6 +106,13 @@ public class Project extends AbstractVersionedEntity {
 	public void setStateProject(StateProject stateProject) {
 		this.stateProject = stateProject;
 	}
+	public String getShortcut() {
+		return shortcut;
+	}
+	public void setShortcut(String shortcut) {
+		this.shortcut = shortcut;
+	}
 
+	
 
 }

@@ -16,6 +16,8 @@ public class ProjectDto {
 	private Date dateEnd;
 	@Required
 	private String description;
+	@Required
+	private String shortcut;
 	private Integer laboriousnessGues;
 	private Integer laboriousnessReal;
 	private List<Long> partnerIds;
@@ -70,19 +72,17 @@ public class ProjectDto {
 	public void setPartnerIds(List<Long> partnerIds) {
 		this.partnerIds = partnerIds;
 	}
-	@Override
-	public String toString() {
-		return "ProjectDto [projectId=" + projectId + ", name=" + name
-				+ ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
-				+ ", description=" + description + ", laboriousnessGues="
-				+ laboriousnessGues + ", laboriousnessReal="
-				+ laboriousnessReal + ", partnerIds=" + partnerIds + "]";
-	}
 	public List<String> getPartnerNames() {
 		return partnerNames;
 	}
 	public void setPartnerNames(List<String> partnerNames) {
 		this.partnerNames = partnerNames;
+	}
+	public String getShortcut() {
+		return shortcut;
+	}
+	public void setShortcut(String shortcut) {
+		this.shortcut = shortcut;
 	}
 	
 }

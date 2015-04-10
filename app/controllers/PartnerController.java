@@ -13,6 +13,7 @@ import play.mvc.Result;
 import service.Configuration;
 import service.PartnerConverter;
 import views.data.MenuDto;
+import views.html.partners.partnerDetail;
 import views.html.partners.partners;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -95,8 +96,12 @@ public class PartnerController extends Controller {
 	}
 	
 	@Transactional(readOnly=false)
-	public static Result detail(Long projectId) {
-		return ok();
+	public static Result detail(Long partnerId) {
+		Partner partner = DAOs.getPartnerDao().findById(partnerId);
+		if (partner == null) {
+			return redirect(routes.PartnerController.partnerNotFound(partnerId));
+		}
+		return ok(partnerDetail.render(partner, getBackToListMenu()));
 	}
 	
 	public static Result partnerNotFound(Long partnerId) {

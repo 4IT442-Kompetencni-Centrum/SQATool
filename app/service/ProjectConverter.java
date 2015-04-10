@@ -14,6 +14,7 @@ public class ProjectConverter {
 		Project res = new Project();
 		res.setProjectId(orig.getProjectId());
 		res.setName(orig.getName());
+		res.setShortcut(orig.getShortcut());
 		res.setDateStart(orig.getDateStart());
 		res.setDateEnd(orig.getDateEnd());
 		res.setDescription(orig.getDescription());
@@ -43,6 +44,7 @@ public class ProjectConverter {
 		res.setDescription(orig.getDescription());
 		res.setLaboriousnessGues(orig.getLaboriousnessGues());
 		res.setLaboriousnessReal(orig.getLaboriousnessReal());
+		res.setShortcut(orig.getShortcut());
 		return res;		
 	}
 	

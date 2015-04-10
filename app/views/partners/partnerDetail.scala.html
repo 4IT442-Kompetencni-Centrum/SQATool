@@ -1,0 +1,25 @@
+@import views.data.MenuDto
+@(partner: Partner, submenu: List[MenuDto])
+@main("Projekty", "projects", submenu){
+	<h1>Detail partnera</h1>
+	<h2>@Html(partner.getName())</h2>
+	<div class="row">
+		<div class="col-sm-6 col-md-offset-3">
+			<table class="table table-striped">
+				<tr>
+					<td>Název:</td>
+					<td>@partner.getName()</td>
+				</tr>
+				<tr>
+					<td>IČO:</td>
+					<td>@partner.getIc()</td>
+				</tr>
+				<tr>
+					<td>Adresa:</td>
+					<td><p>@partner.getStreet() @partner.getHouseNumber()</p>
+						<p>@partner.getCity()</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+}

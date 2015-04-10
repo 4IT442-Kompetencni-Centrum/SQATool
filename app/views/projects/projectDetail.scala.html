@@ -2,7 +2,8 @@
 @(project: Project, submenu: List[MenuDto], manager: User, members: List[User])
 @main("Projekty", "projects", submenu){
 	<h1>Detail projektu</h1>
-	<h2>@Html(project.getName())</h2>
+	<h2><strong>@Html(project.getShortcut()):</strong> @Html(project.getName())</h2>
+	<hr class="divider">
 	<p>@Html(project.getDescription())</p>
 	<div class="row">
 		<div class="col-sm-6 col-md-offset-3">
@@ -26,7 +27,7 @@
 				<tr>
 					<td>Partner projektu:</td>
 					<td>@for(index <- 0 until project.getPartners().size) {
-						<a href="@routes.PartnerController.detail(project.getPartners()(index).getPartnerId())">@Html(project.getPartners()(index).getName())</a> 
+						<a href="@routes.PartnerController.detail(project.getPartners()(index).getPartnerId())">@Html(project.getPartners()(index).getName())</a>@if(index < project.getPartners().size-1) {, } 
 					}</td>
 				</tr>
 				<tr>

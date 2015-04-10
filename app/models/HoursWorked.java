@@ -22,12 +22,12 @@ public class HoursWorked extends AbstractVersionedEntity {
 	private Long hoursWorkedId;
 	private Float numberOfHours;
 	private String taskName;
-	private String description;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private User user;
-	//TODO tmichalicka stateHoursWorked
+	@ManyToOne
+	private StateHoursWorked stateHoursWorked;
 	
 	
 	
@@ -55,17 +55,17 @@ public class HoursWorked extends AbstractVersionedEntity {
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
 	public Project getProject() {
 		return project;
 	}
 	public void setProject(Project project) {
 		this.project = project;
+	}
+	public StateHoursWorked getStateHoursWorked() {
+		return stateHoursWorked;
+	}
+	public void setStateHoursWorked(StateHoursWorked stateHoursWorked) {
+		this.stateHoursWorked = stateHoursWorked;
 	}
 	
 }
