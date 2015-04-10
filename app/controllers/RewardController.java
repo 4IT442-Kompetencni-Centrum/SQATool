@@ -60,14 +60,14 @@ public class RewardController extends Controller {
 
     @Transactional(readOnly=false)
     public static Result create() {
-        rewardForm = rewardForm.bindFromRequest();
+        Form<RewardForm> form = rewardForm.bindFromRequest();
 
-        if(rewardForm.hasErrors())
+        if(form.hasErrors())
         {
-            return badRequest(newItem.render(rewardForm));
+            return badRequest(newItem.render(form));
         }
 
-        Reward reward = rewardForm.get().getReward();
+        Reward reward = form.get().getReward();
         DAOs.getRewardDao().create(reward);
 
         return redirect(controllers.routes.RewardController.showAll(0));
@@ -79,21 +79,21 @@ public class RewardController extends Controller {
         if(reward == null)
             return notFound();
 
-        rewardForm = rewardForm.fill(new RewardForm(reward));
+        Form<RewardForm> form = rewardForm.fill(new RewardForm(reward));
         
-        return ok(edit.render(rewardForm));
+        return ok(edit.render(form));
     }
 
     @Transactional(readOnly=false)
     public static Result update(){
-        rewardForm = rewardForm.bindFromRequest();
+        Form<RewardForm> form = rewardForm.bindFromRequest();
 
-        if(rewardForm.hasErrors())
+        if(form.hasErrors())
         {
-            return badRequest(edit.render(rewardForm));
+            return badRequest(edit.render(form));
         }
 
-        Reward reward = rewardForm.get().getReward();
+        Reward reward = form.get().getReward();
         DAOs.getRewardDao().update(reward);
 
         return redirect(controllers.routes.RewardController.showAll(0));
