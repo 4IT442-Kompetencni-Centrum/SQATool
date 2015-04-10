@@ -6,6 +6,7 @@ import java.util.List;
 import models.Partner;
 import models.Project;
 import play.Logger;
+import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -13,8 +14,10 @@ import play.mvc.Result;
 import service.Configuration;
 import service.PartnerConverter;
 import views.data.MenuDto;
+import views.data.PartnerDto;
 import views.html.partners.partnerDetail;
 import views.html.partners.partners;
+import views.html.partners.partnersCreate;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -45,7 +48,8 @@ public class PartnerController extends Controller {
 	 * @return
 	 */
 	public static Result create() {
-		return ok();
+		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class);
+		return ok(partnersCreate.render(partnerForm, getBackToListMenu()));
 	}
 	
 	/**
@@ -106,6 +110,19 @@ public class PartnerController extends Controller {
 	
 	public static Result partnerNotFound(Long partnerId) {
 		return ok();
+	}
+	
+	/**
+	 * Action saves new project
+	 * @return
+	 */
+	@Transactional(readOnly=false)
+	public static Result saveNewPartner() {
+		Form<PartnerDto> userForm = Form.form(PartnerDto.class).bindFromRequest();
+		Partner newPartner = PartnerConverter.convertToEntity(userForm.get());
+		newPartner.setVisible(true);
+		DAOs.getPartnerDao().create(newPartner);
+		return redirect(routes.PartnerController.showAll(0).absoluteURL(request()));
 	}
 	
 	private static List<MenuDto> getBackToListMenu() {
