@@ -28,6 +28,7 @@ POST        /projekty                             controllers.ProjectController.
 #partners pages
 GET         /partneri/novy                        controllers.PartnerController.create()
 POST        /partneri/novyUlozit                  controllers.PartnerController.saveNewPartner()
+POST        /partneri/editaceUlozit               controllers.PartnerController.updatePartner(forceNext: Boolean ?= false)
 GET         /partneri/detail/:partnerId           controllers.PartnerController.detail(partnerId: Long)
 GET         /partneri/upravit/:partnerId          controllers.PartnerController.edit(partnerId: Long)
 GET         /partneri/smazat/:partnerId           controllers.PartnerController.delete(partnerId: Long)

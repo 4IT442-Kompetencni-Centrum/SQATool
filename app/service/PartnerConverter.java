@@ -15,6 +15,7 @@ public class PartnerConverter {
 		res.setName(orig.getName());
 		res.setPartnerId(orig.getPartnerId());
 		res.setStreet(orig.getStreet());
+		res.setVersion(orig.getVersion());
 		return res;
 	}
 	
@@ -27,6 +28,7 @@ public class PartnerConverter {
 		res.setName(orig.getName());
 		res.setPartnerId(orig.getPartnerId());
 		res.setStreet(orig.getStreet());
+		res.setVersion(orig.getVersion());
 		return res;
 	}
 	

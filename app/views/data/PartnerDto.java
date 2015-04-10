@@ -7,6 +7,7 @@ public class PartnerDto {
 	private String city;
 	private String street;
 	private String houseNumber;
+	private Integer version;
 	
 	public Long getPartnerId() {
 		return partnerId;
@@ -43,6 +44,18 @@ public class PartnerDto {
 	}
 	public void setHouseNumber(String houseNumber) {
 		this.houseNumber = houseNumber;
+	}
+	public Integer getVersion() {
+		return version;
+	}
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	@Override
+	public String toString() {
+		return "PartnerDto [partnerId=" + partnerId + ", name=" + name
+				+ ", ic=" + ic + ", city=" + city + ", street=" + street
+				+ ", houseNumber=" + houseNumber + ", version=" + version + "]";
 	}
 	
 	

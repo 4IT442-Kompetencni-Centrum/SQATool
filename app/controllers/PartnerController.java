@@ -3,6 +3,8 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.OptimisticLockException;
+
 import models.Partner;
 import models.Project;
 import play.Logger;
@@ -18,6 +20,7 @@ import views.data.PartnerDto;
 import views.html.partners.partnerDetail;
 import views.html.partners.partners;
 import views.html.partners.partnersCreate;
+import views.html.partners.partnersEdit;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -54,13 +57,35 @@ public class PartnerController extends Controller {
 	
 	/**
 	 * Action show page where project attributes can be modified
-	 * @param projectId
+	 * @param partnerId
 	 * @return
 	 */
 	@Transactional(readOnly=false)
-	public static Result edit(Long projectId) {
-		//TODO tmichalicka
-		return null;
+	public static Result edit(Long partnerId) {
+		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).fill(PartnerConverter.convertToDto(DAOs.getPartnerDao().findById(partnerId)));
+		return ok(partnersEdit.render(partnerForm, getBackToListMenu(), false));
+	}
+	
+	/**
+	 * Action show page where project attributes can be modified
+	 * @param partnerId
+	 * @return
+	 */
+	@Transactional(readOnly=false)
+	public static Result updatePartner(Boolean forceNext) {
+		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).bindFromRequest();
+		Partner partner = PartnerConverter.convertToEntity(partnerForm.get());
+		if (forceNext != null && forceNext) {
+			Partner edited = DAOs.getPartnerDao().findById(partnerForm.get().getPartnerId());
+			partner.setVersion(edited.getVersion());
+		}
+		try {
+			DAOs.getPartnerDao().update(partner);
+		} catch (OptimisticLockException e) {
+			Logger.info("Partner {} was edited by another user. ", partnerForm.get());
+			return ok(partnersEdit.render(partnerForm, getBackToListMenu(), true));
+		}
+		return redirect(routes.PartnerController.showAll(0));
 	}
 	
 	/**

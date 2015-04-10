@@ -1,0 +1,61 @@
+@import views.data.MenuDto
+@(editForm: Form[views.data.PartnerDto], submenu: List[MenuDto], forceNext: Boolean)
+@main("Partneři", "partners", submenu){
+<h1>Editovat partnera</h1>
+<form class="form-horizontal" action="@routes.PartnerController.updatePartner(forceNext)" method="POST">
+	@if(forceNext) {
+	<div class="alert alert-danger" role="alert">
+  		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  		<p><strong>Pozor:</strong>
+  			Tento partner byl již editovaný jiným uživatelem. Chcete i přes to uložit svoje změny?</p>
+  			<button type="submit" class="btn btn-danger">Uložit</button>
+  			<a href="@routes.PartnerController.showAll(0)" class="btn btn-primary">Zpět na seznam</a>
+	</div>
+	}
+	<div class="form-group">
+		<label for="partnerName" class="col-sm-2 control-label">Název</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="partnerName"
+				placeholder="Název partnera" name="name" value='@editForm.get().getName()' required>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="partnerIc" class="col-sm-2 control-label">IČO</label>
+		<div class="col-sm-10">
+			<input type="number" class="form-control" id="partnerIc"
+				placeholder="IČO" name="ic" value="@editForm.get().getIc()">
+		</div>
+	</div>
+	<h2>Adresa</h2>
+	<div class="form-group">
+		<label for="partnerStreet" class="col-sm-2 control-label">Ulice</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="partnerStreet"
+				placeholder="Název projektu" name="street" value="@editForm.get().getStreet()"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="partnerHouseNumber" class="col-sm-2 control-label">Číslo popisné</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="partnerHouseNumber"
+				placeholder="Číslo popisné" name="houseNumber" value="@editForm.get().getHouseNumber()"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="partnerCity" class="col-sm-2 control-label">Město</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="partnerCity"
+				placeholder="Město" name="city" value="@editForm.get().getCity()"></textarea>
+		</div>
+	</div>
+	<h2>Kontaktní osoby</h2>
+	<div class="form-group">
+		<input type="hidden" name="version" value="@editForm.get().getVersion()">
+		<input type="hidden" name="partnerId" value="@editForm.get().getPartnerId()">
+		<div class="col-sm-offset-2 col-sm-10">
+			<div id="projectPartnersIds" class="hidden"></div>
+			<button type="submit" class="btn btn-success">Uložit</button>
+		</div>
+	</div>
+</form>
+}
