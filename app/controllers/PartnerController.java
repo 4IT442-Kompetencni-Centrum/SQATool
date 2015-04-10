@@ -118,8 +118,9 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=false)
 	public static Result saveNewPartner() {
-		Form<PartnerDto> userForm = Form.form(PartnerDto.class).bindFromRequest();
-		Partner newPartner = PartnerConverter.convertToEntity(userForm.get());
+		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).bindFromRequest();
+		Logger.debug("Partner data to save: {} ", partnerForm);
+		Partner newPartner = PartnerConverter.convertToEntity(partnerForm.get());
 		newPartner.setVisible(true);
 		DAOs.getPartnerDao().create(newPartner);
 		return redirect(routes.PartnerController.showAll(0).absoluteURL(request()));

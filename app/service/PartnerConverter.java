@@ -10,7 +10,6 @@ public class PartnerConverter {
 	public static PartnerDto convertToDto(Partner orig) {
 		PartnerDto res = new PartnerDto();
 		res.setCity(orig.getCity());
-		res.setDescription(orig.getDescription());
 		res.setHouseNumber(orig.getHouseNumber());
 		res.setIc(orig.getIc());
 		res.setName(orig.getName());
@@ -21,8 +20,8 @@ public class PartnerConverter {
 	
 	public static Partner convertToEntity(PartnerDto orig) {
 		Partner res = new Partner();
+		res.setPartnerId(orig.getPartnerId());
 		res.setCity(orig.getCity());
-		res.setDescription(orig.getDescription());
 		res.setHouseNumber(orig.getHouseNumber());
 		res.setIc(orig.getIc());
 		res.setName(orig.getName());

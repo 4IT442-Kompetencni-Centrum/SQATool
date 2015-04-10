@@ -7,7 +7,6 @@ public class PartnerDto {
 	private String city;
 	private String street;
 	private String houseNumber;
-	private String description;
 	
 	public Long getPartnerId() {
 		return partnerId;
@@ -44,12 +43,6 @@ public class PartnerDto {
 	}
 	public void setHouseNumber(String houseNumber) {
 		this.houseNumber = houseNumber;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	
 	
