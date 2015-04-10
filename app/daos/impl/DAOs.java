@@ -17,7 +17,8 @@ public class DAOs {
     private static UserDao userDao;
 	private static ActivityDao activityDao;
 	private static TypeActivityDao typeActivityDao;
-	private static RoleOnActivityDao roleOnActivityDao;
+	private static StateActivityDao stateActivityDao;
+	private static TypeRoleOnActivityDao typeRoleOnActivityDao;
 	private static UserLoggedOnActivityDao userLoggedOnActivityDao;
 	private static RewardDao rewardDao;
 
@@ -84,11 +85,18 @@ public class DAOs {
         return typeActivityDao;
     }
 
-    public static RoleOnActivityDao getRoleOnActivityDao() {
-        if (roleOnActivityDao == null) {
-            roleOnActivityDao = new RoleOnActivityDaoImpl();
+	public static StateActivityDao getStateActivityDao() {
+		if (stateActivityDao == null) {
+			stateActivityDao = new StateActivityDaoImpl();
+		}
+		return stateActivityDao;
+	}
+
+    public static TypeRoleOnActivityDao getTypeRoleOnActivityDao() {
+        if (typeRoleOnActivityDao == null) {
+            typeRoleOnActivityDao = new TypeRoleOnActivityDaoImpl();
         }
-        return roleOnActivityDao;
+        return typeRoleOnActivityDao;
     }
 
     public static UserLoggedOnActivityDao getUserLoggedOnActivityDao() {

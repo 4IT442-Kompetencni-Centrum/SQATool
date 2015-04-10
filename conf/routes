@@ -57,5 +57,8 @@ GET         /initPartners                         controllers.Init.initPartners(
 
 #activities
 GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)
-GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
+GET         /aktivity/nova                        controllers.ActivityController.add()
+GET         /aktivity/nova/vytvorit               controllers.ActivityController.create()
+GET         /aktivity/upravit/:activityId         controllers.ActivityController.edit(activityId: Long)
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
+GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)

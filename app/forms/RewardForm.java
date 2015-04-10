@@ -4,7 +4,6 @@ package forms;
 import daos.impl.DAOs;
 import models.Reward;
 import models.User;
-import play.Logger;
 import play.data.validation.Constraints;
 
 import java.util.Date;

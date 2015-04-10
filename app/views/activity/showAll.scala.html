@@ -18,11 +18,11 @@
                     <a href="@routes.ActivityController.show(activity.getActivityId())">@activity.getActivityId()</a>
                 </td>
                 <td>@activity.getName()</td>
-                <td>@activity.getTimeFrom()</td>
-                <td>@activity.getTimeTo()</td>
+                <td>@if(activity.getTimeFrom() != null){ @activity.getTimeFrom().format("dd.MM.yyyy HH:mm") }</td>
+                <td>@if(activity.getTimeTo() != null){ @activity.getTimeTo().format("dd.MM.yyyy HH:mm") } </td>
                 <td>@activity.getPlace()</td>
                 <td>
-                    <a href="#" class="btn btn-xs btn-warning">Upravit</a>
+                    <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-xs btn-warning">Upravit</a>
                     <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">Smazat</a>
                 </td>
             </tr>

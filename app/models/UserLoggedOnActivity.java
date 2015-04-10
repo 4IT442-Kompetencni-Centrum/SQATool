@@ -18,7 +18,7 @@ public class UserLoggedOnActivity extends AbstractVersionedEntity{
     protected Activity activity;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    protected RoleOnActivity roleOnActivity;
+    protected TypeRoleOnActivity typeRoleOnActivity;
 
 
     /**
@@ -93,21 +93,21 @@ public class UserLoggedOnActivity extends AbstractVersionedEntity{
     /**
      * Get Role On Activity
      *
-     * @return RoleOnActivity
+     * @return TypeRoleOnActivity
      */
-    public RoleOnActivity getRoleOnActivity() {
-        return roleOnActivity;
+    public TypeRoleOnActivity getTypeRoleOnActivity() {
+        return typeRoleOnActivity;
     }
 
 
     /**
      * Set Role On Activity
      *
-     * @param RoleOnActivity roleOnActivity
+     * @param RoleOnActivity typeRoleOnActivity
      * @return UserLoggedOnActivity
      */
-    public UserLoggedOnActivity setRoleOnActivity(RoleOnActivity roleOnActivity) {
-        this.roleOnActivity = roleOnActivity;
+    public UserLoggedOnActivity setTypeRoleOnActivity(TypeRoleOnActivity typeRoleOnActivity) {
+        this.typeRoleOnActivity = typeRoleOnActivity;
 
         return this;
     }
