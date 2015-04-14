@@ -10,13 +10,17 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.Configuration;
+import service.PartnerConverter;
 import service.ProjectConverter;
 import views.data.MenuDto;
+import views.data.PartnerDto;
 import views.data.ProjectDto;
+import views.html.partners.partnersEdit;
 import views.html.projects.projectDetail;
 import views.html.projects.projectNotFound;
 import views.html.projects.projects;
 import views.html.projects.projectsCreate;
+import views.html.projects.projectsEdit;
 import daos.impl.DAOs;
 
 public class ProjectController extends Controller{
@@ -81,8 +85,8 @@ public class ProjectController extends Controller{
 	 */
 	@Transactional(readOnly=false)
 	public static Result edit(Long projectId) {
-		Project project = DAOs.getProjectDao().findById(projectId);
-		return ok();
+		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).fill(ProjectConverter.convertToDto(DAOs.getProjectDao().findById(projectId)));
+		return ok(projectsEdit.render(projectForm, getBackToListMenu(), false));
 	}
 	
 	/**

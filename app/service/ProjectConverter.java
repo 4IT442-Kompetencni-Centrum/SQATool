@@ -45,6 +45,14 @@ public class ProjectConverter {
 		res.setLaboriousnessGues(orig.getLaboriousnessGues());
 		res.setLaboriousnessReal(orig.getLaboriousnessReal());
 		res.setShortcut(orig.getShortcut());
+		List<String> pNames = new ArrayList<String>();
+		List<Long> pIds = new ArrayList<Long>();
+		for (Partner p : orig.getPartners()) {
+			pNames.add(p.getName());
+			pIds.add(p.getPartnerId());
+		}
+		res.setPartnerIds(pIds);
+		res.setPartnerNames(pNames);
 		return res;		
 	}
 	
