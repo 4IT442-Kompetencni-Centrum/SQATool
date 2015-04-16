@@ -22,8 +22,29 @@ public class User extends AbstractVersionedEntity {
     @OneToMany(mappedBy="user")
     private List<RoleInBusiness> roleInBusiness;
     
+    private String degree;
+    private String email;
+    private String firstName;
+    private String lastName;
+    
+    
 
-
+    public String getDegree() {
+		return degree;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public User(){}
+    public String getUserName(){
+    	return userName;
+    }
     public List<RoleInBusiness> getRoleInBusiness() {
 		return roleInBusiness;
 	}
