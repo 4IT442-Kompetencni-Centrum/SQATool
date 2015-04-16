@@ -1,5 +1,6 @@
 @import views.data.MenuDto
-@(project: Project, submenu: List[MenuDto], manager: User, members: List[User])
+@import views.data.ProjectDto
+@(project: ProjectDto, submenu: List[MenuDto], manager: User, members: List[User])
 @main("Projekty", "projects", submenu){
 	<h1>Detail projektu</h1>
 	<h2><strong>@Html(project.getShortcut()):</strong> @Html(project.getName())</h2>

@@ -15,6 +15,7 @@ GET         /assets/*file                         controllers.Assets.at(path="/p
 #projects pages
 GET         /projekty/novy                        controllers.ProjectController.create()
 POST        /projekty/novyUlozit                  controllers.ProjectController.saveNewProject()
+POST        /projekty/editaceUlozit               controllers.ProjectController.updateProject(forceNext: Boolean ?= false)
 GET         /projekty/detail/:projectId           controllers.ProjectController.detail(projectId: Long)
 GET         /projekty/upravit/:projectId          controllers.ProjectController.edit(projectId: Long)
 GET         /projekty/smazat/:projectId           controllers.ProjectController.delete(projectId: Long)

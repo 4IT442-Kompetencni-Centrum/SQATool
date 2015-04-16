@@ -6,13 +6,11 @@ function isLast(elem) {
 
 function updateName(event) {
 	var parentContainer = $(event.target).parents(".contactPersonRow");
-	console.log(parentContainer.find(".firstname"));
 	parentContainer.find(".firstname").html($(event.target).val());
 }
 
 function updateSurname(event) {
 	var parentContainer = $(event.target).parents(".contactPersonRow");
-	console.log(parentContainer.find(".lastname"));
 	parentContainer.find(".lastname").html($(event.target).val());
 }
 

@@ -20,9 +20,10 @@ public class ProjectDto {
 	private String shortcut;
 	private Integer laboriousnessGues;
 	private Integer laboriousnessReal;
+	private Integer version;
 	private List<Long> partnerIds;
 	private List<String> partnerNames;
-	
+	private List<PartnerDto> partners;
 	
 	public Long getProjectId() {
 		return projectId;
@@ -84,5 +85,19 @@ public class ProjectDto {
 	public void setShortcut(String shortcut) {
 		this.shortcut = shortcut;
 	}
+	public List<PartnerDto> getPartners() {
+		return partners;
+	}
+	public void setPartners(List<PartnerDto> partners) {
+		this.partners = partners;
+	}
+	public Integer getVersion() {
+		return version;
+	}
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	
+	
 	
 }

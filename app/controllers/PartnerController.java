@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.OptimisticLockException;
@@ -82,6 +83,7 @@ public class PartnerController extends Controller {
 		}
 		try {
 			for (ContactPerson person : partner.getContactPersons()) {
+				person.setPartner(partner);
 				if (person.getContactPersonId() == null) {
 					DAOs.getContactPersonDao().create(person);
 				} else {
@@ -89,7 +91,6 @@ public class PartnerController extends Controller {
 				}
 			}
 			partner.setVisible(true);
-			Logger.debug("Version {}", partner.getVersion());
 			DAOs.getPartnerDao().update(partner);
 		} catch (OptimisticLockException e) {
 			Logger.info("Partner {} was edited by another user. ", partnerForm.get());
@@ -107,7 +108,7 @@ public class PartnerController extends Controller {
 	public static Result delete(Long partnerId) {
 		Partner partner = DAOs.getPartnerDao().findById(partnerId);
 		if (partner != null) {
-			partner.setProjects(new ArrayList<Project>());
+			partner.setProjects(new HashSet<Project>());
 			DAOs.getPartnerDao().delete(partner);
 		}
 		return redirect(routes.PartnerController.showAll(0).absoluteURL(request()));

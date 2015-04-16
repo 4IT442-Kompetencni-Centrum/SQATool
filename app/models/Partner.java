@@ -1,6 +1,7 @@
 package models;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,9 +32,9 @@ public class Partner extends AbstractVersionedEntity {
 	private String description;
 	
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="partners")
-	private List<Project> projects;
+	private Set<Project> projects;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="partner")
 	private List<ContactPerson> contactPersons;
 
 	public Long getPartnerId() {
@@ -92,11 +93,11 @@ public class Partner extends AbstractVersionedEntity {
 		this.description = description;
 	}
 
-	public List<Project> getProjects() {
+	public Set<Project> getProjects() {
 		return projects;
 	}
 
-	public void setProjects(List<Project> projects) {
+	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
 	}
 
@@ -107,5 +108,16 @@ public class Partner extends AbstractVersionedEntity {
 	public void setContactPersons(List<ContactPerson> contactPersons) {
 		this.contactPersons = contactPersons;
 	}
+
+	@Override
+	public String toString() {
+		return "Partner [partnerId=" + partnerId + ", name=" + name + ", ic="
+				+ ic + ", city=" + city + ", street=" + street
+				+ ", houseNumber=" + houseNumber + ", description="
+				+ description + ", projects=" + projects + ", contactPersons="
+				+ contactPersons + "]";
+	}
+	
+	
 	
 }

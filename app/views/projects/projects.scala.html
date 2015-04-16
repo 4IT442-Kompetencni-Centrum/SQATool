@@ -13,7 +13,7 @@
 		@for(index <- 0 until projects.size) {
 		<tr>
 			<td>@(index+1)</td>
-			<td><a href="@routes.ProjectController.detail(projects(index).getProjectId())">@Html(projects(index).getName())</a></td>
+			<td><a href="@routes.ProjectController.detail(projects(index).getProjectId())"><strong>@Html(projects(index).getShortcut()):</strong> @Html(projects(index).getName())</a></td>
 			<td>
 			<a href="@routes.ProjectController.edit(projects(index).getProjectId())" class="btn btn-default">
   				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
