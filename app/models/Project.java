@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -41,7 +41,7 @@ public class Project extends AbstractVersionedEntity {
 	private List<HoursWorked> hoursWorked;
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name = "SQA_PROJECT_PARTNER")
-	private List<Partner> partners;
+	private Set<Partner> partners;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private StateProject stateProject;
 	
@@ -49,10 +49,10 @@ public class Project extends AbstractVersionedEntity {
 	public Long getProjectId() {
 		return projectId;
 	}
-	public List<Partner> getPartners() {
+	public Set<Partner> getPartners() {
 		return partners;
 	}
-	public void setPartners(List<Partner> partners) {
+	public void setPartners(Set<Partner> partners) {
 		this.partners = partners;
 	}
 	public void setProjectId(Long projectId) {
@@ -111,6 +111,16 @@ public class Project extends AbstractVersionedEntity {
 	}
 	public void setShortcut(String shortcut) {
 		this.shortcut = shortcut;
+	}
+	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", name=" + name
+				+ ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
+				+ ", description=" + description + ", shortcut=" + shortcut
+				+ ", laboriousnessGues=" + laboriousnessGues
+				+ ", laboriousnessReal=" + laboriousnessReal + ", hoursWorked="
+				+ hoursWorked + ", stateProject="
+				+ stateProject + "]";
 	}
 
 	

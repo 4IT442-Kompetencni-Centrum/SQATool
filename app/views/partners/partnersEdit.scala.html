@@ -2,6 +2,7 @@
 @(editForm: Form[views.data.PartnerDto], submenu: List[MenuDto], forceNext: Boolean)
 @main("Partneři", "partners", submenu){
 <h1>Editovat partnera</h1>
+<script src="@routes.Assets.at("javascripts/partners/newPartner.js")" type="text/javascript"></script>
 <form class="form-horizontal" action="@routes.PartnerController.updatePartner(forceNext)" method="POST">
 	@if(forceNext) {
 	<div class="alert alert-danger" role="alert">
@@ -49,11 +50,111 @@
 		</div>
 	</div>
 	<h2>Kontaktní osoby</h2>
+	@for(index <- 0 until editForm.get().getContactPersons().size) {
+	<div class="contactPersonRow">
+	<h3><span class="firstname">@editForm.get().getContactPersons().get(index).getFirstName()</span> <span class="lastname">@editForm.get().getContactPersons().get(index).getLastName()</span></h3>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Jméno</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control contactPersonName"
+					placeholder="Jméno" name="contactPersons[@index].firstName" value="@editForm.get().getContactPersons().get(index).getFirstName()">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Příjmení</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control contactPersonSurname"
+					placeholder="Příjmení" name="contactPersons[@index].lastName" value="@editForm.get().getContactPersons().get(index).getLastName()">
+			</div>
+		</div>
+			<div class="form-group">
+			<label class="col-sm-2 control-label">Telefon</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control"
+					placeholder="Telefon" name="contactPersons[@index].phoneNumber" value="@editForm.get().getContactPersons().get(index).getPhoneNumber()">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Mail</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control"
+					placeholder="Mail" name="contactPersons[@index].email" value="@editForm.get().getContactPersons().get(index).getEmail()">
+			</div>
+		</div>
+		<input type="hidden" value="@editForm.get().getContactPersons().get(index).getContactPersonId()" name="contactPersons[@index].contactPersonId">
+		<input type="hidden" value="@editForm.get().getContactPersons().get(index).getVersion()" name="contactPersons[@index].version">
+	</div>
+	}
+	<div class="contactPersonRow">
+		<h3><span class="firstname">Kontaktní osoba</span> <span class="lastname"></span></h3>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Jméno</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control contactPersonName"
+						placeholder="Jméno" name="contactPersons[@(editForm.get().getContactPersons().size())].firstName" value="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Příjmení</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control contactPersonSurname"
+						placeholder="Příjmení" name="contactPersons[@(editForm.get().getContactPersons().size())].lastName">
+				</div>
+			</div>
+				<div class="form-group">
+				<label class="col-sm-2 control-label">Telefon</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control"
+						placeholder="Telefon" name="contactPersons[@(editForm.get().getContactPersons().size())].phoneNumber">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Mail</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control"
+						placeholder="Mail" name="contactPersons[@(editForm.get().getContactPersons().size())].email">
+				</div>
+			</div>
+	</div>
+	<div class="newContactPersonPlace"></div>
+	<div id="defaultContactPersonRow" class="hidden">
+	<div class="contactPersonRow">
+	<h3><span class="firstname">Kontaktní osoba</span> <span class="lastname"></span></h3>
+		<div class="form-group">
+		<label class="col-sm-2 control-label">Jméno</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control contactPersonName"
+				placeholder="Jméno" name="generatedAttrfirstName">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Příjmení</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control contactPersonSurname"
+				placeholder="Příjmení" name="generatedAttrlastName">
+		</div>
+	</div>
+		<div class="form-group">
+		<label class="col-sm-2 control-label">Telefon</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control"
+				placeholder="Telefon" name="generatedAttrphoneNumber">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Mail</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control"
+				placeholder="Mail" name="generatedAttremail">
+		</div>
+	</div>
+	</div>
+	<div class="newContactPersonPlace"></div>
+	</div>
 	<div class="form-group">
 		<input type="hidden" name="version" value="@editForm.get().getVersion()">
 		<input type="hidden" name="partnerId" value="@editForm.get().getPartnerId()">
 		<div class="col-sm-offset-2 col-sm-10">
-			<div id="projectPartnersIds" class="hidden"></div>
 			<button type="submit" class="btn btn-success">Uložit</button>
 		</div>
 	</div>

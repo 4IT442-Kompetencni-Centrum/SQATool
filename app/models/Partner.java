@@ -1,6 +1,7 @@
 package models;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,7 +32,10 @@ public class Partner extends AbstractVersionedEntity {
 	private String description;
 	
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="partners")
-	private List<Project> projects;
+	private Set<Project> projects;
+	
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="partner")
+	private List<ContactPerson> contactPersons;
 
 	public Long getPartnerId() {
 		return partnerId;
@@ -88,12 +93,29 @@ public class Partner extends AbstractVersionedEntity {
 		this.description = description;
 	}
 
-	public List<Project> getProjects() {
+	public Set<Project> getProjects() {
 		return projects;
 	}
 
-	public void setProjects(List<Project> projects) {
+	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
+	}
+
+	public List<ContactPerson> getContactPersons() {
+		return contactPersons;
+	}
+
+	public void setContactPersons(List<ContactPerson> contactPersons) {
+		this.contactPersons = contactPersons;
+	}
+
+	@Override
+	public String toString() {
+		return "Partner [partnerId=" + partnerId + ", name=" + name + ", ic="
+				+ ic + ", city=" + city + ", street=" + street
+				+ ", houseNumber=" + houseNumber + ", description="
+				+ description + ", projects=" + projects + ", contactPersons="
+				+ contactPersons + "]";
 	}
 	
 	

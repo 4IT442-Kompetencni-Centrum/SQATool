@@ -1,13 +1,16 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import play.Logger;
-import daos.impl.DAOs;
 import models.Partner;
 import models.Project;
+import play.Logger;
+import views.data.PartnerDto;
 import views.data.ProjectDto;
+import daos.impl.DAOs;
 
 public class ProjectConverter {
 	public static Project convertToEntity(ProjectDto orig) {
@@ -20,8 +23,9 @@ public class ProjectConverter {
 		res.setDescription(orig.getDescription());
 		res.setLaboriousnessGues(orig.getLaboriousnessGues());
 		res.setLaboriousnessReal(orig.getLaboriousnessReal());
+		res.setVersion(orig.getVersion());
 		if (orig.getPartnerIds() != null) {
-			List<Partner> partners = new ArrayList<Partner>();
+			Set<Partner> partners = new HashSet<Partner>();
 			for(Long partnerId : orig.getPartnerIds()) {
 				Partner partner = DAOs.getPartnerDao().findById(partnerId);
 				if (partner == null) {
@@ -45,14 +49,18 @@ public class ProjectConverter {
 		res.setLaboriousnessGues(orig.getLaboriousnessGues());
 		res.setLaboriousnessReal(orig.getLaboriousnessReal());
 		res.setShortcut(orig.getShortcut());
+		res.setVersion(orig.getVersion());
 		List<String> pNames = new ArrayList<String>();
 		List<Long> pIds = new ArrayList<Long>();
+		List<PartnerDto> partners = new ArrayList<PartnerDto>();
 		for (Partner p : orig.getPartners()) {
 			pNames.add(p.getName());
 			pIds.add(p.getPartnerId());
+			partners.add(PartnerConverter.convertToDto(p));
 		}
 		res.setPartnerIds(pIds);
 		res.setPartnerNames(pNames);
+		res.setPartners(partners);
 		return res;		
 	}
 	

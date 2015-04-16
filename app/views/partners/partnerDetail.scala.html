@@ -22,4 +22,31 @@
 			</table>
 		</div>
 	</div>
+	@if(partner.getContactPersons() != null && partner.getContactPersons().size() > 0) {
+		@if(partner.getContactPersons().size() == 1) {
+			<h3>Kontaktní osoba</h3>
+		} else {
+			<h3>Kontaktní osoby</h3>
+		}
+		@for(person <- partner.getContactPersons()) {
+		<div class="row">
+			<div class="col-sm-6 col-md-offset-3">
+				<table class="table table-striped">
+					<tr>
+						<td>Jméno:</td>
+						<td>@person.getFirstName() @person.getLastName()</td>
+					</tr>
+					<tr>
+						<td>Telefon:</td>
+						<td>@person.getPhoneNumber()</td>
+					</tr>
+					<tr>
+						<td>Mail:</td>
+						<td><a href="mailto:@person.getEmail()">@person.getEmail()</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		}
+	}
 }

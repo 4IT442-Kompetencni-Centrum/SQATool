@@ -1,6 +1,7 @@
 @import views.data.MenuDto
 @(createProjectForm: Form[views.data.PartnerDto], submenu: List[MenuDto])
 @main("Partneři", "partners", submenu){
+<script src="@routes.Assets.at("javascripts/partners/newPartner.js")" type="text/javascript"></script>
 <h1>Vytvořit partnera</h1>
 <form class="form-horizontal" action="@routes.PartnerController.saveNewPartner()" method="POST">
 	<div class="form-group">
@@ -22,7 +23,7 @@
 		<label for="partnerStreet" class="col-sm-2 control-label">Ulice</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerStreet"
-				placeholder="Název projektu" name="street"></textarea>
+				placeholder="Ulice" name="street"></textarea>
 		</div>
 	</div>
 	<div class="form-group">
@@ -40,6 +41,73 @@
 		</div>
 	</div>
 	<h2>Kontaktní osoby</h2>
+	
+	<div class="contactPersonRow">
+	<h3><span class="firstname">Kontaktní osoba</span> <span class="lastname"></span></h3>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Jméno</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control contactPersonName"
+					placeholder="Jméno" name="contactPersons[0].firstName"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Příjmení</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control contactPersonSurname"
+					placeholder="Příjmení" name="contactPersons[0].lastName"></textarea>
+			</div>
+		</div>
+			<div class="form-group">
+			<label class="col-sm-2 control-label">Telefon</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control"
+					placeholder="Telefon" name="contactPersons[0].phoneNumber"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Mail</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control"
+					placeholder="Mail" name="contactPersons[0].email"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="newContactPersonPlace"></div>
+	<div id="defaultContactPersonRow" class="hidden">
+	<div class="contactPersonRow">
+	<h3><span class="firstname">Kontaktní osoba</span> <span class="lastname"></span></h3>
+		<div class="form-group">
+		<label class="col-sm-2 control-label">Jméno</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control contactPersonName"
+				placeholder="Jméno" name="generatedAttrfirstName"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Příjmení</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control contactPersonSurname"
+				placeholder="Příjmení" name="generatedAttrlastName"></textarea>
+		</div>
+	</div>
+		<div class="form-group">
+		<label class="col-sm-2 control-label">Telefon</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control"
+				placeholder="Telefon" name="generatedAttrphoneNumber"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Mail</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control"
+				placeholder="Mail" name="generatedAttremail"></textarea>
+		</div>
+	</div>
+	</div>
+	<div class="newContactPersonPlace"></div>
+	</div>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<div id="projectPartnersIds" class="hidden"></div>

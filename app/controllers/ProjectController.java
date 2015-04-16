@@ -1,21 +1,23 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import javax.persistence.OptimisticLockException;
+
+import models.Partner;
 import models.Project;
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.Configuration;
-import service.PartnerConverter;
 import service.ProjectConverter;
 import views.data.MenuDto;
-import views.data.PartnerDto;
 import views.data.ProjectDto;
-import views.html.partners.partnersEdit;
 import views.html.projects.projectDetail;
 import views.html.projects.projectNotFound;
 import views.html.projects.projects;
@@ -74,7 +76,7 @@ public class ProjectController extends Controller{
 		if (project == null) {
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
-			return ok(projectDetail.render(project, getBackToListMenu(), null, new ArrayList<User>()));
+			return ok(projectDetail.render(ProjectConverter.convertToDto(project), getBackToListMenu(), null, new ArrayList<User>()));
 		}
 	}
 	
@@ -110,6 +112,43 @@ public class ProjectController extends Controller{
 	 */
 	public static Result projectNotFound(Long projectId) {
 		return ok(projectNotFound.render(projectId, getBackToListMenu()));
+	}
+	
+	/**
+	 * Action updates project data
+	 * @param partnerId
+	 * @return
+	 */
+	@Transactional(readOnly=false)
+	public static Result updateProject(Boolean forceNext) {
+		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).bindFromRequest();
+		Project project = ProjectConverter.convertToEntity(projectForm.get());
+		if (forceNext != null && forceNext) {
+			Project edited = DAOs.getProjectDao().findById(projectForm.get().getProjectId());
+			project.setVersion(edited.getVersion());
+		}
+		try {
+			project.setPartners(new HashSet<Partner>());
+			for (Long partnerId : projectForm.get().getPartnerIds()) {
+				Partner partner = DAOs.getPartnerDao().findById(partnerId);
+				if (partner != null) {
+					if (partner.getProjects() != null) {
+						partner.setProjects(new HashSet<Project>());
+					}
+					partner.getProjects().add(project);
+					project.getPartners().add(partner);
+					Logger.debug("Partner update: {}", partner.toString());
+					DAOs.getPartnerDao().update(partner);
+				}
+			}
+			project.setVisible(true);
+			Logger.debug("Project update: {}", project.toString());
+			DAOs.getProjectDao().update(project);
+		} catch (OptimisticLockException e) {
+			Logger.info("Project {} was edited by another user. ", projectForm.get());
+			return ok(projectsEdit.render(projectForm, getBackToListMenu(), true));
+		}
+		return redirect(routes.ProjectController.showAll(0));
 	}
 	
 	private static List<MenuDto> getBackToListMenu() {
