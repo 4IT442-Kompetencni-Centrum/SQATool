@@ -1,5 +1,7 @@
 package views.data;
 
+import java.util.List;
+
 public class PartnerDto {
 	private Long partnerId;
 	private String name;
@@ -8,6 +10,7 @@ public class PartnerDto {
 	private String street;
 	private String houseNumber;
 	private Integer version;
+	private List<ContactPersonDto> contactPersons;
 	
 	public Long getPartnerId() {
 		return partnerId;
@@ -57,6 +60,11 @@ public class PartnerDto {
 				+ ", ic=" + ic + ", city=" + city + ", street=" + street
 				+ ", houseNumber=" + houseNumber + ", version=" + version + "]";
 	}
-	
+	public List<ContactPersonDto> getContactPersons() {
+		return contactPersons;
+	}
+	public void setContactPersons(List<ContactPersonDto> contactPersons) {
+		this.contactPersons = contactPersons;
+	}
 	
 }

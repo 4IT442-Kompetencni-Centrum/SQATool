@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +32,9 @@ public class Partner extends AbstractVersionedEntity {
 	
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="partners")
 	private List<Project> projects;
+	
+	@OneToMany(fetch=FetchType.EAGER)
+	private List<ContactPerson> contactPersons;
 
 	public Long getPartnerId() {
 		return partnerId;
@@ -95,7 +99,13 @@ public class Partner extends AbstractVersionedEntity {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
-	
-	
+
+	public List<ContactPerson> getContactPersons() {
+		return contactPersons;
+	}
+
+	public void setContactPersons(List<ContactPerson> contactPersons) {
+		this.contactPersons = contactPersons;
+	}
 	
 }

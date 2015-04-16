@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.OptimisticLockException;
 
+import models.ContactPerson;
 import models.Partner;
 import models.Project;
 import play.Logger;
@@ -80,6 +81,15 @@ public class PartnerController extends Controller {
 			partner.setVersion(edited.getVersion());
 		}
 		try {
+			for (ContactPerson person : partner.getContactPersons()) {
+				if (person.getContactPersonId() == null) {
+					DAOs.getContactPersonDao().create(person);
+				} else {
+					DAOs.getContactPersonDao().update(person);
+				}
+			}
+			partner.setVisible(true);
+			Logger.debug("Version {}", partner.getVersion());
 			DAOs.getPartnerDao().update(partner);
 		} catch (OptimisticLockException e) {
 			Logger.info("Partner {} was edited by another user. ", partnerForm.get());
@@ -144,9 +154,14 @@ public class PartnerController extends Controller {
 	@Transactional(readOnly=false)
 	public static Result saveNewPartner() {
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).bindFromRequest();
-		Logger.debug("Partner data to save: {} ", partnerForm);
+		Logger.debug("Partner data to save: {} ", partnerForm.get().getContactPersons());
 		Partner newPartner = PartnerConverter.convertToEntity(partnerForm.get());
 		newPartner.setVisible(true);
+		for (ContactPerson person : newPartner.getContactPersons()) {
+			person.setPartner(newPartner);
+			person.setVisible(true);
+			DAOs.getContactPersonDao().create(person);
+		}
 		DAOs.getPartnerDao().create(newPartner);
 		return redirect(routes.PartnerController.showAll(0).absoluteURL(request()));
 	}
