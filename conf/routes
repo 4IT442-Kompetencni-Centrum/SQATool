@@ -63,3 +63,8 @@ GET         /aktivity/nova/vytvorit               controllers.ActivityController
 GET         /aktivity/upravit/:activityId         controllers.ActivityController.edit(activityId: Long)
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
 GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
+
+
+
+#users
+GET			/uzivatel/:id/detail					controllers.UserController.show(id:Long)
