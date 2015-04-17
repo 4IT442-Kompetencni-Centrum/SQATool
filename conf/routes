@@ -49,8 +49,12 @@ GET         /odmeny/upravit/:rewardId             controllers.RewardController.e
 GET         /odmeny/:rewardId                     controllers.RewardController.show(rewardId: Long)
 GET         /odmeny/smazat/:rewardId              controllers.RewardController.delete(rewardId: Long)
 
-#partner pages
+#partner actions for ajax calls
 GET         /partneri/json/:query                 controllers.PartnerController.getPartnersByPattern(query: String)
+
+#user actions for ajax calls
+GET         /uzivatel/json/:query                 controllers.UserController.getUserByNamePattern(query: String)
+
 
 #tests 
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
