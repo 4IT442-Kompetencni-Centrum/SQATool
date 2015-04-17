@@ -58,9 +58,9 @@ public class ProjectController extends Controller{
 	 * @return
 	 */
 	public static Result create() {
-		Form<ProjectDto> userForm = Form.form(ProjectDto.class);
+		Form<ProjectDto> projectForm = Form.form(ProjectDto.class);
 		Logger.debug("Page with form for creating new project is shown.");
-		return ok(projectsCreate.render(userForm, getBackToListMenu()));
+		return ok(projectsCreate.render(projectForm, getBackToListMenu()));
 	}
 	/**
 	 * Action saves new project
@@ -68,8 +68,8 @@ public class ProjectController extends Controller{
 	 */
 	@Transactional(readOnly=false)
 	public static Result saveNewProject() {
-		Form<ProjectDto> userForm = Form.form(ProjectDto.class).bindFromRequest();
-		Project newProject = ProjectConverter.convertToEntity(userForm.get());
+		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).bindFromRequest();
+		Project newProject = ProjectConverter.convertToEntity(projectForm.get());
 		newProject.setVisible(true);
 		DAOs.getProjectDao().create(newProject);
 		Logger.debug("Action for saving data of new project was called.");
@@ -170,6 +170,10 @@ public class ProjectController extends Controller{
 			DAOs.getProjectDao().update(project);
 		} catch (OptimisticLockException e) {
 			Logger.info("Project {} was edited by another user. ", projectForm.get());
+			List<String> col = projectForm.get().getPartnerNames();
+			for (String tmp : projectForm.get().getPartnerNames()) {
+				Logger.debug(tmp);
+			}
 			return ok(projectsEdit.render(projectForm, getBackToListMenu(), true));
 		}
 		Logger.debug("Project update operation was called.");
