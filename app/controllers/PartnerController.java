@@ -17,9 +17,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import service.Configuration;
 import service.PartnerConverter;
+import views.data.ContactPersonDto;
 import views.data.MenuDto;
 import views.data.PartnerDto;
 import views.html.partners.partnerDetail;
+import views.html.partners.partnerNotFound;
 import views.html.partners.partners;
 import views.html.partners.partnersCreate;
 import views.html.partners.partnersEdit;
@@ -28,7 +30,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import daos.impl.DAOs;
-
+/**
+ * Controller for actions related to Partner and ContactPerson
+ * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
+ *
+ * @see Partner
+ * @see PartnerDto
+ * @see ContactPerson
+ * @see ContactPersonDto
+ */
 public class PartnerController extends Controller {
 	/**
 	 * Action shows all projects where user participates
@@ -39,11 +49,13 @@ public class PartnerController extends Controller {
 	public static Result showAll(Integer page) {
 		if (page == null) {
 			page = 0;
+			Logger.debug("No page number is given. Setting 0 (first page).");
 		}
 		List<Partner> proj= DAOs.getPartnerDao().getAllPartners(page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
 		
 		Integer totalPartners = DAOs.getPartnerDao().getNumberOfPartners();
 		Integer numberOfPages = totalPartners % Configuration.PAGE_SIZE == 0 ? totalPartners/Configuration.PAGE_SIZE : totalPartners/Configuration.PAGE_SIZE + 1; 
+		Logger.debug("Page with list of partners is shown. Number of partners id db is {}", totalPartners);
 		return ok(partners.render(PartnerConverter.convertListToDto(proj), getMainMenu(), numberOfPages, page));
 	
 	}
@@ -54,6 +66,7 @@ public class PartnerController extends Controller {
 	 */
 	public static Result create() {
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class);
+		Logger.debug("Page with form for creating new partner is shown.");
 		return ok(partnersCreate.render(partnerForm, getBackToListMenu()));
 	}
 	
@@ -64,7 +77,13 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=false)
 	public static Result edit(Long partnerId) {
-		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).fill(PartnerConverter.convertToDto(DAOs.getPartnerDao().findById(partnerId)));
+		PartnerDto dto = PartnerConverter.convertToDto(DAOs.getPartnerDao().findById(partnerId));
+		if (dto == null) {
+			Logger.info("Partner with id {} was not found.", partnerId);
+			return redirect(routes.PartnerController.partnerNotFound(partnerId));
+		}
+		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).fill(dto);
+		Logger.debug("Page with form for editing partner is shown. Edited partner has id {} and name {}.", dto.getPartnerId(), dto.getName());
 		return ok(partnersEdit.render(partnerForm, getBackToListMenu(), false));
 	}
 	
@@ -80,6 +99,7 @@ public class PartnerController extends Controller {
 		if (forceNext != null && forceNext) {
 			Partner edited = DAOs.getPartnerDao().findById(partnerForm.get().getPartnerId());
 			partner.setVersion(edited.getVersion());
+			Logger.debug("Force rewrite partner data is set. Previous modifications will be deleted.");
 		}
 		try {
 			for (ContactPerson person : partner.getContactPersons()) {
@@ -96,6 +116,7 @@ public class PartnerController extends Controller {
 			Logger.info("Partner {} was edited by another user. ", partnerForm.get());
 			return ok(partnersEdit.render(partnerForm, getBackToListMenu(), true));
 		}
+		Logger.debug("Partner update operation was called.");
 		return redirect(routes.PartnerController.showAll(0));
 	}
 	
@@ -110,17 +131,22 @@ public class PartnerController extends Controller {
 		if (partner != null) {
 			partner.setProjects(new HashSet<Project>());
 			DAOs.getPartnerDao().delete(partner);
+		} else {
+			Logger.info("Partner with id was not found, delete opereation was not successful.", partnerId);
+			return redirect(routes.PartnerController.partnerNotFound(partnerId));
 		}
+		Logger.debug("Delete operation was called to partner with id {}.", partnerId);
 		return redirect(routes.PartnerController.showAll(0).absoluteURL(request()));
 	}
-	
+	/**
+	 * Action for ajax calls. It returns json array of partners whose names matched given query.
+	 * @param substr
+	 * @return
+	 */
 	@Transactional(readOnly=true)
 	public static Result getPartnersByPattern(String substr) {
-		
-		Logger.debug("Requested string is {}.", substr);
-		
 		List<Partner> partners = DAOs.getPartnerDao().findByName(substr);
-		Logger.debug("Number of results is {}.", partners.size());
+		Logger.debug("Number of results for query {} is {}.", substr, partners.size());
 		
 		ObjectNode res = Json.newObject();
 		ArrayNode result = res.arrayNode();
@@ -131,21 +157,32 @@ public class PartnerController extends Controller {
 			tmp.put("tokens", Json.newObject().arrayNode().add(p.getName()));
 			result.add(tmp);
 		}
-
+		Logger.debug("Response {} is sending to client.", result);
 		return ok(result);
 	}
-	
+	/**
+	 * Action displays detail of partner
+	 * @param partnerId
+	 * @return
+	 */
 	@Transactional(readOnly=false)
 	public static Result detail(Long partnerId) {
 		Partner partner = DAOs.getPartnerDao().findById(partnerId);
 		if (partner == null) {
+			Logger.info("Partner with id {} was not found, detail can not be shown.", partnerId);
 			return redirect(routes.PartnerController.partnerNotFound(partnerId));
 		}
+		Logger.debug("Partner detail page is shown.");
 		return ok(partnerDetail.render(partner, getBackToListMenu()));
 	}
-	
+	/**
+	 * Action shows page partner not found.
+	 * @param partnerId
+	 * @return
+	 */
 	public static Result partnerNotFound(Long partnerId) {
-		return ok();
+		Logger.debug("Partner not found page is shown. Requested id was {}.", partnerId);
+		return ok(partnerNotFound.render(partnerId, getBackToListMenu()));
 	}
 	
 	/**
@@ -155,7 +192,6 @@ public class PartnerController extends Controller {
 	@Transactional(readOnly=false)
 	public static Result saveNewPartner() {
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).bindFromRequest();
-		Logger.debug("Partner data to save: {} ", partnerForm.get().getContactPersons());
 		Partner newPartner = PartnerConverter.convertToEntity(partnerForm.get());
 		newPartner.setVisible(true);
 		for (ContactPerson person : newPartner.getContactPersons()) {
@@ -164,9 +200,13 @@ public class PartnerController extends Controller {
 			DAOs.getContactPersonDao().create(person);
 		}
 		DAOs.getPartnerDao().create(newPartner);
+		Logger.debug("Action for saving data of new partner was called.");
 		return redirect(routes.PartnerController.showAll(0).absoluteURL(request()));
 	}
-	
+	/**
+	 * Method returns list of items to left side menu. This implementation returns one item - back to list
+	 * @return
+	 */
 	private static List<MenuDto> getBackToListMenu() {
 		List<MenuDto> result = new ArrayList<MenuDto>();
 		
@@ -178,7 +218,10 @@ public class PartnerController extends Controller {
 		
 		return result;
 	}
-	
+	/**
+	 * Method returns list of items to left side menu. This implementation returns one item - add new
+	 * @return
+	 */
 	private static List<MenuDto> getMainMenu() {
 		List<MenuDto> result = new ArrayList<MenuDto>();
 		

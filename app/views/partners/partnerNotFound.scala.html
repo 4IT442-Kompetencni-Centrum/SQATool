@@ -1,0 +1,6 @@
+@import views.data.MenuDto
+@(partnerId: Long, submenu: List[MenuDto])
+@main("Partneři", "partners", submenu){
+	<h1>Partner nenalezen!</h1>
+	<p>Partner s id @partnerId nebyl nalezen.</p>
+}

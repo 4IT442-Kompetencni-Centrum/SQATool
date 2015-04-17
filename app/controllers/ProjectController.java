@@ -24,7 +24,13 @@ import views.html.projects.projects;
 import views.html.projects.projectsCreate;
 import views.html.projects.projectsEdit;
 import daos.impl.DAOs;
-
+/**
+ * Controller for actions related to Project
+ * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
+ *
+ * @see Project
+ * @see ProjectDto
+ */
 public class ProjectController extends Controller{
 
 	
@@ -37,11 +43,13 @@ public class ProjectController extends Controller{
 	public static Result showAll(Integer page) {
 		if (page == null) {
 			page = 0;
+			Logger.debug("No page number is given. Setting 0 (first page).");
 		}
 		List<Project> proj= DAOs.getProjectDao().getAllProject(page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
 		
 		Integer totalProjects = DAOs.getProjectDao().getNumberOfProjects();
 		Integer numberOfPages = totalProjects % Configuration.PAGE_SIZE == 0 ? totalProjects/Configuration.PAGE_SIZE : totalProjects/Configuration.PAGE_SIZE + 1; 
+		Logger.debug("Page with list of projects is shown. Number of projects id db is {}", totalProjects);
 		return ok(projects.render(ProjectConverter.convertListToDto(proj), getMainMenu(), numberOfPages, page));
 	}
 	
@@ -51,6 +59,7 @@ public class ProjectController extends Controller{
 	 */
 	public static Result create() {
 		Form<ProjectDto> userForm = Form.form(ProjectDto.class);
+		Logger.debug("Page with form for creating new project is shown.");
 		return ok(projectsCreate.render(userForm, getBackToListMenu()));
 	}
 	/**
@@ -63,6 +72,7 @@ public class ProjectController extends Controller{
 		Project newProject = ProjectConverter.convertToEntity(userForm.get());
 		newProject.setVisible(true);
 		DAOs.getProjectDao().create(newProject);
+		Logger.debug("Action for saving data of new project was called.");
 		return redirect(routes.ProjectController.showAll(0).absoluteURL(request()));
 	}
 	/**
@@ -74,8 +84,10 @@ public class ProjectController extends Controller{
 	public static Result detail(Long projectId) {
 		Project project = DAOs.getProjectDao().findById(projectId);
 		if (project == null) {
+			Logger.info("Partner with id {} was not found, detail can not be shown.", projectId);
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
+			Logger.debug("Partner detail page is shown.");
 			return ok(projectDetail.render(ProjectConverter.convertToDto(project), getBackToListMenu(), null, new ArrayList<User>()));
 		}
 	}
@@ -87,7 +99,13 @@ public class ProjectController extends Controller{
 	 */
 	@Transactional(readOnly=false)
 	public static Result edit(Long projectId) {
-		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).fill(ProjectConverter.convertToDto(DAOs.getProjectDao().findById(projectId)));
+		ProjectDto dto = ProjectConverter.convertToDto(DAOs.getProjectDao().findById(projectId));
+		if (dto == null) {
+			Logger.info("Project with id {} was not found.", projectId);
+			return redirect(routes.ProjectController.projectNotFound(projectId));
+		}
+		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).fill(dto);
+		Logger.debug("Page with form for editing project is shown. Edited project has id {} and name {}.", dto.getProjectId(), dto.getName());
 		return ok(projectsEdit.render(projectForm, getBackToListMenu(), false));
 	}
 	
@@ -101,7 +119,11 @@ public class ProjectController extends Controller{
 		Project project = DAOs.getProjectDao().findById(projectId);
 		if (project != null) {
 			DAOs.getProjectDao().delete(project);
+		} else {
+			Logger.info("Project with id was not found, delete opereation was not successful.", projectId);
+			return redirect(routes.ProjectController.projectNotFound(projectId));
 		}
+		Logger.debug("Delete operation was called to project with id {}.", projectId);
 		return redirect(routes.ProjectController.showAll(0).absoluteURL(request()));
 	}
 	
@@ -111,6 +133,7 @@ public class ProjectController extends Controller{
 	 * @return
 	 */
 	public static Result projectNotFound(Long projectId) {
+		Logger.debug("Project not found page is shown. Requested id was {}.", projectId);
 		return ok(projectNotFound.render(projectId, getBackToListMenu()));
 	}
 	
@@ -126,6 +149,7 @@ public class ProjectController extends Controller{
 		if (forceNext != null && forceNext) {
 			Project edited = DAOs.getProjectDao().findById(projectForm.get().getProjectId());
 			project.setVersion(edited.getVersion());
+			Logger.debug("Force rewrite project data is set. Previous modifications will be deleted.");
 		}
 		try {
 			project.setPartners(new HashSet<Partner>());
@@ -148,9 +172,13 @@ public class ProjectController extends Controller{
 			Logger.info("Project {} was edited by another user. ", projectForm.get());
 			return ok(projectsEdit.render(projectForm, getBackToListMenu(), true));
 		}
+		Logger.debug("Project update operation was called.");
 		return redirect(routes.ProjectController.showAll(0));
 	}
-	
+	/**
+	 * Method returns list of items to left side menu. This implementation returns one item - back to list
+	 * @return
+	 */
 	private static List<MenuDto> getBackToListMenu() {
 		List<MenuDto> result = new ArrayList<MenuDto>();
 		
@@ -163,6 +191,10 @@ public class ProjectController extends Controller{
 		return result;
 	}
 	
+	/**
+	 * Method returns list of items to left side menu. This implementation returns one item - add new
+	 * @return
+	 */
 	private static List<MenuDto> getMainMenu() {
 		List<MenuDto> result = new ArrayList<MenuDto>();
 		

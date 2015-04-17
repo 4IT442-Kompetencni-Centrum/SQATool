@@ -25,7 +25,7 @@ public abstract class AbstractVersionedDaoImpl<T extends AbstractVersionedEntity
 	@Override
 	public T findById(Long id) {
 		T res = JPA.em().find(entityClass, id);
-		if (res.getVisible() == null || !res.getVisible()) {
+		if (res == null || res.getVisible() == null || !res.getVisible()) {
 			return null;
 		}
 		return res;
