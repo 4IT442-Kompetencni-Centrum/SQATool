@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Entity RoleInBusiness
@@ -12,6 +13,7 @@ import javax.persistence.ManyToOne;
  *
  */
 @Entity
+@Table(name="SQA_ROLE_IN_BUSINESS")
 public class RoleInBusiness {
 	
 	@Id

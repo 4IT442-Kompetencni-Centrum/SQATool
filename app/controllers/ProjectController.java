@@ -170,10 +170,6 @@ public class ProjectController extends Controller{
 			DAOs.getProjectDao().update(project);
 		} catch (OptimisticLockException e) {
 			Logger.info("Project {} was edited by another user. ", projectForm.get());
-			List<String> col = projectForm.get().getPartnerNames();
-			for (String tmp : projectForm.get().getPartnerNames()) {
-				Logger.debug(tmp);
-			}
 			return ok(projectsEdit.render(projectForm, getBackToListMenu(), true));
 		}
 		Logger.debug("Project update operation was called.");
