@@ -1,10 +1,7 @@
-@(reward: Reward)
-@main("Odměna"){
+@import views.data.MenuDto
+@(reward: Reward, menu: List[MenuDto])
+@main("Odměna", "odmeny", menu){
     <h1>Odměna</h1>
-
-    <div class="btn-group btn-group-xs">
-        <a class="btn btn-info btn-xs" href="@routes.RewardController.showAll()">Zpět</a>
-    </div>
 
     <table class="table table-hover table-striped">
         <tr>
@@ -13,7 +10,7 @@
         </tr>
         <tr>
             <th>Komu</th>
-            <td> ------- <!--- bude doplněno po implementaci uživatele ---> </td>
+            <td>@reward.getUser().getLastName() @reward.getUser().getFirstName()</td>
         </tr>
         <tr>
             <th>Kolik</th>
