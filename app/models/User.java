@@ -1,9 +1,5 @@
 package models;
 
-
-import play.data.validation.Constraints;
-import play.db.jpa.JPA;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,37 +10,24 @@ public class User extends AbstractVersionedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
-    @Constraints.Required
-    public String userName;
-    @Constraints.Required
+    public String username;
     public String password;
-    public String loginToken;
     @OneToMany(mappedBy="user")
     private List<RoleInBusiness> roleInBusiness;
-    
-    private String degree;
-    private String email;
-    private String firstName;
-    private String lastName;
-    
-    
+    public String degree;
+    public String email;
+    public String firstName;
+    public String lastName;
+    @ManyToOne(fetch=FetchType.EAGER)
+    public StateUser stateUser;
 
-    public String getDegree() {
-		return degree;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public User(){}
-    public String getUserName(){
-    	return userName;
+    public User(){}
+
+    public User(String userName, String password){
+        this.username = userName;
+        this.password = password;
     }
+
     public List<RoleInBusiness> getRoleInBusiness() {
 		return roleInBusiness;
 	}
@@ -53,17 +36,9 @@ public class User extends AbstractVersionedEntity {
 		this.roleInBusiness = roleInBusiness;
 	}
 
-	public User(String userName, String password){
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public static User findById(long id){
-        return JPA.em().find(User.class, id);
-    }
-
-    public void save(){
-        JPA.em().persist(this);
+    @Override
+    public String toString(){
+        return firstName + " " + lastName;
     }
 
     public static class Page{

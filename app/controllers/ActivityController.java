@@ -8,6 +8,7 @@ import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.Configuration;
 import views.html.activity.add;
 import views.html.activity.edit;
@@ -17,6 +18,7 @@ import views.html.activity.showAll;
 import java.util.List;
 import java.util.Map;
 
+@Security.Authenticated(Secured.class)
 public class ActivityController extends Controller {
     static Form<ActivityForm> activityForm = Form.form(ActivityForm.class);
 

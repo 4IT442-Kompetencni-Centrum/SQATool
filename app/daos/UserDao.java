@@ -8,4 +8,5 @@ import models.User;
 public interface UserDao extends AbstractVersionedDao<User> {
 
     public User getValidUser(String userName, String password);
+
 }

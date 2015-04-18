@@ -15,6 +15,7 @@ import views.html.reward.showAll;
 
 import java.util.List;
 
+@Security.Authenticated(Secured.class)
 public class RewardController extends Controller {
     
     static Form<RewardForm> rewardForm = Form.form(RewardForm.class);

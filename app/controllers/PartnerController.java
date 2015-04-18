@@ -15,6 +15,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.Configuration;
 import service.PartnerConverter;
 import views.data.ContactPersonDto;
@@ -39,6 +40,7 @@ import daos.impl.DAOs;
  * @see ContactPerson
  * @see ContactPersonDto
  */
+@Security.Authenticated(Secured.class)
 public class PartnerController extends Controller {
 	/**
 	 * Action shows all projects where user participates

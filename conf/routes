@@ -5,10 +5,11 @@
 # Home page
 GET         /                                     controllers.Application.index()
 # Login page
-GET         /login                                controllers.Application.showLoginPage()
+GET         /login                                controllers.Login.showLoginPage()
 POST        /login                                controllers.Login.authenticate()
 GET         /test                                 controllers.Application.testDAO()
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
+GET         /logout                               controllers.Login.logout()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                         controllers.Assets.at(path="/public", file)
 
@@ -59,7 +60,7 @@ GET         /uzivatel/json/:query                 controllers.UserController.get
 #tests 
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
 GET         /initPartners                         controllers.Init.initPartners()
-
+GET         /initStateUser                        controllers.Init.initStateUser()
 
 #activities
 GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)
@@ -69,7 +70,5 @@ GET         /aktivity/upravit/:activityId         controllers.ActivityController
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
 GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
 
-
-
 #users
-GET			/uzivatel/:id/detail					controllers.UserController.show(id:Long)
+GET			/uzivatel/:id/detail				  controllers.UserController.show(id:Long)
