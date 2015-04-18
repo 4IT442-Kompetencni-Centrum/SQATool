@@ -9,6 +9,7 @@ import javax.persistence.OptimisticLockException;
 import models.ContactPerson;
 import models.Partner;
 import models.Project;
+import models.User;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -16,8 +17,10 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.ActionsEnum;
 import service.Configuration;
 import service.PartnerConverter;
+import service.SecurityService;
 import views.data.ContactPersonDto;
 import views.data.MenuDto;
 import views.data.PartnerDto;
@@ -49,6 +52,10 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=true)
 	public static Result showAll(Integer page) {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_SHOW_ALL)) {
+			return redirect(routes.Application.accessDenied());
+		}
 		if (page == null) {
 			page = 0;
 			Logger.debug("No page number is given. Setting 0 (first page).");
@@ -58,7 +65,7 @@ public class PartnerController extends Controller {
 		Integer totalPartners = DAOs.getPartnerDao().getNumberOfPartners();
 		Integer numberOfPages = totalPartners % Configuration.PAGE_SIZE == 0 ? totalPartners/Configuration.PAGE_SIZE : totalPartners/Configuration.PAGE_SIZE + 1; 
 		Logger.debug("Page with list of partners is shown. Number of partners id db is {}", totalPartners);
-		return ok(partners.render(PartnerConverter.convertListToDto(proj), getMainMenu(), numberOfPages, page));
+		return ok(partners.render(PartnerConverter.convertListToDto(proj), getMainMenu(user), numberOfPages, page));
 	
 	}
 	
@@ -66,10 +73,15 @@ public class PartnerController extends Controller {
 	 * Action shows form for adding new partner
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public static Result create() {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_CREATE)) {
+			return redirect(routes.Application.accessDenied());
+		}		
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class);
 		Logger.debug("Page with form for creating new partner is shown.");
-		return ok(partnersCreate.render(partnerForm, getBackToListMenu()));
+		return ok(partnersCreate.render(partnerForm, getBackToListMenu(user)));
 	}
 	
 	/**
@@ -79,6 +91,10 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=false)
 	public static Result edit(Long partnerId) {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_EDIT)) {
+			return redirect(routes.Application.accessDenied());
+		}	
 		PartnerDto dto = PartnerConverter.convertToDto(DAOs.getPartnerDao().findById(partnerId));
 		if (dto == null) {
 			Logger.info("Partner with id {} was not found.", partnerId);
@@ -86,7 +102,7 @@ public class PartnerController extends Controller {
 		}
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).fill(dto);
 		Logger.debug("Page with form for editing partner is shown. Edited partner has id {} and name {}.", dto.getPartnerId(), dto.getName());
-		return ok(partnersEdit.render(partnerForm, getBackToListMenu(), false));
+		return ok(partnersEdit.render(partnerForm, getBackToListMenu(user), false));
 	}
 	
 	/**
@@ -96,6 +112,10 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=false)
 	public static Result updatePartner(Boolean forceNext) {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_EDIT)) {
+			return redirect(routes.Application.accessDenied());
+		}	
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).bindFromRequest();
 		Partner partner = PartnerConverter.convertToEntity(partnerForm.get());
 		if (forceNext != null && forceNext) {
@@ -116,7 +136,7 @@ public class PartnerController extends Controller {
 			DAOs.getPartnerDao().update(partner);
 		} catch (OptimisticLockException e) {
 			Logger.info("Partner {} was edited by another user. ", partnerForm.get());
-			return ok(partnersEdit.render(partnerForm, getBackToListMenu(), true));
+			return ok(partnersEdit.render(partnerForm, getBackToListMenu(user), true));
 		}
 		Logger.debug("Partner update operation was called.");
 		return redirect(routes.PartnerController.showAll(0));
@@ -129,6 +149,10 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=false)
 	public static Result delete(Long partnerId) {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_DELETE)) {
+			return redirect(routes.Application.accessDenied());
+		}	
 		Partner partner = DAOs.getPartnerDao().findById(partnerId);
 		if (partner != null) {
 			partner.setProjects(new HashSet<Project>());
@@ -147,6 +171,10 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=true)
 	public static Result getPartnersByPattern(String substr) {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_SHOW_ALL)) {
+			return redirect(routes.Application.accessDenied());
+		}	
 		List<Partner> partners = DAOs.getPartnerDao().findByName(substr);
 		Logger.debug("Number of results for query {} is {}.", substr, partners.size());
 		
@@ -169,22 +197,28 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=false)
 	public static Result detail(Long partnerId) {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_DETAIL)) {
+			return redirect(routes.Application.accessDenied());
+		}	
 		Partner partner = DAOs.getPartnerDao().findById(partnerId);
 		if (partner == null) {
 			Logger.info("Partner with id {} was not found, detail can not be shown.", partnerId);
 			return redirect(routes.PartnerController.partnerNotFound(partnerId));
 		}
 		Logger.debug("Partner detail page is shown.");
-		return ok(partnerDetail.render(partner, getBackToListMenu()));
+		return ok(partnerDetail.render(partner, getBackToListMenu(user)));
 	}
 	/**
 	 * Action shows page partner not found.
 	 * @param partnerId
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public static Result partnerNotFound(Long partnerId) {
+		User user = SecurityService.fetchUser(session("authid"));
 		Logger.debug("Partner not found page is shown. Requested id was {}.", partnerId);
-		return ok(partnerNotFound.render(partnerId, getBackToListMenu()));
+		return ok(partnerNotFound.render(partnerId, getBackToListMenu(user)));
 	}
 	
 	/**
@@ -193,6 +227,10 @@ public class PartnerController extends Controller {
 	 */
 	@Transactional(readOnly=false)
 	public static Result saveNewPartner() {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_CREATE)) {
+			return redirect(routes.Application.accessDenied());
+		}	
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).bindFromRequest();
 		Partner newPartner = PartnerConverter.convertToEntity(partnerForm.get());
 		newPartner.setVisible(true);
@@ -209,29 +247,30 @@ public class PartnerController extends Controller {
 	 * Method returns list of items to left side menu. This implementation returns one item - back to list
 	 * @return
 	 */
-	private static List<MenuDto> getBackToListMenu() {
+	private static List<MenuDto> getBackToListMenu(User user) {
 		List<MenuDto> result = new ArrayList<MenuDto>();
-		
-		MenuDto back = new MenuDto();
-		back.setGlyphicon("triangle-left");
-		back.setLabel("Zpět na seznam partnerů");
-		back.setUrl(routes.PartnerController.showAll(0).absoluteURL(request()));
-		result.add(back);
-		
+		if (SecurityService.hasAccess(user, ActionsEnum.PARTNER_SHOW_ALL)) {
+			MenuDto back = new MenuDto();
+			back.setGlyphicon("triangle-left");
+			back.setLabel("Zpět na seznam partnerů");
+			back.setUrl(routes.PartnerController.showAll(0).absoluteURL(request()));
+			result.add(back);
+		}
 		return result;
 	}
 	/**
 	 * Method returns list of items to left side menu. This implementation returns one item - add new
 	 * @return
 	 */
-	private static List<MenuDto> getMainMenu() {
+	private static List<MenuDto> getMainMenu(User user) {
 		List<MenuDto> result = new ArrayList<MenuDto>();
-		
-		MenuDto newProject = new MenuDto();
-		newProject.setGlyphicon("plus");
-		newProject.setLabel("Přidat partnera");
-		newProject.setUrl(routes.PartnerController.create().absoluteURL(request()));
-		result.add(newProject);
+		if (SecurityService.hasAccess(user, ActionsEnum.PARTNER_CREATE)) {
+			MenuDto newProject = new MenuDto();
+			newProject.setGlyphicon("plus");
+			newProject.setLabel("Přidat partnera");
+			newProject.setUrl(routes.PartnerController.create().absoluteURL(request()));
+			result.add(newProject);
+		}
 		
 		return result;		
 	}

@@ -3,7 +3,9 @@ package service;
 import java.util.HashMap;
 import java.util.List;
 
+import daos.impl.DAOs;
 import models.RoleInBusiness;
+import models.User;
 import play.Logger;
 /**
  * Secirity service for checking, if user has permission to do given actions.
@@ -20,7 +22,12 @@ public class SecurityService {
 	 * @param action
 	 * @return
 	 */
-	public static boolean hasAccess(List<RoleInBusiness> userRoles, ActionsEnum action) {
+	public static boolean hasAccess(User user, ActionsEnum action) {
+		if (user == null) {
+			Logger.warn("Access denied. User is null");
+			return false;
+		}
+		List<RoleInBusiness> userRoles = user.getRoleInBusiness();
 		if (userRoles == null || action == null) {
 			Logger.error("Access denied. User has no permissions or action is null.");
 			return false;
@@ -28,14 +35,42 @@ public class SecurityService {
 		if (accessMap == null) {
 			initAccessMap();
 		}
+		HashMap<String, Boolean> actionRow = accessMap.get(action);
+		if (actionRow == null) {
+			Logger.error("Access denied. No row for action {} was found in access map.", action);
+			return false;
+		}
 		for (RoleInBusiness userRole : userRoles) {
-			if (accessMap.get(action).get(userRole.getTypeRoleInBusiness().getKey())) {
+			Boolean permission = actionRow.get(userRole.getTypeRoleInBusiness().getKey());
+			if (permission == null) {
+				Logger.error("Access denied. User has unknown role {}.", userRole);
+				return false;
+			}
+			if (permission) {
 				Logger.debug("Access granted for user with permissions {} for action", userRoles, action);
 				return true;
 			}
 		}
 		Logger.warn("Access denied for user with permissions {} for action {}", userRoles, action);
 		return false;
+	}
+	/**
+	 * Method loads user from db
+	 * @param id
+	 * @return
+	 */
+	public static User fetchUser(String id) {
+		if (id == null) {
+			return null;
+		}
+		Long userId = null;
+		try {
+			userId = Long.parseLong(id);
+		} catch (Exception e) {
+			Logger.error("Invalid char sequence {} is stored in session for id.", id);
+			return null;
+		}
+		return DAOs.getUserDao().findById(userId);
 	}
 	
 	/**
@@ -46,12 +81,74 @@ public class SecurityService {
 			Logger.info("Initialization of accessRights map");
 			accessMap = new HashMap<ActionsEnum, HashMap<String,Boolean>>();
 		}
+		HashMap<String, Boolean> projectShowAll = new HashMap<String, Boolean>();
+		projectShowAll.put(EnumerationWithKeys.MEMBER_KEY, true);
+		projectShowAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		projectShowAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		projectShowAll.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PROJECT_SHOW_ALL, projectShowAll);
+		
 		HashMap<String, Boolean> projectCreateMap = new HashMap<String, Boolean>();
 		projectCreateMap.put(EnumerationWithKeys.MEMBER_KEY, false);
-		projectCreateMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		projectCreateMap.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
 		projectCreateMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		projectCreateMap.put(EnumerationWithKeys.ADMIN_KEY, true);
-		//TODO doplnit dalsi
-		accessMap.put(ActionsEnum.PROJECT_MANAGEMENT, projectCreateMap);
+		accessMap.put(ActionsEnum.PROJECT_CREATE, projectCreateMap);
+		
+		HashMap<String, Boolean> projectDetailMap = new HashMap<String, Boolean>();
+		projectDetailMap.put(EnumerationWithKeys.MEMBER_KEY, true);
+		projectDetailMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		projectDetailMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		projectDetailMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PROJECT_DETAIL, projectDetailMap);
+		
+		HashMap<String, Boolean> projectEditMap = new HashMap<String, Boolean>();
+		projectEditMap.put(EnumerationWithKeys.MEMBER_KEY, true);
+		projectEditMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		projectEditMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		projectEditMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PROJECT_EDIT, projectEditMap);
+	
+		HashMap<String, Boolean> projectDeleteMap = new HashMap<String, Boolean>();
+		projectDeleteMap.put(EnumerationWithKeys.MEMBER_KEY, false);
+		projectDeleteMap.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		projectDeleteMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		projectDeleteMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PROJECT_DELETE, projectDeleteMap);
+		
+		HashMap<String, Boolean> partnerShowAllMap = new HashMap<String, Boolean>();
+		partnerShowAllMap.put(EnumerationWithKeys.MEMBER_KEY, true);
+		partnerShowAllMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		partnerShowAllMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		partnerShowAllMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PARTNER_SHOW_ALL, partnerShowAllMap);
+		
+		HashMap<String, Boolean> partnerCreateMap = new HashMap<String, Boolean>();
+		partnerCreateMap.put(EnumerationWithKeys.MEMBER_KEY, false);
+		partnerCreateMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		partnerCreateMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		partnerCreateMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PARTNER_CREATE, partnerCreateMap);
+		
+		HashMap<String, Boolean> partnerDeleteMap = new HashMap<String, Boolean>();
+		partnerDeleteMap.put(EnumerationWithKeys.MEMBER_KEY, false);
+		partnerDeleteMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		partnerDeleteMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		partnerDeleteMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PARTNER_DELETE, partnerDeleteMap);
+		
+		HashMap<String, Boolean> partnerDetailMap = new HashMap<String, Boolean>();
+		partnerDetailMap.put(EnumerationWithKeys.MEMBER_KEY, true);
+		partnerDetailMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		partnerDetailMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		partnerDetailMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PARTNER_DETAIL, partnerDetailMap);
+		
+		HashMap<String, Boolean> partnerUpdateMap = new HashMap<String, Boolean>();
+		partnerUpdateMap.put(EnumerationWithKeys.MEMBER_KEY, false);
+		partnerUpdateMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		partnerUpdateMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		partnerUpdateMap.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.PARTNER_EDIT, partnerUpdateMap);
 	}
 }

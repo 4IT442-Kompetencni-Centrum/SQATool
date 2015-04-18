@@ -70,5 +70,8 @@ GET         /aktivity/upravit/:activityId         controllers.ActivityController
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
 GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
 
+#access denied
+GET			/pristupOdepren						  controllers.Application.accessDenied()
+
 #users
 GET			/uzivatel/:id/detail				  controllers.UserController.show(id:Long)
