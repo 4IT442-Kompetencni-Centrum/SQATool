@@ -24,6 +24,7 @@ import views.html.projects.projects;
 import views.html.projects.projectsCreate;
 import views.html.projects.projectsEdit;
 import daos.impl.DAOs;
+import play.mvc.Security;
 /**
  * Controller for actions related to Project
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
@@ -31,6 +32,7 @@ import daos.impl.DAOs;
  * @see Project
  * @see ProjectDto
  */
+@Security.Authenticated(Secured.class)
 public class ProjectController extends Controller{
 
 	

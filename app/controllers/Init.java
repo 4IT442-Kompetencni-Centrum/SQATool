@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Partner;
+import models.StateUser;
 import models.TypeRoleInBusiness;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -11,8 +12,6 @@ import daos.impl.DAOs;
 
 public class Init extends Controller {
 
-
-	
     @Transactional(readOnly=false)
     public static Result initRolesInBusiness() {
     	TypeRoleInBusiness admin = new TypeRoleInBusiness();
@@ -71,5 +70,25 @@ public class Init extends Controller {
     	DAOs.getPartnerDao().create(partner6);
     	
     	return ok(index.render("4IT442 - Software Quality Assurance Tool"));
+    }
+
+    @Transactional(readOnly = false)
+    public static Result initStateUser(){
+        StateUser active = new StateUser();
+        active.setKey(EnumerationWithKeys.STATE_USER_ACTIVE);
+        active.setValue("Aktivní");
+        DAOs.getStateUserDao().create(active);
+
+        StateUser applicant = new StateUser();
+        applicant.setKey(EnumerationWithKeys.STATE_USER_APPLICANT);
+        applicant.setValue("Žadatel");
+        DAOs.getStateUserDao().create(applicant);
+
+        StateUser inactive = new StateUser();
+        inactive.setKey(EnumerationWithKeys.STATE_USER_INACTIVE);
+        inactive.setValue("Neaktivní");
+        DAOs.getStateUserDao().create(inactive);
+
+        return ok(index.render("4IT442 - Software Quality Assurance Tool"));
     }
 }

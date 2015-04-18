@@ -8,4 +8,11 @@ import models.User;
 public interface UserDao extends AbstractVersionedDao<User> {
 
     public User getValidUser(String userName, String password);
+
+
+    /**
+     * Returns all users as map for select box
+     * @return Map<String,String>
+     */
+    public Map<String,String> getUsersForSelectBox();
 }

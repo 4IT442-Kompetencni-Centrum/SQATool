@@ -1,24 +1,24 @@
 package controllers;
 
+import daos.UserDao;
 import models.Project;
 import models.User;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.ActionsEnum;
 import service.SecurityService;
 import views.html.index;
 import views.html.login;
 import daos.impl.DAOs;
 
+@Security.Authenticated(Secured.class)
 public class Application extends Controller {
 
+    @Transactional
     public static Result index() {
         return ok(index.render("4IT442 - Software Quality Assurance Tool"));
-    }
-
-    public static Result showLoginPage(){
-        return ok(login.render());
     }
 
     @Transactional(readOnly=false)

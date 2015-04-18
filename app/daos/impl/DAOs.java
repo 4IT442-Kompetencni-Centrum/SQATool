@@ -1,6 +1,7 @@
 package daos.impl;
 
 import daos.*;
+import models.StateUser;
 
 /**
  * Storage class for DAOs.
@@ -21,6 +22,7 @@ public class DAOs {
 	private static TypeRoleOnActivityDao typeRoleOnActivityDao;
 	private static UserLoggedOnActivityDao userLoggedOnActivityDao;
 	private static RewardDao rewardDao;
+    private static StateUserDao stateUserDao;
 
 	public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -112,4 +114,11 @@ public class DAOs {
 		}
 		return rewardDao;
 	}
+
+    public static StateUserDao getStateUserDao(){
+        if(stateUserDao == null){
+            stateUserDao = new StateUserDaoImpl();
+        }
+        return stateUserDao;
+    }
 }

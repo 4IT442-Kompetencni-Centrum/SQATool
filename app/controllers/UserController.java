@@ -3,6 +3,7 @@ package controllers;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 public class UserController extends Controller {
 

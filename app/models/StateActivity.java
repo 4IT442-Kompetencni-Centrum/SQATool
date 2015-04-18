@@ -28,7 +28,6 @@ public class StateActivity extends AbstractEnumWithKey{
      */
     public StateActivity setStateActivityId(Long typeActivityId) {
         this.stateActivityId = typeActivityId;
-
         return this;
     }
 }
