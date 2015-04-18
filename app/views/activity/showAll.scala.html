@@ -1,5 +1,6 @@
-@(activities: List[Activity], numberOfPages: Integer, activePage: Integer)
-@main("Aktivity"){
+@import views.data.MenuDto
+@(activities: List[Activity], numberOfPages: Integer, activePage: Integer, menu: List[MenuDto])
+@main("Aktivity", "activities", menu){
     <h1>Aktivity</h1>
 
     <table class="table table-hover table-striped">

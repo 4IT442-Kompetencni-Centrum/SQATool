@@ -19,8 +19,7 @@ public class RewardForm {
 
     protected String description;
 
-    //TODO po dodělání entity uživatele odkomentovat
-    //@Constraints.Required
+    @Constraints.Required
     private Long userId;
 
     public Long getRewardId() {

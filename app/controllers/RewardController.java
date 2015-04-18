@@ -8,12 +8,15 @@ import play.data.Form;
 import play.mvc.*;
 import play.db.jpa.Transactional;
 import service.Configuration;
+import views.data.MenuDto;
 import views.html.reward.edit;
-import views.html.reward.newItem;
+import views.html.reward.add;
 import views.html.reward.show;
 import views.html.reward.showAll;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Security.Authenticated(Secured.class)
 public class RewardController extends Controller {
@@ -30,7 +33,7 @@ public class RewardController extends Controller {
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total/Configuration.PAGE_SIZE : total/Configuration.PAGE_SIZE + 1;
 
 
-        return ok(showAll.render(rewards, numberOfPages, page));
+        return ok(showAll.render(rewards, numberOfPages, page, getMainMenu()));
     }
 
 
@@ -41,7 +44,7 @@ public class RewardController extends Controller {
         if(reward == null)
             return notFound();
 
-        return ok(show.render(reward));
+        return ok(show.render(reward, getBackToListMenu()));
     }
 
     @Transactional(readOnly=false)
@@ -55,8 +58,11 @@ public class RewardController extends Controller {
         return redirect(controllers.routes.RewardController.showAll(0));
     }
 
-    public static Result newItem() {
-        return ok(newItem.render(rewardForm));
+    @Transactional(readOnly=true)
+    public static Result add() {
+        Map users = DAOs.getUserDao().getUsersForSelectBox();
+
+        return ok(add.render(rewardForm, users, getBackToListMenu()));
     }
 
     @Transactional(readOnly=false)
@@ -65,7 +71,8 @@ public class RewardController extends Controller {
 
         if(form.hasErrors())
         {
-            return badRequest(newItem.render(form));
+            Map users = DAOs.getUserDao().getUsersForSelectBox();
+            return badRequest(add.render(form,users,getBackToListMenu()));
         }
 
         Reward reward = form.get().getReward();
@@ -77,12 +84,14 @@ public class RewardController extends Controller {
     @Transactional(readOnly=true)
     public static Result edit(Long rewardId){
         Reward reward = DAOs.getRewardDao().findById(rewardId);
+
         if(reward == null)
             return notFound();
 
+        Map users = DAOs.getUserDao().getUsersForSelectBox();
         Form<RewardForm> form = rewardForm.fill(new RewardForm(reward));
         
-        return ok(edit.render(form));
+        return ok(edit.render(form, users, getBackToListMenu()));
     }
 
     @Transactional(readOnly=false)
@@ -91,7 +100,8 @@ public class RewardController extends Controller {
 
         if(form.hasErrors())
         {
-            return badRequest(edit.render(form));
+            Map users = DAOs.getUserDao().getUsersForSelectBox();
+            return badRequest(edit.render(form, users, getBackToListMenu()));
         }
 
         Reward reward = form.get().getReward();
@@ -99,4 +109,38 @@ public class RewardController extends Controller {
 
         return redirect(controllers.routes.RewardController.showAll(0));
     }
+
+
+    /**
+     * Method returns list of items to left side menu. This implementation returns one item - back to list
+     * @return
+     */
+    private static List<MenuDto> getBackToListMenu() {
+        List<MenuDto> result = new ArrayList<MenuDto>();
+
+        MenuDto back = new MenuDto();
+        back.setGlyphicon("triangle-left");
+        back.setLabel("Zpět na seznam odměn");
+        back.setUrl(routes.RewardController.showAll(0).absoluteURL(request()));
+        result.add(back);
+
+        return result;
+    }
+
+    /**
+     * Method returns list of items to left side menu. This implementation returns one item - add new
+     * @return
+     */
+    private static List<MenuDto> getMainMenu() {
+        List<MenuDto> result = new ArrayList<MenuDto>();
+
+        MenuDto newReward = new MenuDto();
+        newReward.setGlyphicon("plus");
+        newReward.setLabel("Přidat odměnu");
+        newReward.setUrl(routes.RewardController.add().absoluteURL(request()));
+        result.add(newReward);
+
+        return result;
+    }
+
 }

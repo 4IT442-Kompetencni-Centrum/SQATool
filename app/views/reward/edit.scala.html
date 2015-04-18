@@ -1,6 +1,7 @@
-@(form: Form[forms.RewardForm])
+@import views.data.MenuDto
+@(form: Form[forms.RewardForm], users: Map[String,String], menu: List[MenuDto])
 @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
-@main("Odměna"){
+@main("Odměna","rewards",menu){
     <h1>Nová odměna</h1>
 
     @b3.form(action = routes.RewardController.update()){

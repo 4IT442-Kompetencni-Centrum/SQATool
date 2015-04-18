@@ -1,6 +1,7 @@
-@(form: Form[forms.ActivityForm], activityTypes: Map[String,String])
+@import views.data.MenuDto
+@(form: Form[forms.ActivityForm], activityTypes: Map[String,String], menu: List[MenuDto])
 @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-3", "col-md-9") }
-@main("Aktivita"){
+@main("Aktivita", "activities", menu){
     <h1>Nová aktivita</h1>
 
     @b3.form(action = routes.ActivityController.create()){
@@ -9,11 +10,11 @@
         @b3.textarea(form("description"), '_label -> "Popis")
 
         <div class="form-group" id="time_field">
-            <label class="control-label col-md-3 " for="timeFrom">Datum, čas Od</label>
+            <label class="control-label col-md-3 " for="timeFrom">Začátek</label>
             <div class="col-md-4">
                 <input type="text" class="form-control datetimepicker" id="timeFrom" name="@form("timeFrom").name" value="@form("timeFrom").value"/>
             </div>
-            <label class="control-label col-md-1" style="text-align: center" for="timeTo">Do</label>
+            <label class="control-label col-md-1" style="text-align: center" for="timeTo">Konec</label>
             <div class="col-md-4">
                 <input type="text" class="form-control datetimepicker" id="timeTo" name="@form("timeTo").name" value="@form("timeTo").value" data-minDate="#timeFrom"/>
             </div>
