@@ -1,5 +1,7 @@
 package daos;
 
+import java.util.Map;
+
 import models.User;
 
 /**
