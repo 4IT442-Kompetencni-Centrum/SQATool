@@ -9,11 +9,13 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.Configuration;
+import views.data.MenuDto;
 import views.html.activity.add;
 import views.html.activity.edit;
 import views.html.activity.show;
 import views.html.activity.showAll;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class ActivityController extends Controller {
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total / Configuration.PAGE_SIZE : total / Configuration.PAGE_SIZE + 1;
 
 
-        return ok(showAll.render(activities, numberOfPages, page));
+        return ok(showAll.render(activities, numberOfPages, page, getMainMenu()));
     }
 
     @Transactional(readOnly = true)
@@ -41,7 +43,7 @@ public class ActivityController extends Controller {
         if (activity == null)
             return notFound();
 
-        return ok(show.render(activity));
+        return ok(show.render(activity, getBackToListMenu()));
     }
 
     @Transactional(readOnly = false)
@@ -59,7 +61,7 @@ public class ActivityController extends Controller {
     public static Result add() {
         Map<String,String> activityTypes = DAOs.getTypeActivityDao().getOptions();
 
-        return ok(add.render(activityForm, activityTypes));
+        return ok(add.render(activityForm, activityTypes,getBackToListMenu()));
     }
 
     @Transactional(readOnly = false)
@@ -69,7 +71,7 @@ public class ActivityController extends Controller {
 
 
         if (form.hasErrors()) {
-            return badRequest(add.render(form,activityTypes));
+            return badRequest(add.render(form,activityTypes,getBackToListMenu()));
         }
 
         Activity activity = form.get().getActivity();
@@ -88,7 +90,7 @@ public class ActivityController extends Controller {
 
         Form<ActivityForm> form = activityForm.fill(new ActivityForm(activity));
 
-        return ok(edit.render(form,activityTypes));
+        return ok(edit.render(form,activityTypes,getBackToListMenu()));
     }
 
     @Transactional(readOnly = false)
@@ -97,13 +99,45 @@ public class ActivityController extends Controller {
         Map<String,String> activityTypes = DAOs.getTypeActivityDao().getOptions();
 
         if (form.hasErrors()) {
-            return badRequest(edit.render(form,activityTypes));
+            return badRequest(edit.render(form,activityTypes,getBackToListMenu()));
         }
 
         Activity activity = form.get().getActivity();
         DAOs.getActivityDao().update(activity);
 
         return redirect(controllers.routes.ActivityController.showAll(0));
+    }
+
+    /**
+     * Method returns list of items to left side menu. This implementation returns one item - back to list
+     * @return
+     */
+    private static List<MenuDto> getBackToListMenu() {
+        List<MenuDto> result = new ArrayList<MenuDto>();
+
+        MenuDto back = new MenuDto();
+        back.setGlyphicon("triangle-left");
+        back.setLabel("Zpět na seznam odměn");
+        back.setUrl(routes.ActivityController.showAll(0).absoluteURL(request()));
+        result.add(back);
+
+        return result;
+    }
+
+    /**
+     * Method returns list of items to left side menu. This implementation returns one item - add new
+     * @return
+     */
+    private static List<MenuDto> getMainMenu() {
+        List<MenuDto> result = new ArrayList<MenuDto>();
+
+        MenuDto newActivity = new MenuDto();
+        newActivity.setGlyphicon("plus");
+        newActivity.setLabel("Přidat aktivitu");
+        newActivity.setUrl(routes.ActivityController.add().absoluteURL(request()));
+        result.add(newActivity);
+
+        return result;
     }
 
 }
