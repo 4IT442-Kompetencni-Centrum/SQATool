@@ -20,8 +20,11 @@ public enum ActionsEnum {
 	PARTNER_DELETE,
 	
 	//activities actions
-	//TODO ajiranek
-	
+	ACTIVITY_SHOW_ALL,
+	ACTIVITY_SHOW,
+	ACTIVITY_ADD,
+	ACTIVITY_EDIT,
+	ACTIVITY_DELETE,
 	//user actions
 	//TODO mcech
 	//TODO pkadlec

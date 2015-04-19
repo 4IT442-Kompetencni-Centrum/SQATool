@@ -4,12 +4,16 @@ package controllers;
 import daos.impl.DAOs;
 import forms.ActivityForm;
 import models.Activity;
+import models.User;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.ActionsEnum;
+import service.AuthorizedAction.Authorize;
 import service.Configuration;
+import service.SecurityService;
 import views.data.MenuDto;
 import views.html.activity.add;
 import views.html.activity.edit;
@@ -26,6 +30,7 @@ public class ActivityController extends Controller {
 
 
     @Transactional(readOnly = true)
+    @Authorize(action = ActionsEnum.ACTIVITY_SHOW_ALL)
     public static Result showAll(Integer page) {
         page = page != null ? page : 0;
 
@@ -39,6 +44,7 @@ public class ActivityController extends Controller {
     }
 
     @Transactional(readOnly = true)
+    @Authorize(action = ActionsEnum.ACTIVITY_SHOW)
     public static Result show(Long activityId) {
         Activity activity = DAOs.getActivityDao().findById(activityId);
 
@@ -49,6 +55,7 @@ public class ActivityController extends Controller {
     }
 
     @Transactional(readOnly = false)
+    @Authorize(action = ActionsEnum.ACTIVITY_DELETE)
     public static Result delete(Long activityId) {
         Activity activity = DAOs.getActivityDao().findById(activityId);
         if (activity == null)
@@ -60,20 +67,22 @@ public class ActivityController extends Controller {
     }
 
     @Transactional(readOnly = true)
+    @Authorize(action = ActionsEnum.ACTIVITY_ADD)
     public static Result add() {
-        Map<String,String> activityTypes = DAOs.getTypeActivityDao().getOptions();
+        Map<String, String> activityTypes = DAOs.getTypeActivityDao().getOptions();
 
-        return ok(add.render(activityForm, activityTypes,getBackToListMenu()));
+        return ok(add.render(activityForm, activityTypes, getBackToListMenu()));
     }
 
     @Transactional(readOnly = false)
+    @Authorize(action = ActionsEnum.ACTIVITY_ADD)
     public static Result create() {
         Form<ActivityForm> form = activityForm.bindFromRequest();
-        Map<String,String> activityTypes = DAOs.getTypeActivityDao().getOptions();
+        Map<String, String> activityTypes = DAOs.getTypeActivityDao().getOptions();
 
 
         if (form.hasErrors()) {
-            return badRequest(add.render(form,activityTypes,getBackToListMenu()));
+            return badRequest(add.render(form, activityTypes, getBackToListMenu()));
         }
 
         Activity activity = form.get().getActivity();
@@ -83,25 +92,27 @@ public class ActivityController extends Controller {
     }
 
     @Transactional(readOnly = true)
+    @Authorize(action = ActionsEnum.ACTIVITY_EDIT)
     public static Result edit(Long activityId) {
         Activity activity = DAOs.getActivityDao().findById(activityId);
-        Map<String,String> activityTypes = DAOs.getTypeActivityDao().getOptions();
+        Map<String, String> activityTypes = DAOs.getTypeActivityDao().getOptions();
 
         if (activity == null)
             return notFound();
 
         Form<ActivityForm> form = activityForm.fill(new ActivityForm(activity));
 
-        return ok(edit.render(form,activityTypes,getBackToListMenu()));
+        return ok(edit.render(form, activityTypes, getBackToListMenu()));
     }
 
     @Transactional(readOnly = false)
+    @Authorize(action = ActionsEnum.ACTIVITY_EDIT)
     public static Result update() {
         Form<ActivityForm> form = activityForm.bindFromRequest();
-        Map<String,String> activityTypes = DAOs.getTypeActivityDao().getOptions();
+        Map<String, String> activityTypes = DAOs.getTypeActivityDao().getOptions();
 
         if (form.hasErrors()) {
-            return badRequest(edit.render(form,activityTypes,getBackToListMenu()));
+            return badRequest(edit.render(form, activityTypes, getBackToListMenu()));
         }
 
         Activity activity = form.get().getActivity();
@@ -112,34 +123,41 @@ public class ActivityController extends Controller {
 
     /**
      * Method returns list of items to left side menu. This implementation returns one item - back to list
+     *
      * @return
      */
     private static List<MenuDto> getBackToListMenu() {
         List<MenuDto> result = new ArrayList<MenuDto>();
-
-        MenuDto back = new MenuDto();
-        back.setGlyphicon("triangle-left");
-        back.setLabel("Zpět na seznam odměn");
-        back.setUrl(routes.ActivityController.showAll(0).absoluteURL(request()));
-        result.add(back);
+        User user = SecurityService.fetchUser(session("authid"));
+        if (SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_SHOW_ALL)) {
+            MenuDto back = new MenuDto();
+            back.setGlyphicon("triangle-left");
+            back.setLabel("Zpět na seznam odměn");
+            back.setUrl(routes.ActivityController.showAll(0).absoluteURL(request()));
+            result.add(back);
+        }
 
         return result;
     }
 
     /**
      * Method returns list of items to left side menu. This implementation returns one item - add new
+     *
      * @return
      */
     private static List<MenuDto> getMainMenu() {
         List<MenuDto> result = new ArrayList<MenuDto>();
-
-        MenuDto newActivity = new MenuDto();
-        newActivity.setGlyphicon("plus");
-        newActivity.setLabel("Přidat aktivitu");
-        newActivity.setUrl(routes.ActivityController.add().absoluteURL(request()));
-        result.add(newActivity);
+        User user = SecurityService.fetchUser(session("authid"));
+        if (SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_ADD)) {
+            MenuDto newActivity = new MenuDto();
+            newActivity.setGlyphicon("plus");
+            newActivity.setLabel("Přidat aktivitu");
+            newActivity.setUrl(routes.ActivityController.add().absoluteURL(request()));
+            result.add(newActivity);
+        }
 
         return result;
     }
+
 
 }
