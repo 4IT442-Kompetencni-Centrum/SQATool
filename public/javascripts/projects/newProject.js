@@ -1,4 +1,9 @@
 $(document).ready(function(){
+		$("form").submit(function(){
+			//magic trick ;-)
+			//to submit form correctly, all temp fields (without index) have to be removed
+			$("input[name='partnerNames[]']").remove();
+		});
 		var actualItems = {};
 		//init first autocomplete for partner
 		$(".partnerRow .partnerElem").typeahead(null, {

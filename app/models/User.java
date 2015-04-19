@@ -1,9 +1,5 @@
 package models;
 
-
-import play.data.validation.Constraints;
-import play.db.jpa.JPA;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,37 +10,24 @@ public class User extends AbstractVersionedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
-    @Constraints.Required
-    public String userName;
-    @Constraints.Required
+    public String username;
     public String password;
-    public String loginToken;
     @OneToMany(mappedBy="user")
     private List<RoleInBusiness> roleInBusiness;
-    
-    private String degree;
-    private String email;
-    private String firstName;
-    private String lastName;
-    
-    
+    public String degree;
+    public String email;
+    public String firstName;
+    public String lastName;
+    @ManyToOne(fetch=FetchType.EAGER)
+    public StateUser stateUser;
 
-    public String getDegree() {
-		return degree;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public User(){}
-    public String getUserName(){
-    	return userName;
+    public User(){}
+
+    public User(String userName, String password){
+        this.username = userName;
+        this.password = password;
     }
+
     public List<RoleInBusiness> getRoleInBusiness() {
 		return roleInBusiness;
 	}
@@ -53,20 +36,80 @@ public class User extends AbstractVersionedEntity {
 		this.roleInBusiness = roleInBusiness;
 	}
 
-	public User(String userName, String password){
-        this.userName = userName;
-        this.password = password;
+    @Override
+    public String toString(){
+        return firstName + " " + lastName;
     }
 
-    public static User findById(long id){
-        return JPA.em().find(User.class, id);
-    }
+    
+    
+    public Long getId() {
+		return id;
+	}
 
-    public void save(){
-        JPA.em().persist(this);
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public static class Page{
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getDegree() {
+		return degree;
+	}
+
+	public void setDegree(String degree) {
+		this.degree = degree;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public StateUser getStateUser() {
+		return stateUser;
+	}
+
+	public void setStateUser(StateUser stateUser) {
+		this.stateUser = stateUser;
+	}
+
+
+
+	public static class Page{
 
         private final int pageSize;
         private final long totalRowCount;

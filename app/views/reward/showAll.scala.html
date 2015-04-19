@@ -1,5 +1,6 @@
-@(rewards: List[Reward], numberOfPages: Integer, activePage: Integer)
-@main("Odměny"){
+@import views.data.MenuDto
+@(rewards: List[Reward], numberOfPages: Integer, activePage: Integer, menu: List[MenuDto])
+@main("Odměny", "rewards", menu){
     <h1>Odměny</h1>
 
     <table class="table table-hover table-striped">
@@ -15,7 +16,7 @@
             <tr>
                 <td>
                     <a href="@routes.RewardController.show(reward.getRewardId())">@reward.getRewardId()</a></td>
-                <td> ------ <!--- bude doplněno po implementaci uživatele ---></td>
+                <td>@reward.getUser().getLastName() @reward.getUser().getFirstName()</td>
                 <td>@reward.getAmount() Kč</td>
                 <td>@reward.getDescription()</td>
                 <td>

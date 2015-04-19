@@ -20,4 +20,15 @@ public class UserController extends Controller {
 		
 	}
 		
+	
+	/**
+	 * Action returns JSON array for ajax calls (autocomplete)
+	 * @param query
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public static Result getUserByNamePattern(String query) {
+		//TODO tmichalicka
+		return ok();
+	}
 }

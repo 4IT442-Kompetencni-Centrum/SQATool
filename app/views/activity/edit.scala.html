@@ -1,6 +1,7 @@
-@(form: Form[forms.ActivityForm], activityTypes: Map[String,String])
+@import views.data.MenuDto
+@(form: Form[forms.ActivityForm], activityTypes: Map[String,String], menu: List[MenuDto])
 @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-3", "col-md-9") }
-@main("Aktivita"){
+@main("Aktivita", "activities", menu){
     <h1>Nová aktivita</h1>
 
     @b3.form(action = routes.ActivityController.create()){

@@ -14,4 +14,8 @@ public class EnumerationWithKeys {
 	public static final String ACTIVITY_STATE_EMPTY = "volna";
 	public static final String ACTIVITY_STATE_FULL = "plna";
 
+    public static final String STATE_USER_ACTIVE = "aktivni";
+    public static final String STATE_USER_APPLICANT = "zadatel";
+    public static final String STATE_USER_INACTIVE = "neaktivni";
+
 }

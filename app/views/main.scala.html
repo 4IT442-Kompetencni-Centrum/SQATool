@@ -20,7 +20,7 @@
         <div class="page-header">
             <a href="#"><img src="@routes.Assets.at("images/logo.png")" /></a>
             <div class="pull-right main-nav-block">
-                <p>Logged in as: <span class="bold">John Doe</span><a href="#" class="pull-right" style="margin-right: 15px;">Log out</a></p>
+                <p>Logged in as: <span class="bold"><a href="#">@session.get("user")</a></span><a href="/logout" class="pull-right" style="margin-right: 15px;">Log out</a></p>
                 <ul class="nav nav-pills">
                     <li @if(selectedMenuItem == "profile") { class="active" }><a href="#">Můj profil</a></li>
                     <li @if(selectedMenuItem == "members") { class="active" }><a href="#">Členové</a></li>

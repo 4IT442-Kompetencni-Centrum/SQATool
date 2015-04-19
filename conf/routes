@@ -5,10 +5,11 @@
 # Home page
 GET         /                                     controllers.Application.index()
 # Login page
-GET         /login                                controllers.Application.showLoginPage()
+GET         /login                                controllers.Login.showLoginPage()
 POST        /login                                controllers.Login.authenticate()
 GET         /test                                 controllers.Application.testDAO()
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
+GET         /logout                               controllers.Login.logout()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                         controllers.Assets.at(path="/public", file)
 
@@ -42,20 +43,24 @@ POST        /partneri                             controllers.PartnerController.
 
 # Rewards
 GET         /odmeny                               controllers.RewardController.showAll(page: Integer ?= 0)
-GET         /odmeny/nova                          controllers.RewardController.newItem()
+GET         /odmeny/nova                          controllers.RewardController.add()
 POST        /odmeny/nova/vytvorit                 controllers.RewardController.create()
 GET         /odmeny/upravit/ulozit                controllers.RewardController.update()
 GET         /odmeny/upravit/:rewardId             controllers.RewardController.edit(rewardId: Long)
 GET         /odmeny/:rewardId                     controllers.RewardController.show(rewardId: Long)
 GET         /odmeny/smazat/:rewardId              controllers.RewardController.delete(rewardId: Long)
 
-#partner pages
+#partner actions for ajax calls
 GET         /partneri/json/:query                 controllers.PartnerController.getPartnersByPattern(query: String)
+
+#user actions for ajax calls
+GET         /uzivatel/json/:query                 controllers.UserController.getUserByNamePattern(query: String)
+
 
 #tests 
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
 GET         /initPartners                         controllers.Init.initPartners()
-
+GET         /initStateUser                        controllers.Init.initStateUser()
 
 #activities
 GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)
@@ -65,7 +70,8 @@ GET         /aktivity/upravit/:activityId         controllers.ActivityController
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
 GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
 
-
+#access denied
+GET			/pristupOdepren						  controllers.Application.accessDenied()
 
 #users
-GET			/uzivatel/:id/detail					controllers.UserController.show(id:Long)
+GET			/uzivatel/:id/detail				  controllers.UserController.show(id:Long)
