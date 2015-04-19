@@ -1,5 +1,8 @@
+@import service.ActionsEnum
 @import views.data.MenuDto
+@import service.SecurityService
 @(activities: List[Activity], numberOfPages: Integer, activePage: Integer, menu: List[MenuDto])
+@user = @{SecurityService.fetchUser(session.get("authid"))}
 @main("Aktivity", "activities", menu){
     <h1>Aktivity</h1>
 
@@ -23,8 +26,12 @@
                 <td>@if(activity.getTimeTo() != null){ @activity.getTimeTo().format("dd.MM.yyyy HH:mm") } </td>
                 <td>@activity.getPlace()</td>
                 <td>
-                    <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-xs btn-warning">Upravit</a>
-                    <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">Smazat</a>
+                    @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
+                        <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-xs btn-warning">Upravit</a>
+                    }
+                    @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
+                        <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">Smazat</a>
+                    }
                 </td>
             </tr>
         }
