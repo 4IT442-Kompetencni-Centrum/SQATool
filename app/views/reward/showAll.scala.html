@@ -1,5 +1,8 @@
 @import views.data.MenuDto
+@import service.SecurityService
+@import service.ActionsEnum
 @(rewards: List[Reward], numberOfPages: Integer, activePage: Integer, menu: List[MenuDto])
+@user = @{SecurityService.fetchUser(session.get("authid"))}
 @main("Odměny", "rewards", menu){
     <h1>Odměny</h1>
 
@@ -20,8 +23,12 @@
                 <td>@reward.getAmount() Kč</td>
                 <td>@reward.getDescription()</td>
                 <td>
-                    <a href="@routes.RewardController.edit(reward.getRewardId())" class="btn btn-xs btn-warning">Upravit</a>
-                    <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @reward.getRewardId()?');">Smazat</a>
+                    @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_EDIT)) {
+                        <a href="@routes.RewardController.edit(reward.getRewardId())" class="btn btn-xs btn-warning">Upravit</a>
+                    }
+                    @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_DELETE)) {
+                        <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @reward.getRewardId()?');">Smazat</a>
+                    }
                 </td>
             </tr>
         }

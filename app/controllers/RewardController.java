@@ -4,10 +4,14 @@ package controllers;
 import daos.impl.DAOs;
 import forms.RewardForm;
 import models.Reward;
+import models.User;
 import play.data.Form;
 import play.mvc.*;
 import play.db.jpa.Transactional;
+import service.ActionsEnum;
+import service.AuthorizedAction.Authorize;
 import service.Configuration;
+import service.SecurityService;
 import views.data.MenuDto;
 import views.html.reward.edit;
 import views.html.reward.add;
@@ -24,6 +28,7 @@ public class RewardController extends Controller {
     static Form<RewardForm> rewardForm = Form.form(RewardForm.class);
 
     @Transactional(readOnly=true)
+    @Authorize(action = ActionsEnum.ACTIVITY_SHOW_ALL)
     public static Result showAll(Integer page) {
         page = page != null ? page : 0;
 
@@ -38,6 +43,7 @@ public class RewardController extends Controller {
 
 
     @Transactional(readOnly=true)
+    @Authorize(action = ActionsEnum.ACTIVITY_SHOW)
     public static Result show(Long rewardId) {
         Reward reward = DAOs.getRewardDao().findById(rewardId);
 
@@ -48,6 +54,7 @@ public class RewardController extends Controller {
     }
 
     @Transactional(readOnly=false)
+    @Authorize(action = ActionsEnum.ACTIVITY_DELETE)
     public static Result delete(Long rewardId) {
         Reward reward = DAOs.getRewardDao().findById(rewardId);
         if(reward == null)
@@ -59,6 +66,7 @@ public class RewardController extends Controller {
     }
 
     @Transactional(readOnly=true)
+    @Authorize(action = ActionsEnum.ACTIVITY_ADD)
     public static Result add() {
         Map users = DAOs.getUserDao().getUsersForSelectBox();
 
@@ -66,6 +74,7 @@ public class RewardController extends Controller {
     }
 
     @Transactional(readOnly=false)
+    @Authorize(action = ActionsEnum.ACTIVITY_ADD)
     public static Result create() {
         Form<RewardForm> form = rewardForm.bindFromRequest();
 
@@ -82,6 +91,7 @@ public class RewardController extends Controller {
     }
 
     @Transactional(readOnly=true)
+    @Authorize(action = ActionsEnum.ACTIVITY_EDIT)
     public static Result edit(Long rewardId){
         Reward reward = DAOs.getRewardDao().findById(rewardId);
 
@@ -95,6 +105,7 @@ public class RewardController extends Controller {
     }
 
     @Transactional(readOnly=false)
+    @Authorize(action = ActionsEnum.ACTIVITY_EDIT)
     public static Result update(){
         Form<RewardForm> form = rewardForm.bindFromRequest();
 
@@ -117,12 +128,15 @@ public class RewardController extends Controller {
      */
     private static List<MenuDto> getBackToListMenu() {
         List<MenuDto> result = new ArrayList<MenuDto>();
+        User user = SecurityService.fetchUser(session("authid"));
 
-        MenuDto back = new MenuDto();
-        back.setGlyphicon("triangle-left");
-        back.setLabel("Zpět na seznam odměn");
-        back.setUrl(routes.RewardController.showAll(0).absoluteURL(request()));
-        result.add(back);
+        if (SecurityService.hasAccess(user, ActionsEnum.REWARD_SHOW_ALL)) {
+            MenuDto back = new MenuDto();
+            back.setGlyphicon("triangle-left");
+            back.setLabel("Zpět na seznam odměn");
+            back.setUrl(routes.RewardController.showAll(0).absoluteURL(request()));
+            result.add(back);
+        }
 
         return result;
     }
@@ -133,12 +147,15 @@ public class RewardController extends Controller {
      */
     private static List<MenuDto> getMainMenu() {
         List<MenuDto> result = new ArrayList<MenuDto>();
+        User user = SecurityService.fetchUser(session("authid"));
 
-        MenuDto newReward = new MenuDto();
-        newReward.setGlyphicon("plus");
-        newReward.setLabel("Přidat odměnu");
-        newReward.setUrl(routes.RewardController.add().absoluteURL(request()));
-        result.add(newReward);
+        if (SecurityService.hasAccess(user, ActionsEnum.REWARD_ADD)) {
+            MenuDto newReward = new MenuDto();
+            newReward.setGlyphicon("plus");
+            newReward.setLabel("Přidat odměnu");
+            newReward.setUrl(routes.RewardController.add().absoluteURL(request()));
+            result.add(newReward);
+        }
 
         return result;
     }

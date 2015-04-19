@@ -25,6 +25,14 @@ public enum ActionsEnum {
 	ACTIVITY_ADD,
 	ACTIVITY_EDIT,
 	ACTIVITY_DELETE,
+
+	//rewards actions
+	REWARD_SHOW_ALL,
+	REWARD_SHOW,
+	REWARD_ADD,
+	REWARD_EDIT,
+	REWARD_DELETE,
+
 	//user actions
 	//TODO mcech
 	//TODO pkadlec

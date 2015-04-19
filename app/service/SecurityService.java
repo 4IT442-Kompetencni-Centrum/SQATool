@@ -152,6 +152,7 @@ public class SecurityService {
 		accessMap.put(ActionsEnum.PARTNER_EDIT, partnerUpdateMap);
 
 		initActivityAccessMap();
+		initRewardAccessMap();
 	}
 
 
@@ -190,5 +191,43 @@ public class SecurityService {
 		delete.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		delete.put(EnumerationWithKeys.ADMIN_KEY, false);
 		accessMap.put(ActionsEnum.ACTIVITY_DELETE, delete);
+	}
+
+
+	private static void initRewardAccessMap() {
+		HashMap<String, Boolean> showAll = new HashMap<>();
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, false);
+		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_SHOW_ALL, showAll);
+
+		HashMap<String, Boolean> show = new HashMap<>();
+		show.put(EnumerationWithKeys.MEMBER_KEY, false);
+		show.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		show.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		show.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_SHOW, show);
+
+		HashMap<String, Boolean> add = new HashMap<>();
+		add.put(EnumerationWithKeys.MEMBER_KEY, false);
+		add.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		add.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		add.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_ADD, add);
+
+		HashMap<String, Boolean> edit = new HashMap<>();
+		edit.put(EnumerationWithKeys.MEMBER_KEY, false);
+		edit.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		edit.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		edit.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_EDIT, edit);
+
+		HashMap<String, Boolean> delete = new HashMap<>();
+		delete.put(EnumerationWithKeys.MEMBER_KEY, false);
+		delete.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		delete.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		delete.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_DELETE, delete);
 	}
 }
