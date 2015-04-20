@@ -1,6 +1,8 @@
 @import views.data.MenuDto
 @import views.data.PartnerDto
-@(partners: List[PartnerDto], submenu: List[MenuDto], numberOfPages: Int, activePage: Integer)
+@import service.ActionsEnum
+@import service.SecurityService
+@(partners: List[PartnerDto], submenu: List[MenuDto], numberOfPages: Int, activePage: Integer, user: User)
 @main("Partneři", "partners", submenu){
 <script src="@routes.Assets.at("javascripts/partners/partners.js")" type="text/javascript"></script>
 	<h1>Partneři</h1>
@@ -15,12 +17,16 @@
 			<td>@(index+1)</td>
 			<td><a href="@routes.PartnerController.detail(partners(index).getPartnerId())">@Html(partners(index).getName())</a></td>
 			<td>
+			@if(SecurityService.hasAccess(user, ActionsEnum.PARTNER_EDIT)) {
 			<a href="@routes.PartnerController.edit(partners(index).getPartnerId())" class="btn btn-default">
   				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
 			</a>
+			}
+			@if(SecurityService.hasAccess(user, ActionsEnum.PARTNER_DELETE)) {
 			<button data-partnerName="@Html(partners(index).getName())" data-partnerId="@partners(index).getPartnerId()" data-partnerDeleteUrl="@routes.PartnerController.delete(partners(index).getPartnerId())" class="btn btn-danger deleteButton">
   				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
 			</button>
+			}
 			</td>
 		</tr>
 		}

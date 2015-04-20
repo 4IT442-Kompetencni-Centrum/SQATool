@@ -58,7 +58,7 @@ public class ProjectController extends Controller{
 		Integer totalProjects = DAOs.getProjectDao().getNumberOfProjects();
 		Integer numberOfPages = totalProjects % Configuration.PAGE_SIZE == 0 ? totalProjects/Configuration.PAGE_SIZE : totalProjects/Configuration.PAGE_SIZE + 1; 
 		Logger.debug("Page with list of projects is shown. Number of projects id db is {}", totalProjects);
-		return ok(projects.render(ProjectConverter.convertListToDto(proj), getMainMenu(user), numberOfPages, page));
+		return ok(projects.render(ProjectConverter.convertListToDto(proj, user), getMainMenu(user), numberOfPages, page));
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public class ProjectController extends Controller{
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
 			Logger.debug("Partner detail page is shown.");
-			return ok(projectDetail.render(ProjectConverter.convertToDto(project), getBackToListMenu(user), null, new ArrayList<User>()));
+			return ok(projectDetail.render(ProjectConverter.convertToDto(project, null), getBackToListMenu(user), null, new ArrayList<User>()));
 		}
 	}
 	
@@ -121,15 +121,15 @@ public class ProjectController extends Controller{
 	@Transactional(readOnly=false)
 	public static Result edit(Long projectId) {
 		User user = SecurityService.fetchUser(session("authid"));
-		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_EDIT)) {
-			return redirect(routes.Application.accessDenied());
-		}		
-		//TODO tmichalicka - second level verification
-		ProjectDto dto = ProjectConverter.convertToDto(DAOs.getProjectDao().findById(projectId));
+		ProjectDto dto = ProjectConverter.convertToDto(DAOs.getProjectDao().findById(projectId), user);
 		if (dto == null) {
 			Logger.info("Project with id {} was not found.", projectId);
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		}
+		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_EDIT) || !dto.isCanBeModified()) {
+			return redirect(routes.Application.accessDenied());
+		}		
+		
 		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).fill(dto);
 		Logger.debug("Page with form for editing project is shown. Edited project has id {} and name {}.", dto.getProjectId(), dto.getName());
 		return ok(projectsEdit.render(projectForm, getBackToListMenu(user), false));

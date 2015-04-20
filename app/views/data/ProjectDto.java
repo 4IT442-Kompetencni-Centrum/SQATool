@@ -24,6 +24,8 @@ public class ProjectDto {
 	private List<Long> partnerIds;
 	private List<String> partnerNames;
 	private List<PartnerDto> partners;
+	private boolean canBeModified = false;
+	private boolean canBeDeleted = false;
 	
 	public Long getProjectId() {
 		return projectId;
@@ -96,6 +98,18 @@ public class ProjectDto {
 	}
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+	public boolean isCanBeModified() {
+		return canBeModified;
+	}
+	public void setCanBeModified(boolean canBeModified) {
+		this.canBeModified = canBeModified;
+	}
+	public boolean isCanBeDeleted() {
+		return canBeDeleted;
+	}
+	public void setCanBeDeleted(boolean canBeDeleted) {
+		this.canBeDeleted = canBeDeleted;
 	}
 	
 	

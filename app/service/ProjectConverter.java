@@ -7,6 +7,7 @@ import java.util.Set;
 
 import models.Partner;
 import models.Project;
+import models.User;
 import play.Logger;
 import views.data.PartnerDto;
 import views.data.ProjectDto;
@@ -39,7 +40,7 @@ public class ProjectConverter {
 		return res;
 	}
 	
-	public static ProjectDto convertToDto(Project orig) {
+	public static ProjectDto convertToDto(Project orig, User user) {
 		ProjectDto res = new ProjectDto();
 		res.setProjectId(orig.getProjectId());
 		res.setName(orig.getName());
@@ -61,14 +62,18 @@ public class ProjectConverter {
 		res.setPartnerIds(pIds);
 		res.setPartnerNames(pNames);
 		res.setPartners(partners);
+		if (user != null) {
+			res.setCanBeDeleted(SecurityService.canDeleteProject(orig, user));
+			res.setCanBeModified(SecurityService.canEditProject(orig, user));
+		}
 		return res;		
 	}
 	
-	public static List<ProjectDto> convertListToDto(List<Project> orig){
+	public static List<ProjectDto> convertListToDto(List<Project> orig, User user){
 		List<ProjectDto> res = new ArrayList<ProjectDto>();
 		
 		for (Project p : orig) {
-			res.add(convertToDto(p));
+			res.add(convertToDto(p, user));
 		}
 		
 		return res;

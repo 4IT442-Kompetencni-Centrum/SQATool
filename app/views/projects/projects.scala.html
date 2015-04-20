@@ -15,12 +15,16 @@
 			<td>@(index+1)</td>
 			<td><a href="@routes.ProjectController.detail(projects(index).getProjectId())"><strong>@Html(projects(index).getShortcut()):</strong> @Html(projects(index).getName())</a></td>
 			<td>
+			@if(projects(index).isCanBeModified()) {
 			<a href="@routes.ProjectController.edit(projects(index).getProjectId())" class="btn btn-default">
   				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
 			</a>
+			}
+			@if(projects(index).isCanBeDeleted()) {
 			<button data-projectName="@Html(projects(index).getName())" data-projectId="@projects(index).getProjectId()" data-projectDeleteUrl="@routes.ProjectController.delete(projects(index).getProjectId())" class="btn btn-danger deleteButton">
   				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
 			</button>
+			}
 			</td>
 		</tr>
 		}
