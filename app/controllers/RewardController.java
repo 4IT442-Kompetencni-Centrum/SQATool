@@ -32,7 +32,7 @@ public class RewardController extends Controller {
     public static Result showAll(Integer page) {
         page = page != null ? page : 0;
 
-        List<Reward> rewards = DAOs.getRewardDao().findAll(page, Configuration.PAGE_SIZE);
+        List<Reward> rewards = DAOs.getRewardDao().findAll(page*Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
 
         Integer total = DAOs.getRewardDao().count();
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total/Configuration.PAGE_SIZE : total/Configuration.PAGE_SIZE + 1;

@@ -35,4 +35,31 @@
         </tbody>
     </table>
 
+    <nav class="text-center">
+        <ul class="pagination">
+            @if(activePage == 0) {
+                <li class="disabled">
+                    <a>&laquo;</a>
+                </li>
+            }else{
+                <li>
+                    <a href="@routes.RewardController.showAll(activePage-1)">&laquo;</a>
+                </li>
+            }
+            @for(page <- 0 until numberOfPages) {
+                <li @if(page == activePage) { class="active" }>
+                    <a href="@routes.RewardController.showAll(page)">@(page+1)</a>
+                </li>
+            }
+            @if(activePage == numberOfPages-1) {
+                <li class="disabled">
+                    <a>&raquo;</a>
+                </li>
+            }else{
+                <li>
+                    <a href="@routes.RewardController.showAll(activePage+1)">&raquo;</a>
+                </li>
+            }
+        </ul>
+    </nav>
 }
