@@ -29,6 +29,7 @@ public class ActivityForm {
     protected Integer capacityMax;
 
     @Formats.DateTime(pattern="dd.MM.yyyy HH:mm")
+    @Constraints.Required
     protected Date timeFrom;
 
     @Formats.DateTime(pattern="dd.MM.yyyy HH:mm")
