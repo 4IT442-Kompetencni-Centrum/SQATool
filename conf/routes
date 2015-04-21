@@ -68,6 +68,8 @@ GET         /aktivity/nova                        controllers.ActivityController
 GET         /aktivity/nova/vytvorit               controllers.ActivityController.create()
 GET         /aktivity/upravit/:activityId         controllers.ActivityController.edit(activityId: Long)
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
+GET         /aktivity/prihlasit/:activityId       controllers.ActivityController.logIn(activityId: Long)
+GET         /aktivity/odhlasit/:activityId        controllers.ActivityController.logOut(activityId: Long)
 GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
 
 #access denied

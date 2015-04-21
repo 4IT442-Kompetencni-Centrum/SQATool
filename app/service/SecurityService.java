@@ -222,7 +222,7 @@ public class SecurityService {
 		delete.put(EnumerationWithKeys.MEMBER_KEY, false);
 		delete.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
 		delete.put(EnumerationWithKeys.HEAD_KC_KEY, true);
-		delete.put(EnumerationWithKeys.ADMIN_KEY, false);
+		delete.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.ACTIVITY_DELETE, delete);
 	}
 

@@ -14,6 +14,10 @@ public class EnumerationWithKeys {
 	public static final String ACTIVITY_STATE_EMPTY = "volna";
 	public static final String ACTIVITY_STATE_FULL = "plna";
 
+	public static final String TYPE_ROLE_ON_ACTIVITY_ORGANIZER = "zakladatel";
+	public static final String TYPE_ROLE_ON_ACTIVITY_LOGGED = "prihlaseny";
+
+
     public static final String STATE_USER_ACTIVE = "aktivni";
     public static final String STATE_USER_APPLICANT = "zadatel";
     public static final String STATE_USER_INACTIVE = "neaktivni";
