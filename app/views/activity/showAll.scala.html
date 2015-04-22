@@ -7,66 +7,72 @@
 @main("Aktivity", "activities", menu){
     <h1>Aktivity</h1>
 
-    <table class="table table-hover table-striped">
-        <tbody>
-        @for(activity <- activities) {
-            <tr>
-                <td>
-                    <a href="@routes.ActivityController.show(activity.getActivityId())" class="btn btn-link">
-                    <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
-                    </a>
-                </td>
-                <td class="text-right">
-                    @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
-                        <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+    @if(activities.size == 0) {
+        <div class="alert alert-info">
+            <p>Nebyly vytvořeny žádné aktivity.</p>
+        </div>
+    } else {
+        <table class="table table-hover table-striped">
+            <tbody>
+            @for(activity <- activities) {
+                <tr>
+                    <td>
+                        <a href="@routes.ActivityController.show(activity.getActivityId())" class="btn btn-link">
+                        <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
                         </a>
-                    }
-                    @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
-                        <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
-                        </a>
-                    }
-                    @if(DAOs.getUserLoggedOnActivityDao().isLogged(activity,user)){
-                        <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-success">
-                            Odhlásit
-                        </a>
-                    }else{
-                        <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
-                            Přihlásit
-                        </a>
-                    }
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+                    </td>
+                    <td class="text-right">
+                        @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
+                            <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                            </a>
+                        }
+                        @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
+                            <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
+                            </a>
+                        }
+                        @if(DAOs.getUserLoggedOnActivityDao().isLogged(activity,user)){
+                            <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-danger">
+                                Odhlásit
+                            </a>
+                        }else{
+                            <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
+                                Přihlásit
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
 
-    <nav class="text-center">
-        <ul class="pagination">
-            @if(activePage == 0) {
-                <li class="disabled">
-                    <a>&laquo;</a>
-                </li>
-            }else{
-                <li>
-                    <a href="@routes.ActivityController.showAll(activePage-1)">&laquo;</a>
-                </li>
-            }
-            @for(page <- 0 until numberOfPages) {
-                <li @if(page == activePage) { class="active" }>
-                    <a href="@routes.ActivityController.showAll(page)">@(page+1)</a>
-                </li>
-            }
-            @if(activePage == numberOfPages-1) {
-                <li class="disabled">
-                    <a>&raquo;</a>
-                </li>
-            }else{
-                <li>
-                    <a href="@routes.ActivityController.showAll(activePage+1)">&raquo;</a>
-                </li>
-            }
-        </ul>
-    </nav>
+        <nav class="text-center">
+            <ul class="pagination">
+                @if(activePage == 0) {
+                    <li class="disabled">
+                        <a>&laquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.ActivityController.showAll(activePage-1)">&laquo;</a>
+                    </li>
+                }
+                @for(page <- 0 until numberOfPages) {
+                    <li @if(page == activePage) { class="active" }>
+                        <a href="@routes.ActivityController.showAll(page)">@(page+1)</a>
+                    </li>
+                }
+                @if(activePage == numberOfPages-1) {
+                    <li class="disabled">
+                        <a>&raquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.ActivityController.showAll(activePage+1)">&raquo;</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 }
