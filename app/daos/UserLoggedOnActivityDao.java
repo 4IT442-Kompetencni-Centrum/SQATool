@@ -48,4 +48,23 @@ public interface UserLoggedOnActivityDao extends AbstractNonVersionedDao<UserLog
      * @return
      */
     public Boolean isLogged(Activity activity, User user);
+
+
+    /**
+     * Returns list of activities where user is logged
+     *
+     * @param user
+     * @param offset
+     * @param limit
+     * @return
+     */
+    public List<Activity> findByUser(User user, Integer offset, Integer limit);
+
+
+    /**
+     * Returns number of activities where user is logged
+     * @param user
+     * @return
+     */
+    public Integer countUserActivities(User user);
 }

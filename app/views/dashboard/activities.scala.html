@@ -1,0 +1,72 @@
+@import views.data.MenuDto
+@import service.ActionsEnum
+@import service.SecurityService
+@(activities: List[Activity], submenu: List[MenuDto], activePage: Integer, numberOfPages: Integer)
+@user = @{SecurityService.fetchUser(session.get("authid"))}
+@dashboard("activities", submenu) {
+    @if(activities.size == 0){
+        <div class="alert alert-info">
+            <p>
+                Nejste přihlášen(a) na žádné aktivity.
+            </p>
+        </div>
+    }else{
+        <table class="table table-hover table-striped">
+            <tbody>
+            @for(activity <- activities) {
+                <tr>
+                    <td>
+                        <a href="@routes.ActivityController.show(activity.getActivityId())" class="btn btn-link">
+                            <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
+                        </a>
+                    </td>
+                    <td class="text-right">
+                        @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
+                            <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                            </a>
+                        }
+                        @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
+                            <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
+                            </a>
+                        }
+
+                        <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-danger">
+                            Odhlásit
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <nav class="text-center">
+            <ul class="pagination">
+                @if(activePage == 0) {
+                    <li class="disabled">
+                        <a>&laquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.DashboardController.activities(activePage-1)">&laquo;</a>
+                    </li>
+                }
+                @for(page <- 0 until numberOfPages) {
+                    <li @if(page == activePage) { class="active" }>
+                        <a href="@routes.DashboardController.activities(page)">@(page+1)</a>
+                    </li>
+                }
+                @if(activePage == numberOfPages-1) {
+                    <li class="disabled">
+                        <a>&raquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.DashboardController.activities(activePage+1)">&raquo;</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}

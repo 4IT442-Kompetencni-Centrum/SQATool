@@ -122,3 +122,7 @@ span.user-logged-on-activity:after {
 span.user-logged-on-activity:first-of-type:after {
     content: "";
 }
+
+div#dashboard {
+    margin-top: 20px;
+}

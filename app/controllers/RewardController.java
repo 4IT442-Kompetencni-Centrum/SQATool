@@ -145,19 +145,8 @@ public class RewardController extends Controller {
      * Method returns list of items to left side menu. This implementation returns one item - add new
      * @return
      */
-    private static List<MenuDto> getMainMenu() {
-        List<MenuDto> result = new ArrayList<MenuDto>();
-        User user = SecurityService.fetchUser(session("authid"));
-
-        if (SecurityService.hasAccess(user, ActionsEnum.REWARD_ADD)) {
-            MenuDto newReward = new MenuDto();
-            newReward.setGlyphicon("plus");
-            newReward.setLabel("Přidat odměnu");
-            newReward.setUrl(routes.RewardController.add().absoluteURL(request()));
-            result.add(newReward);
-        }
-
-        return result;
+    protected static List<MenuDto> getMainMenu() {
+       return DashboardController.getMainMenu();
     }
 
 }

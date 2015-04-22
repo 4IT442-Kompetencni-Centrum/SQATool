@@ -22,7 +22,7 @@
             <div class="pull-right main-nav-block">
                 <p>Logged in as: <span class="bold"><a href="#">@session.get("user")</a></span><a href="/logout" class="pull-right" style="margin-right: 15px;">Log out</a></p>
                 <ul class="nav nav-pills">
-                    <li @if(selectedMenuItem == "profile") { class="active" }><a href="#">Můj profil</a></li>
+                    <li @if(selectedMenuItem == "profile") { class="active" }><a href="@routes.DashboardController.activities(0)">Moje sekce</a></li>
                     <li @if(selectedMenuItem == "members") { class="active" }><a href="#">Členové</a></li>
                     <li @if(selectedMenuItem == "projects") { class="active" }><a href="@routes.ProjectController.showAll(0)">Projekty</a></li>
                     <li @if(selectedMenuItem == "activities") { class="active" }><a href="@routes.ActivityController.showAll(0)">Aktivity</a></li>

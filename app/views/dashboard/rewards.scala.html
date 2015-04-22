@@ -1,0 +1,66 @@
+@import views.data.MenuDto
+@import service.ActionsEnum
+@import service.SecurityService
+@(rewards: List[Reward], submenu: List[MenuDto], activePage: Integer, numberOfPages: Integer)
+@user = @{SecurityService.fetchUser(session.get("authid"))}
+@dashboard("rewards", submenu) {
+    @if(rewards.size == 0){
+        <div class="alert alert-info">
+            <p>
+                Doposud jste neobdržel(a) žádné odměny.
+            </p>
+        </div>
+    }else{
+        <table class="table table-hover table-striped">
+            <tbody>
+            @for(reward <- rewards) {
+                <tr>
+                    <td>
+                        @reward.getAmount()Kč (@reward.getDate().format("dd.MM.yyyy"))
+                    </td>
+                    <td class="text-right">
+                        @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_EDIT)) {
+                            <a href="@routes.RewardController.edit(reward.getRewardId())" class="btn btn-xs btn-link">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                            </a>
+                        }
+                        @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_DELETE)) {
+                            <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-link" onclick="return confirm('Opravdu chcete smazat odměnu @reward.getRewardId()?');">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <nav class="text-center">
+            <ul class="pagination">
+                @if(activePage == 0) {
+                    <li class="disabled">
+                        <a>&laquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.DashboardController.rewards(activePage-1)">&laquo;</a>
+                    </li>
+                }
+                @for(page <- 0 until numberOfPages) {
+                    <li @if(page == activePage) { class="active" }>
+                        <a href="@routes.DashboardController.rewards(page)">@(page+1)</a>
+                    </li>
+                }
+                @if(activePage == numberOfPages-1) {
+                    <li class="disabled">
+                        <a>&raquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.DashboardController.rewards(activePage+1)">&raquo;</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}

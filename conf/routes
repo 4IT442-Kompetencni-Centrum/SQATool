@@ -77,3 +77,7 @@ GET			/pristupOdepren						  controllers.Application.accessDenied()
 
 #users
 GET			/uzivatel/:id/detail				  controllers.UserController.show(id:Long)
+
+#dashboard
+GET         /dashboard/aktivity                   controllers.DashboardController.activities(page:Integer ?= 0)
+GET         /dashboard/odmeny                     controllers.DashboardController.rewards(page:Integer ?= 0)
