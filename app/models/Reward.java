@@ -1,5 +1,6 @@
 package models;
 
+import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -19,7 +20,6 @@ public class Reward extends AbstractVersionedEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long rewardId;
 
-    @Constraints.Required
     protected Integer amount;
 
     protected Date date;
@@ -28,6 +28,9 @@ public class Reward extends AbstractVersionedEntity {
 
     @ManyToOne(fetch=FetchType.EAGER)
     private User user;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    private Project project;
 
 
     /**
@@ -141,6 +144,28 @@ public class Reward extends AbstractVersionedEntity {
     public Reward setUser(User user) {
         this.user = user;
 
+        return this;
+    }
+
+
+    /**
+     * Get Project
+     *
+     * @return Project
+     */
+    public Project getProject() {
+        return project;
+    }
+
+
+    /**
+     * Set project
+     *
+     * @param Project project
+     * @return Reward
+     */
+    public Reward setProject(Project project) {
+        this.project = project;
         return this;
     }
 }

@@ -1,19 +1,8 @@
 @import views.data.MenuDto
-@(form: Form[forms.RewardForm], users: Map[String,String], menu: List[MenuDto])
+@(form: Form[forms.RewardForm], user: User, projects: List[Project], menu: List[MenuDto])
 @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 @main("Odměna", "rewards", menu){
-    <h1>Nová odměna</h1>
+    <h1>Upravit odměnu</h1>
 
-    @b3.form(action = routes.RewardController.update()){
-        @b3.select(form("userId"), options = users.toSeq, '_label -> "Uživatel", '_default -> "--- Vyberte uživatele ---")
-        @b3.inputWrapped( "text", form("amount"), '_label -> "Výše odměny") { input =>
-            <div class="input-group">
-                @input
-                <span class="input-group-addon">Kč</span>
-            </div>
-        }
-        @b3.textarea(form("description"), '_label -> "Popis")
-        @b3.hidden(form("rewardId").name, form("rewardId").value)
-        @b3.submit('class -> "btn btn-primary"){ Uložit }
-    }
+    @reward.editRewardForm(form,user,projects)
 }

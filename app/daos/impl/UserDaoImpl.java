@@ -29,19 +29,4 @@ public class UserDaoImpl extends AbstractVersionedDaoImpl<User> implements UserD
             return null;
         }
     }
-
-
-    public Map<String, String> getUsersForSelectBox()
-    {
-        Query query = JPA.em().createQuery("SELECT u FROM User u WHERE u.visible = TRUE ORDER BY u.lastName");
-        List<User> list = query.getResultList();
-
-        HashMap<String, String> map = new HashMap<>();
-
-        for(User user : list) {
-            map.put(user.id.toString(), user.getLastName() + " " + user.getFirstName() +" <" + user.getEmail() + ">");
-        }
-
-        return map;
-    }
 }

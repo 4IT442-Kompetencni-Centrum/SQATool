@@ -3,6 +3,7 @@ package controllers;
 
 import daos.impl.DAOs;
 import forms.RewardForm;
+import models.Project;
 import models.Reward;
 import models.User;
 import play.data.Form;
@@ -67,10 +68,13 @@ public class RewardController extends Controller {
 
     @Transactional(readOnly=true)
     @Authorize(action = ActionsEnum.ACTIVITY_ADD)
-    public static Result add() {
-        Map users = DAOs.getUserDao().getUsersForSelectBox();
+    public static Result add(Long userId) {
+        User user = DAOs.getUserDao().findById(userId);
 
-        return ok(add.render(rewardForm, users, getBackToListMenu()));
+
+        List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(userId);
+
+        return ok(add.render(rewardForm, user, projects, getBackToListMenu()));
     }
 
     @Transactional(readOnly=false)
@@ -78,10 +82,11 @@ public class RewardController extends Controller {
     public static Result create() {
         Form<RewardForm> form = rewardForm.bindFromRequest();
 
-        if(form.hasErrors())
-        {
-            Map users = DAOs.getUserDao().getUsersForSelectBox();
-            return badRequest(add.render(form,users,getBackToListMenu()));
+        if (form.hasErrors()) {
+            User user = DAOs.getUserDao().findById(Long.parseLong(form.field("userId").value()));
+            List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(user.getId());
+
+            return badRequest(add.render(form, user, projects, getBackToListMenu()));
         }
 
         Reward reward = form.get().getReward();
@@ -98,10 +103,10 @@ public class RewardController extends Controller {
         if(reward == null)
             return notFound();
 
-        Map users = DAOs.getUserDao().getUsersForSelectBox();
         Form<RewardForm> form = rewardForm.fill(new RewardForm(reward));
-        
-        return ok(edit.render(form, users, getBackToListMenu()));
+        List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(reward.getUser().getId());
+
+        return ok(edit.render(form, reward.getUser(), projects, getBackToListMenu()));
     }
 
     @Transactional(readOnly=false)
@@ -111,8 +116,10 @@ public class RewardController extends Controller {
 
         if(form.hasErrors())
         {
-            Map users = DAOs.getUserDao().getUsersForSelectBox();
-            return badRequest(edit.render(form, users, getBackToListMenu()));
+            User user = DAOs.getUserDao().findById(Long.parseLong(form.field("userId").value()));
+            List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(user.getId());
+
+            return badRequest(edit.render(form, user, projects, getBackToListMenu()));
         }
 
         Reward reward = form.get().getReward();

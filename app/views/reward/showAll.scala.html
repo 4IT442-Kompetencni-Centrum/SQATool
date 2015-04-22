@@ -3,63 +3,64 @@
 @import service.ActionsEnum
 @(rewards: List[Reward], numberOfPages: Integer, activePage: Integer, menu: List[MenuDto])
 @user = @{SecurityService.fetchUser(session.get("authid"))}
-@main("Odměny", "rewards", menu){
+@main("Odměny", "profile", menu){
     <h1>Odměny</h1>
 
-    <table class="table table-hover table-striped">
-        <thead>
-            <th>Id</th>
-            <th>Komu</th>
-            <th>Kolik</th>
-            <th>Popis</th>
-            <th>Akce</th>
-        </thead>
-        <tbody>
-        @for(reward <- rewards) {
-            <tr>
-                <td>
-                    <a href="@routes.RewardController.show(reward.getRewardId())">@reward.getRewardId()</a></td>
-                <td>@reward.getUser().getLastName() @reward.getUser().getFirstName()</td>
-                <td>@reward.getAmount() Kč</td>
-                <td>@reward.getDescription()</td>
-                <td>
-                    @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_EDIT)) {
-                        <a href="@routes.RewardController.edit(reward.getRewardId())" class="btn btn-xs btn-warning">Upravit</a>
-                    }
-                    @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_DELETE)) {
-                        <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-danger" onclick="return confirm('Opravdu chcete smazat odměnu @reward.getRewardId()?');">Smazat</a>
-                    }
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    @if(rewards.size == 0) {
+        <div class="alert alert-info">
+            <p>Nebyly uděleny žádné odměny.</p>
+        </div>
+    } else {
+        <table class="table table-hover table-striped">
+            <tbody>
+            @for(reward <- rewards) {
+                <tr>
+                    <td>
+                        @reward.getUser().getLastName() @reward.getUser().getFirstName() - @reward.getAmount() Kč (@reward.getDate().format("dd.MM.yyyy"))
+                    </td>
+                    <td class="text-right">
+                        @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_EDIT)) {
+                            <a href="@routes.RewardController.edit(reward.getRewardId())" class="btn btn-xs btn-link">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                            </a>
+                        }
+                        @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_DELETE)) {
+                            <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-link" onclick="return confirm('Opravdu chcete smazat odměnu ve výši @reward.getAmount() Kč zadanou @reward.getDate().format("dd.MM.yyyy") pro @reward.getUser().getFirstName() @reward.getUser().getLastName() za projekt @reward.getProject().getName()?');">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
 
-    <nav class="text-center">
-        <ul class="pagination">
-            @if(activePage == 0) {
-                <li class="disabled">
-                    <a>&laquo;</a>
-                </li>
-            }else{
-                <li>
-                    <a href="@routes.RewardController.showAll(activePage-1)">&laquo;</a>
-                </li>
-            }
-            @for(page <- 0 until numberOfPages) {
-                <li @if(page == activePage) { class="active" }>
-                    <a href="@routes.RewardController.showAll(page)">@(page+1)</a>
-                </li>
-            }
-            @if(activePage == numberOfPages-1) {
-                <li class="disabled">
-                    <a>&raquo;</a>
-                </li>
-            }else{
-                <li>
-                    <a href="@routes.RewardController.showAll(activePage+1)">&raquo;</a>
-                </li>
-            }
-        </ul>
-    </nav>
+        <nav class="text-center">
+            <ul class="pagination">
+                @if(activePage == 0) {
+                    <li class="disabled">
+                        <a>&laquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.RewardController.showAll(activePage-1)">&laquo;</a>
+                    </li>
+                }
+                @for(page <- 0 until numberOfPages) {
+                    <li @if(page == activePage) { class="active" }>
+                        <a href="@routes.RewardController.showAll(page)">@(page+1)</a>
+                    </li>
+                }
+                @if(activePage == numberOfPages-1) {
+                    <li class="disabled">
+                        <a>&raquo;</a>
+                    </li>
+                }else{
+                    <li>
+                        <a href="@routes.RewardController.showAll(activePage+1)">&raquo;</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 }
