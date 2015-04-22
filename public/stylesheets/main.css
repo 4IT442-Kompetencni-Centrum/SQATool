@@ -110,16 +110,11 @@ ul.activity-detail {
     line-height: 175%;
 }
 
-span.user-logged-on-activity {
-    display: inline-block;
-    margin-right: 10px;
-}
-
 span.user-logged-on-activity:after {
     content: ",";
 }
 
-span.user-logged-on-activity:first-of-type:after {
+span.user-logged-on-activity:last-of-type:after {
     content: "";
 }
 
