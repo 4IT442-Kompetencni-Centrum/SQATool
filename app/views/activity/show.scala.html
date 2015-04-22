@@ -9,18 +9,16 @@
     <table class="table table-hover table-striped">
         <tr>
             <td>
-                <span class="btn btn-link">
-                    <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
-                </span>
+                <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
             </td>
             <td class="text-right">
                 @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
-                    <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link">
+                    <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link btn-xs">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
                     </a>
                 }
                 @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
-                    <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
+                    <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link btn-xs" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
                     </a>
                 }
