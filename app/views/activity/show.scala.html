@@ -1,14 +1,29 @@
+@import service.SecurityService
+@import service.ActionsEnum
 @import views.data.MenuDto
 @(activity: Activity, menu: List[MenuDto], organizer: User, loggedUsers: List[User], logged: Boolean)
+@user = @{SecurityService.fetchUser(session.get("authid"))}
 @main("Aktivita", "activities", menu){
     <h1>Detail aktivity</h1>
 
     <table class="table table-hover table-striped">
         <tr>
             <td>
-                <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
+                <span class="btn btn-link">
+                    <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
+                </span>
             </td>
             <td class="text-right">
+                @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
+                    <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                    </a>
+                }
+                @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
+                    <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
+                    </a>
+                }
                 @if(logged){
                     <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-danger">
                         Odhlásit
