@@ -14,6 +14,7 @@ import service.AuthorizedAction.Authorize;
 import service.Configuration;
 import service.SecurityService;
 import views.data.MenuDto;
+import views.html.notFound;
 import views.html.reward.edit;
 import views.html.reward.add;
 import views.html.reward.show;
@@ -49,7 +50,7 @@ public class RewardController extends Controller {
         Reward reward = DAOs.getRewardDao().findById(rewardId);
 
         if(reward == null)
-            return notFound();
+            return notFound(notFound.render());
 
         return ok(show.render(reward, getBackToListMenu()));
     }
@@ -59,7 +60,7 @@ public class RewardController extends Controller {
     public static Result delete(Long rewardId) {
         Reward reward = DAOs.getRewardDao().findById(rewardId);
         if(reward == null)
-            return notFound();
+            return notFound(notFound.render());
 
         DAOs.getRewardDao().delete(reward);
 
@@ -71,6 +72,8 @@ public class RewardController extends Controller {
     public static Result add(Long userId) {
         User user = DAOs.getUserDao().findById(userId);
 
+        if(user == null)
+            return notFound(notFound.render());
 
         List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(userId);
 
@@ -101,7 +104,7 @@ public class RewardController extends Controller {
         Reward reward = DAOs.getRewardDao().findById(rewardId);
 
         if(reward == null)
-            return notFound();
+            return notFound(notFound.render());
 
         Form<RewardForm> form = rewardForm.fill(new RewardForm(reward));
         List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(reward.getUser().getId());

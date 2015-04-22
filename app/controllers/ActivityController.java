@@ -22,6 +22,7 @@ import views.html.activity.add;
 import views.html.activity.edit;
 import views.html.activity.show;
 import views.html.activity.showAll;
+import views.html.notFound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ActivityController extends Controller {
         Activity activity = DAOs.getActivityDao().findById(activityId);
 
         if (activity == null)
-            return notFound();
+            return notFound(notFound.render());
 
         User organizer = DAOs.getUserLoggedOnActivityDao().getOrganizer(activity);
         List<User> loggedUsers = DAOs.getUserLoggedOnActivityDao().getLoggedUsers(activity);
@@ -69,7 +70,7 @@ public class ActivityController extends Controller {
     public static Result delete(Long activityId) {
         Activity activity = DAOs.getActivityDao().findById(activityId);
         if (activity == null)
-            return notFound();
+            return notFound(notFound.render());
 
         DAOs.getActivityDao().delete(activity);
 
@@ -118,7 +119,7 @@ public class ActivityController extends Controller {
         Map<String, String> activityTypes = DAOs.getTypeActivityDao().getOptions();
 
         if (activity == null)
-            return notFound();
+            return notFound(notFound.render());
 
         Form<ActivityForm> form = activityForm.fill(new ActivityForm(activity));
 
@@ -153,7 +154,7 @@ public class ActivityController extends Controller {
         Activity activity = DAOs.getActivityDao().findById(activityId);
 
         if(activity == null)
-            return notFound();
+            return notFound(notFound.render());
 
         User user = SecurityService.fetchUser(session("authid"));
         TypeRoleOnActivity role = DAOs.getTypeRoleOnActivityDao().findByKey(EnumerationWithKeys.TYPE_ROLE_ON_ACTIVITY_LOGGED);
@@ -173,7 +174,7 @@ public class ActivityController extends Controller {
         Activity activity = DAOs.getActivityDao().findById(activityId);
 
         if(activity == null)
-            return notFound();
+            return notFound(notFound.render());
 
         User user = SecurityService.fetchUser(session("authid"));
         TypeRoleOnActivity role = DAOs.getTypeRoleOnActivityDao().findByKey(EnumerationWithKeys.TYPE_ROLE_ON_ACTIVITY_LOGGED);
