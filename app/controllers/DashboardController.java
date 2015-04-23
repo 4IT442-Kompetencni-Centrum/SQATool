@@ -33,7 +33,7 @@ public class DashboardController extends Controller {
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total / Configuration.PAGE_SIZE : total / Configuration.PAGE_SIZE + 1;
 
 
-        return ok(activities.render(activityList, getMainMenu(), page, numberOfPages));
+        return ok(activities.render(activityList, getMainMenu("dashboard"), page, numberOfPages));
     }
 
 
@@ -47,7 +47,7 @@ public class DashboardController extends Controller {
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total / Configuration.PAGE_SIZE : total / Configuration.PAGE_SIZE + 1;
 
 
-        return ok(rewards.render(rewardList, getMainMenu(), page, numberOfPages));
+        return ok(rewards.render(rewardList, getMainMenu("dashboard"), page, numberOfPages));
     }
 
 
@@ -56,7 +56,7 @@ public class DashboardController extends Controller {
      *
      * @return
      */
-    protected static List<MenuDto> getMainMenu() {
+    protected static List<MenuDto> getMainMenu(String selected) {
         List<MenuDto> result = new ArrayList<MenuDto>();
         User user = SecurityService.fetchUser(session("authid"));
 
@@ -64,6 +64,10 @@ public class DashboardController extends Controller {
         newActivity.setGlyphicon("tasks");
         newActivity.setLabel("Dashboard");
         newActivity.setUrl(routes.DashboardController.activities(0).absoluteURL(request()));
+
+        if(selected.equals("dashboard")) {
+            newActivity.setSelected(true);
+        }
         result.add(newActivity);
 
 
@@ -72,10 +76,19 @@ public class DashboardController extends Controller {
             rewards.setGlyphicon("usd");
             rewards.setLabel("Odměny");
             rewards.setUrl(routes.RewardController.showAll(0).absoluteURL(request()));
+
+            if(selected.equals("rewards")) {
+                rewards.setSelected(true);
+            }
+
             result.add(rewards);
         }
 
 
         return result;
+    }
+
+    protected static List<MenuDto> getMainMenu() {
+        return getMainMenu("");
     }
 }
