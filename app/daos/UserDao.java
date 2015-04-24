@@ -1,6 +1,6 @@
 package daos;
 
-import java.util.Map;
+import java.util.List;
 
 import models.User;
 
@@ -10,5 +10,6 @@ import models.User;
 public interface UserDao extends AbstractVersionedDao<User> {
 
     public User getValidUser(String userName, String password);
+    public List<User> getUsersByQuery(String query);
 
 }

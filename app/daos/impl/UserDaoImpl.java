@@ -3,7 +3,9 @@ package daos.impl;
 import models.User;
 import daos.UserDao;
 import play.db.jpa.JPA;
+
 import javax.persistence.Query;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,4 +31,11 @@ public class UserDaoImpl extends AbstractVersionedDaoImpl<User> implements UserD
             return null;
         }
     }
+
+	@Override
+	public List<User> getUsersByQuery(String queryString) {
+		Query query = JPA.em().createQuery("SELECT u from User u WHERE u.firstName || ' ' || u.lastName LIKE :queryString");
+		query.setParameter("queryString", "%"+queryString+"%");
+		return query.getResultList();
+	}
 }

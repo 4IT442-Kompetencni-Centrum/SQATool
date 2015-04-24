@@ -58,6 +58,41 @@
 				id="projectEndDate" placeholder="Konec projektu" name="dateEnd" value="@if(editForm.get().getDateEnd() != null) {@editForm.get().getDateEnd().format("dd.MM.yyyy")}">
 		</div>
 	</div>
+	<div class="form-group">
+		<label for="projectManager" class="col-sm-2 control-label">Vedoucí</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control"
+				id="projectManager" placeholder="Vedoucí projektu" name="managerName" value="@editForm.get().getManagerName()">
+		</div>
+	</div>
+	@for(index <- 0 until editForm.get().getMemberNames().size()) {
+	<div class="form-group memberRow">
+		<label class="col-sm-2 control-label">Člen</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control memberElem"
+				placeholder="Člen projektu" name="memberNames[@index]" value="@editForm.get().getMemberNames()(index)">
+		</div>
+	</div>
+	}
+	<div class="form-group memberRow">
+		<label class="col-sm-2 control-label">Člen</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control memberElem"
+				placeholder="Člen projektu" name="memberNames[@editForm.get().getMemberNames().size()]">
+		</div>
+	</div>
+	<div class="newMemberPlace hidden"></div>
+	<div class="defaultMemberRowWrap hidden">
+		<div class="form-group defaultMemberRow">
+			<label for="projectMember" class="col-sm-2 control-label">Člen</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control memberElem"
+					placeholder="Člen projektu" name="memberNames[]">
+			</div>
+		</div>
+
+		<div class="newMemberPlace hidden"></div>
+	</div>
 	@for(index <- 0 until editForm.get().getPartnerNames().size()) {
 	<div class="form-group partnerRow">
 		<label for="projectPartner" class="col-sm-2 control-label">Partner</label>
@@ -88,7 +123,12 @@
 	</div>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			<div id="projectPartnersIds" class="hidden">
+			<div id="dbIds" class="hidden">
+					<input type='hidden'  name="managerId" id="managerId" value="@editForm.get().getManagerId()">
+				@for(index <- 0 until editForm.get().getMemberIds().size) {
+					<input type='hidden' name='memberIds[@index]' value="@editForm.get().getMemberIds()(index)">
+					
+				}
 				@for(index <- 0 until editForm.get().getPartnerIds().size) {
 					<input type='hidden' name='partnerIds[@index]' value="@editForm.get().getPartnerIds()(index)">
 					

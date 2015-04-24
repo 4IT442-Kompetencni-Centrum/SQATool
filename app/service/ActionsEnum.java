@@ -34,6 +34,7 @@ public enum ActionsEnum {
 	REWARD_DELETE,
 
 	//user actions
+	MEMBER_SHOW_ALL,
 	//TODO mcech
 	//TODO pkadlec
 }

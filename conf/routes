@@ -9,6 +9,7 @@ GET         /login                                controllers.Login.showLoginPag
 POST        /login                                controllers.Login.authenticate()
 GET         /test                                 controllers.Application.testDAO()
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
+GET         /initRolesOnProject                   controllers.Init.initRolesOnProject()
 GET         /logout                               controllers.Login.logout()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                         controllers.Assets.at(path="/public", file)
@@ -77,6 +78,8 @@ GET			/pristupOdepren						  controllers.Application.accessDenied()
 
 #users
 GET			/uzivatel/:id/detail				  controllers.UserController.show(id:Long)
+GET			/uzivatel/novy						  controllers.UserController.create()
+
 
 #dashboard
 GET         /dashboard/aktivity                   controllers.DashboardController.activities(page:Integer ?= 0)

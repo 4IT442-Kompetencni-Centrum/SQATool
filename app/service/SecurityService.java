@@ -53,7 +53,7 @@ public class SecurityService {
 				return true;
 			}
 		}
-		Logger.warn("Access denied for user with permissions {} for action {}", userRoles, action);
+		Logger.debug("Access denied for user with permissions {} for action {}", userRoles, action);
 		return false;
 	}
 	/**
@@ -113,6 +113,7 @@ public class SecurityService {
 		initPartnerAccessMap();
 		initActivityAccessMap();
 		initRewardAccessMap();
+		initMemberAccessMap();
 	}
 
 	private static void initProjectAccessMap() {
@@ -262,5 +263,14 @@ public class SecurityService {
 		delete.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		delete.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.REWARD_DELETE, delete);
+	}
+	
+	private static void initMemberAccessMap() {
+		HashMap<String, Boolean> showAll = new HashMap<>();
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, true);
+		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.MEMBER_SHOW_ALL, showAll);		
 	}
 }

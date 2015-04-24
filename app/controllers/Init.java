@@ -3,6 +3,7 @@ package controllers;
 import models.Partner;
 import models.StateUser;
 import models.TypeRoleInBusiness;
+import models.TypeUserOnProject;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -90,5 +91,20 @@ public class Init extends Controller {
         DAOs.getStateUserDao().create(inactive);
 
         return ok(index.render("4IT442 - Software Quality Assurance Tool"));
+    }
+    
+    @Transactional(readOnly = false)
+    public static Result initRolesOnProject(){
+    	TypeUserOnProject manager = new TypeUserOnProject();
+    	manager.setKey(EnumerationWithKeys.PROJECT_MANAGER_KEY);
+    	manager.setValue("Vedoucí");
+    	DAOs.getTypeUserOnProject().create(manager);
+    	
+    	TypeUserOnProject member = new TypeUserOnProject();
+    	member.setKey(EnumerationWithKeys.PROJECT_MEMBER_KEY);
+    	member.setValue("Člen");
+    	DAOs.getTypeUserOnProject().create(member);
+    	
+    	return ok(index.render("4IT442 - Software Quality Assurance Tool"));
     }
 }

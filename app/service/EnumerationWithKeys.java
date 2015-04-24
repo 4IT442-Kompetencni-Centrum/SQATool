@@ -21,5 +21,8 @@ public class EnumerationWithKeys {
     public static final String STATE_USER_ACTIVE = "aktivni";
     public static final String STATE_USER_APPLICANT = "zadatel";
     public static final String STATE_USER_INACTIVE = "neaktivni";
+    
+    public static final String PROJECT_MANAGER_KEY = "vedouci";
+    public static final String PROJECT_MEMBER_KEY = "clen";
 
 }

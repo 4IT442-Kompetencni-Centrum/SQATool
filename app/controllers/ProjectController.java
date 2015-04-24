@@ -9,6 +9,7 @@ import javax.persistence.OptimisticLockException;
 import models.Partner;
 import models.Project;
 import models.User;
+import models.UserOnProject;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -89,6 +90,11 @@ public class ProjectController extends Controller{
 		Project newProject = ProjectConverter.convertToEntity(projectForm.get());
 		newProject.setVisible(true);
 		DAOs.getProjectDao().create(newProject);
+		if (newProject.getUserOnProject() != null) {
+			for (UserOnProject uop : newProject.getUserOnProject()) {
+				DAOs.getUserOnProjectDao().create(uop);
+			}
+		}
 		Logger.debug("Action for saving data of new project was called.");
 		return redirect(routes.ProjectController.showAll(0).absoluteURL(request()));
 	}
@@ -198,6 +204,13 @@ public class ProjectController extends Controller{
 					project.getPartners().add(partner);
 					Logger.debug("Partner update: {}", partner.toString());
 					DAOs.getPartnerDao().update(partner);
+				}
+			}
+			Logger.debug("Updating user on project.");
+			if (project.getUserOnProject() != null) {
+				Logger.debug("Updating user on project. Number of user on project is {}", project.getUserOnProject().size());
+				for (UserOnProject uop : project.getUserOnProject()) {
+					DAOs.getUserOnProjectDao().update(uop);
 				}
 			}
 			project.setVisible(true);

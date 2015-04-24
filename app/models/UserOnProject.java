@@ -24,8 +24,9 @@ public class UserOnProject extends AbstractVersionedEntity {
 	private User user;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
+	@ManyToOne(fetch=FetchType.EAGER)
+	private TypeUserOnProject typeUserOnProject;
 	
-	//TODO tmichalicka role
 	public Long getUserOnProjectId() {
 		return userOnProjectId;
 	}
@@ -44,5 +45,13 @@ public class UserOnProject extends AbstractVersionedEntity {
 	public void setProject(Project project) {
 		this.project = project;
 	}
+	public TypeUserOnProject getTypeUserOnProject() {
+		return typeUserOnProject;
+	}
+	public void setTypeUserOnProject(TypeUserOnProject typeUserOnProject) {
+		this.typeUserOnProject = typeUserOnProject;
+	}
+
+	
 
 }

@@ -19,11 +19,13 @@
 				</tr>
 				<tr>
 					<td>Vedoucí projektu:</td>
-					<td></td>
+					<td>@if(project.getManagerName() != null) { <a href="@routes.UserController.show(project.getManagerId())">@Html(project.getManagerName()) }</a></td>
 				</tr>
 				<tr>
 					<td>Členové projektu:</td>
-					<td></td>
+					<td>@for(index <- 0 until project.getMemberIds().size) {
+						<a href="@routes.UserController.show(project.getMemberIds()(index))">@Html(project.getMemberNames()(index))</a>@if(index < project.getMemberIds().size-1) {, } 
+					}</td>
 				</tr>
 				<tr>
 					<td>Partner projektu:</td>

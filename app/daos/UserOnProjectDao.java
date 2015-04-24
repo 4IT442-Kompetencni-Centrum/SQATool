@@ -8,5 +8,6 @@ import models.UserOnProject;
  *
  */
 public interface UserOnProjectDao extends AbstractVersionedDao<UserOnProject> {
+	public UserOnProject getByProjectAndUser(Long userId, Long projectId);
 
 }
