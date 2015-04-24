@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import models.Project;
+import models.User;
 import play.Logger;
 import play.db.jpa.JPA;
 import service.Configuration;
@@ -29,8 +30,10 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 
 	@Override
 	public List<Project> getAllProjectsForUser(Long userId) {
-		//TODO tmichalicka
-		return new ArrayList<Project>();
+
+		Query query = JPA.em().createQuery("SELECT p FROM Project p WHERE p.visible = TRUE AND p.userOnProject.user.id = :user ORDER BY p.dateStart");
+		query.setParameter("user", userId);
+		return query.getResultList();
 	}
 
 	@Override
@@ -50,5 +53,28 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 	public Integer getNumberOfProjects() {
 		TypedQuery<Long> q = JPA.em().createQuery("SELECT count(p) FROM Project p WHERE p.visible = TRUE", Long.class);
 		return q.getSingleResult().intValue();
+	}
+	
+	@Override
+	public Integer getNumberOfProjectsForUser(User user) {
+		TypedQuery<Long> q = JPA.em().createQuery("SELECT count(p) FROM Project p JOIN p.userOnProject uop WHERE p.visible = TRUE AND uop.user = :user", Long.class);
+		q.setParameter("user", user);
+		return q.getSingleResult().intValue();
+	}
+
+
+	@Override
+	public List<Project> getProjectsForUser(User user, Integer start,
+			Integer limit) {
+		if (start == null) {
+			start = 0;
+		}
+		if (limit == null) {
+			limit = Configuration.PAGE_SIZE;
+			Logger.debug("No limit was given to getAllProjectsForUser. {} is now set as limit.", Configuration.PAGE_SIZE);
+		}
+		Query query = JPA.em().createQuery("SELECT p FROM Project p JOIN p.userOnProject uop WHERE p.visible = TRUE AND uop.user = :user ORDER BY p.dateStart").setMaxResults(limit).setFirstResult(start);
+		query.setParameter("user", user);
+		return query.getResultList();
 	}
 }

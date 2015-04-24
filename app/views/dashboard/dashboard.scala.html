@@ -7,7 +7,7 @@
 
     <ul class="nav nav-tabs dashboard-tabs">
         <li role="presentation" @if(selectedTabItem == "activities") { class="active" }><a href="@routes.DashboardController.activities(0)">Přihlášené aktivity</a></li>
-        <li role="presentation" @if(selectedTabItem == "projects") { class="active" }><a href="#">Přihlášené projekty</a></li>
+        <li role="presentation" @if(selectedTabItem == "projects") { class="active" }><a href="@routes.DashboardController.projects(0)">Přihlášené projekty</a></li>
         <li role="presentation" @if(selectedTabItem == "rewards") { class="active" }><a href="@routes.DashboardController.rewards(0)">Moje odměny</a></li>
     </ul>
 

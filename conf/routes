@@ -84,3 +84,4 @@ GET			/uzivatel/novy						  controllers.UserController.create()
 #dashboard
 GET         /dashboard/aktivity                   controllers.DashboardController.activities(page:Integer ?= 0)
 GET         /dashboard/odmeny                     controllers.DashboardController.rewards(page:Integer ?= 0)
+GET         /dashboard/projekty                   controllers.DashboardController.projects(page:Integer ?= 0)

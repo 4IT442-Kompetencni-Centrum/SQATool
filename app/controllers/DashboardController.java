@@ -1,8 +1,11 @@
 package controllers;
 
 
-import daos.impl.DAOs;
+import java.util.ArrayList;
+import java.util.List;
+
 import models.Activity;
+import models.Project;
 import models.Reward;
 import models.User;
 import play.db.jpa.Transactional;
@@ -11,13 +14,13 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.ActionsEnum;
 import service.Configuration;
+import service.ProjectConverter;
 import service.SecurityService;
 import views.data.MenuDto;
 import views.html.dashboard.activities;
 import views.html.dashboard.rewards;
-
-import java.util.ArrayList;
-import java.util.List;
+import views.html.dashboard.projects;
+import daos.impl.DAOs;
 
 
 @Security.Authenticated(Secured.class)
@@ -48,6 +51,19 @@ public class DashboardController extends Controller {
 
 
         return ok(rewards.render(rewardList, getMainMenu("dashboard"), page, numberOfPages));
+    }
+    
+    @Transactional(readOnly = true)
+    public static Result projects(Integer page) {
+        User user = SecurityService.fetchUser(session("authid"));
+
+        List<Project> projectList = DAOs.getProjectDao().getProjectsForUser(user, page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
+
+        Integer total = DAOs.getProjectDao().getNumberOfProjectsForUser(user);
+        Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total / Configuration.PAGE_SIZE : total / Configuration.PAGE_SIZE + 1;
+
+
+        return ok(projects.render(ProjectConverter.convertListToDto(projectList, user), getMainMenu("dashboard"), page, numberOfPages));
     }
 
 
