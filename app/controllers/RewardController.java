@@ -40,7 +40,7 @@ public class RewardController extends Controller {
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total/Configuration.PAGE_SIZE : total/Configuration.PAGE_SIZE + 1;
 
 
-        return ok(showAll.render(rewards, numberOfPages, page, getMainMenu()));
+        return ok(showAll.render(rewards, numberOfPages, page, getMainMenu("rewards")));
     }
 
 
@@ -155,6 +155,10 @@ public class RewardController extends Controller {
      * Method returns list of items to left side menu. This implementation returns one item - add new
      * @return
      */
+    protected static List<MenuDto> getMainMenu(String selected) {
+       return DashboardController.getMainMenu(selected);
+    }
+
     protected static List<MenuDto> getMainMenu() {
        return DashboardController.getMainMenu();
     }
