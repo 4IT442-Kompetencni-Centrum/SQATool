@@ -22,6 +22,9 @@ GET         /projekty/detail/:projectId           controllers.ProjectController.
 GET         /projekty/upravit/:projectId          controllers.ProjectController.edit(projectId: Long)
 GET         /projekty/smazat/:projectId           controllers.ProjectController.delete(projectId: Long)
 GET         /projekty/nenalezen/:projectId        controllers.ProjectController.projectNotFound(projectId: Long)
+POST        /projekty/odpracovanaDoba/nova        controllers.ProjectController.hoursWorked()
+POST        /projekty/odpracovanaDoba/zamitnout/id controllers.ProjectController.rejectHoursWorked(id: Long)
+POST        /projekty/odpracovanaDoba/schvalit/id controllers.ProjectController.approveHoursWorked(id: Long)
 GET         /projekty/                            controllers.ProjectController.showAll(page: Integer ?= 0)
 GET         /projekty/:page                       controllers.ProjectController.showAll(page: Integer)
 GET	        /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
@@ -62,6 +65,7 @@ GET         /uzivatel/json/:query                 controllers.UserController.get
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
 GET         /initPartners                         controllers.Init.initPartners()
 GET         /initStateUser                        controllers.Init.initStateUser()
+GET         /initStateHoursWorked                 controllers.Init.initStateHoursWorked()
 
 #activities
 GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)

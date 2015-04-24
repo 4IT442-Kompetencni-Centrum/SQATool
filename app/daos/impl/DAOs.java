@@ -1,8 +1,21 @@
 package daos.impl;
 
-import daos.*;
-import models.StateUser;
-import models.TypeUserOnProject;
+import daos.ActivityDao;
+import daos.ContactPersonDao;
+import daos.HoursWorkedDao;
+import daos.PartnerDao;
+import daos.ProjectDao;
+import daos.RewardDao;
+import daos.StateActivityDao;
+import daos.StateHoursWorkedDao;
+import daos.StateUserDao;
+import daos.TypeActivityDao;
+import daos.TypeRoleInBusinessDao;
+import daos.TypeRoleOnActivityDao;
+import daos.TypeUserOnProjectDao;
+import daos.UserDao;
+import daos.UserLoggedOnActivityDao;
+import daos.UserOnProjectDao;
 
 /**
  * Storage class for DAOs.
@@ -25,7 +38,8 @@ public class DAOs {
 	private static RewardDao rewardDao;
     private static StateUserDao stateUserDao;
     private static TypeUserOnProjectDao typeUserOnProjectDao;
-
+    private static StateHoursWorkedDao stateHoursWorkedDao;
+    
 	public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
 			projectDao = new ProjectDaoImpl();
@@ -129,5 +143,12 @@ public class DAOs {
         	typeUserOnProjectDao = new TypeUserOnProjectDaoImpl();
         }
         return typeUserOnProjectDao;
+    }
+  
+    public static StateHoursWorkedDao getStateHoursWorkedDao(){
+        if(stateHoursWorkedDao == null){
+        	stateHoursWorkedDao = new StateHoursWorkedDaoImpl();
+        }
+        return stateHoursWorkedDao;
     }
 }

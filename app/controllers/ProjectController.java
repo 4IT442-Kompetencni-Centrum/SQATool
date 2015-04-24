@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.OptimisticLockException;
 
+import models.HoursWorked;
 import models.Partner;
 import models.Project;
 import models.User;
@@ -17,8 +18,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import service.ActionsEnum;
 import service.Configuration;
+import service.EnumerationWithKeys;
+import service.HoursWorkedConverter;
 import service.ProjectConverter;
 import service.SecurityService;
+import views.data.HoursWorkedDto;
 import views.data.MenuDto;
 import views.data.ProjectDto;
 import views.html.projects.projectDetail;
@@ -103,7 +107,7 @@ public class ProjectController extends Controller{
 	 * @param projectId
 	 * @return
 	 */
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=true)
 	public static Result detail(Long projectId) {
 		User user = SecurityService.fetchUser(session("authid"));
 		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_DETAIL)) {
@@ -115,8 +119,33 @@ public class ProjectController extends Controller{
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
 			Logger.debug("Partner detail page is shown.");
-			return ok(projectDetail.render(ProjectConverter.convertToDto(project, null), getBackToListMenu(user), null, new ArrayList<User>()));
+			List<HoursWorkedDto> hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProject(project));
+			return ok(projectDetail.render(ProjectConverter.convertToDto(project, null), getBackToListMenu(user), hoursWorked, isProjectManager(project, user)));
 		}
+	}
+	
+	@Transactional(readOnly=false)
+	public static Result approveHoursWorked(Long id) {
+		Logger.debug("Hours worked with id {} was approved", id);
+		HoursWorked hw = DAOs.getHoursWorkedDao().findById(id);
+		if (hw != null) {
+			hw.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_APPROVED));
+			DAOs.getHoursWorkedDao().update(hw);
+		}
+		return ok();
+	}
+	
+	@Transactional(readOnly=false)
+	public static Result rejectHoursWorked(Long id) {
+		Logger.debug("Hours worked with id {} was rejected", id);
+		HoursWorked hw = DAOs.getHoursWorkedDao().findById(id);
+		if (hw != null) {
+			if (!EnumerationWithKeys.STATE_HOURS_WORKED_APPROVED.equals(hw.getStateHoursWorked().getKey())) {
+				hw.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_REJECTED));
+				DAOs.getHoursWorkedDao().update(hw);
+			}
+		}
+		return ok();
 	}
 	
 	/**
@@ -224,6 +253,24 @@ public class ProjectController extends Controller{
 		return redirect(routes.ProjectController.showAll(0));
 	}
 	/**
+	 * Action saves new HoursWorked
+	 * @return
+	 */
+	@Transactional(readOnly=false)
+	public static final Result hoursWorked() {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_DETAIL)) {
+			return redirect(routes.Application.accessDenied());
+		}
+		Form<HoursWorkedDto> hoursWorkedForm = Form.form(HoursWorkedDto.class).bindFromRequest();
+		HoursWorked hoursWorked = HoursWorkedConverter.convertToEntity(hoursWorkedForm.get());
+		hoursWorked.setUser(user);
+		hoursWorked.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_CREATED));
+		DAOs.getHoursWorkedDao().create(hoursWorked);
+		return redirect(routes.ProjectController.detail(hoursWorkedForm.get().getProjectId()));
+	}
+	
+	/**
 	 * Method returns list of items to left side menu. This implementation returns one item - back to list
 	 * @return
 	 */
@@ -253,6 +300,16 @@ public class ProjectController extends Controller{
 			result.add(newProject);
 		}
 		return result;		
+	}
+	
+	private static Boolean isProjectManager(Project project, User user) {
+		for (UserOnProject uop : project.getUserOnProject()) {
+			if (user.equals(uop.getUser())) {
+				return EnumerationWithKeys.PROJECT_MANAGER_KEY.equals(uop.getTypeUserOnProject().getKey());
+			}
+		}
+		Logger.debug("User is not on project with id {} ", project.getProjectId());
+		return null;
 	}
 	
 }

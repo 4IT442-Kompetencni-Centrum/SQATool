@@ -24,5 +24,9 @@ public class EnumerationWithKeys {
     
     public static final String PROJECT_MANAGER_KEY = "vedouci";
     public static final String PROJECT_MEMBER_KEY = "clen";
+    
+    public static final String STATE_HOURS_WORKED_CREATED = "zadana";
+    public static final String STATE_HOURS_WORKED_APPROVED = "schvalena";
+    public static final String STATE_HOURS_WORKED_REJECTED = "zamitnuta";
 
 }

@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,13 +23,15 @@ public class HoursWorked extends AbstractVersionedEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long hoursWorkedId;
 	private Float numberOfHours;
-	private String taskName;
+	private String description;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private User user;
 	@ManyToOne
 	private StateHoursWorked stateHoursWorked;
+	private Date timeFrom;
+	private Date timeTo;
 	
 	
 	
@@ -49,12 +53,6 @@ public class HoursWorked extends AbstractVersionedEntity {
 	public void setNumberOfHours(Float numberOfHours) {
 		this.numberOfHours = numberOfHours;
 	}
-	public String getTaskName() {
-		return taskName;
-	}
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
 	public Project getProject() {
 		return project;
 	}
@@ -66,6 +64,24 @@ public class HoursWorked extends AbstractVersionedEntity {
 	}
 	public void setStateHoursWorked(StateHoursWorked stateHoursWorked) {
 		this.stateHoursWorked = stateHoursWorked;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Date getTimeFrom() {
+		return timeFrom;
+	}
+	public void setTimeFrom(Date timeFrom) {
+		this.timeFrom = timeFrom;
+	}
+	public Date getTimeTo() {
+		return timeTo;
+	}
+	public void setTimeTo(Date timeTo) {
+		this.timeTo = timeTo;
 	}
 	
 }
