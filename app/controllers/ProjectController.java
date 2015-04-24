@@ -119,8 +119,17 @@ public class ProjectController extends Controller{
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
 			Logger.debug("Partner detail page is shown.");
-			List<HoursWorkedDto> hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProject(project));
-			return ok(projectDetail.render(ProjectConverter.convertToDto(project, null), getBackToListMenu(user), hoursWorked, isProjectManager(project, user)));
+			Boolean isProjectManager = isProjectManager(project, user);
+			List<HoursWorkedDto> hoursWorked = null;
+			if (isProjectManager != null && isProjectManager == true) {
+				//isProjectManager is null for users who doesnt participate on project
+				Logger.debug("User is project manager. All timesheets are shown.");
+				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProject(project));
+			} else {
+				Logger.debug("User is not project manager. Only his timesheet is shown.");
+				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProjectAndUser(project, user));
+			}
+			return ok(projectDetail.render(ProjectConverter.convertToDto(project, null), getBackToListMenu(user), hoursWorked, isProjectManager));
 		}
 	}
 	
