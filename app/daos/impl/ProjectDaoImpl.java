@@ -2,6 +2,7 @@ package daos.impl;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -77,11 +78,23 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 										 + "JOIN p.userOnProject uop LEFT OUTER JOIN p.hoursWorked hw "
 										 + "WHERE p.visible = TRUE AND uop.user = :user AND (hw.user = uop.user OR hw = null) "
 										 + "GROUP BY p ORDER BY p.dateStart "
-//										 + "WHERE pn.visible = TRUE AND uopn.user = :user2) "
 										 + " ")
 										 .setMaxResults(limit).setFirstResult(start);
 		query.setParameter("user", user);
 		//query.setParameter("user2", user);
 		return query.getResultList();
+	}
+
+	@Override
+	public Project getProjectByShortcut(String str) {
+		TypedQuery<Project> q = JPA.em().createQuery("SELECT p FROM Project p WHERE p.visible = TRUE AND p.shortcut = :shortcut", Project.class);
+		q.setParameter("shortcut", str);
+		try {
+			List<Project> res = q.getResultList();
+			if (res == null || res.size() == 0) return null;
+			return res.get(0);
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 }

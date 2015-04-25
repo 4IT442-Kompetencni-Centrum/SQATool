@@ -2,12 +2,19 @@ package views.data;
 
 import java.util.List;
 
+import play.data.validation.Constraints.Required;
+
 public class PartnerDto {
 	private Long partnerId;
+	@Required
 	private String name;
+	@Required
 	private Integer ic;
+	@Required
 	private String city;
+	@Required
 	private String street;
+	@Required
 	private String houseNumber;
 	private Integer version;
 	private List<ContactPersonDto> contactPersons;

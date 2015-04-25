@@ -14,8 +14,10 @@ import models.UserOnProject;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.ActionsEnum;
 import service.Configuration;
 import service.EnumerationWithKeys;
@@ -30,8 +32,10 @@ import views.html.projects.projectNotFound;
 import views.html.projects.projects;
 import views.html.projects.projectsCreate;
 import views.html.projects.projectsEdit;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import daos.impl.DAOs;
-import play.mvc.Security;
 /**
  * Controller for actions related to Project
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
@@ -277,6 +281,21 @@ public class ProjectController extends Controller{
 		hoursWorked.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_CREATED));
 		DAOs.getHoursWorkedDao().create(hoursWorked);
 		return redirect(routes.ProjectController.detail(hoursWorkedForm.get().getProjectId()));
+	}
+	
+	@Transactional(readOnly=true)
+	public static final Result isProjectShortcutFree(String string) {
+		ObjectNode res = Json.newObject();
+		Project project = DAOs.getProjectDao().getProjectByShortcut(string);
+		if (project == null) {
+			res.put("isFree", 1);
+			res.put("project", -1);
+		} else {
+			res.put("isFree", 0);
+			res.put("project", project.getProjectId());
+		}
+		Logger.debug("Response {} is sending to client.", res);
+		return ok(res);
 	}
 	
 	/**

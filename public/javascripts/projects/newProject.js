@@ -31,7 +31,32 @@ var typeAheadUserParam = {
 			  });
 		  }
 	}
+
 $(document).ready(function(){
+		//init project shortcut check
+		$("#projectShortcut").on("keyup", function(event) {
+			var query = $("#projectShortcut").val();
+			$.getJSON("/projekty/volny/" + query,
+				function (data) {
+					var projectId = $("input[name='projectId']").val();
+					console.log(projectId +" "+ data.project);
+					if (data.isFree == 0 && projectId != data.project) {
+						$("#projectShortcutValidationGlyphicon").removeClass("glyphicon-ok");
+						$("#projectShortcutValidationGlyphicon").addClass("glyphicon-remove");
+						var par = $("#projectShortcutValidationGlyphicon").parents(".shortcutInput");
+						par.removeClass("has-success");
+						par.addClass("has-error");
+						$("#projectShortcutValidationMessage").removeClass("hidden");
+					} else {
+						$("#projectShortcutValidationGlyphicon").addClass("glyphicon-ok");
+						$("#projectShortcutValidationGlyphicon").removeClass("glyphicon-remove");
+						var par = $("#projectShortcutValidationGlyphicon").parents(".shortcutInput");
+						par.addClass("has-success");
+						par.removeClass("has-error");
+						$("#projectShortcutValidationMessage").addClass("hidden");
+					}
+			})
+		});
 		$("form").submit(function(){
 			//magic trick ;-)
 			//to submit form correctly, all temp fields (without index) have to be removed

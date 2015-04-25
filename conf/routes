@@ -7,7 +7,6 @@ GET         /                                     controllers.Application.index(
 # Login page
 GET         /login                                controllers.Login.showLoginPage()
 POST        /login                                controllers.Login.authenticate()
-GET         /test                                 controllers.Application.testDAO()
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
 GET         /initRolesOnProject                   controllers.Init.initRolesOnProject()
 GET         /logout                               controllers.Login.logout()
@@ -16,6 +15,7 @@ GET         /assets/*file                         controllers.Assets.at(path="/p
 
 #projects pages
 GET         /projekty/novy                        controllers.ProjectController.create()
+GET         /projekty/volny/:shortcut             controllers.ProjectController.isProjectShortcutFree(shortcut: String)
 POST        /projekty/novyUlozit                  controllers.ProjectController.saveNewProject()
 POST        /projekty/editaceUlozit               controllers.ProjectController.updateProject(forceNext: Boolean ?= false)
 GET         /projekty/detail/:projectId           controllers.ProjectController.detail(projectId: Long)

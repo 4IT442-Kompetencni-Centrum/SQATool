@@ -45,5 +45,7 @@ public interface ProjectDao extends AbstractVersionedDao<Project> {
 	 */
 	public Integer getNumberOfProjectsForUser(User user);
 	
+	public Project getProjectByShortcut(String str);
+	
 	
 }

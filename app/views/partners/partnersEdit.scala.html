@@ -14,39 +14,39 @@
 	</div>
 	}
 	<div class="form-group">
-		<label for="partnerName" class="col-sm-2 control-label">Název</label>
+		<label for="partnerName" class="col-sm-2 control-label">Název<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerName"
 				placeholder="Název partnera" name="name" value='@editForm.get().getName()' required>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="partnerIc" class="col-sm-2 control-label">IČO</label>
+		<label for="partnerIc" class="col-sm-2 control-label">IČO<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="number" class="form-control" id="partnerIc"
-				placeholder="IČO" name="ic" value="@editForm.get().getIc()">
+				placeholder="IČO" name="ic" value="@editForm.get().getIc()" required>
 		</div>
 	</div>
 	<h2>Adresa</h2>
 	<div class="form-group">
-		<label for="partnerStreet" class="col-sm-2 control-label">Ulice</label>
+		<label for="partnerStreet" class="col-sm-2 control-label">Ulice<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerStreet"
-				placeholder="Název projektu" name="street" value="@editForm.get().getStreet()"></textarea>
+				placeholder="Název projektu" name="street" value="@editForm.get().getStreet()" required>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="partnerHouseNumber" class="col-sm-2 control-label">Číslo popisné</label>
+		<label for="partnerHouseNumber" class="col-sm-2 control-label">Číslo popisné<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerHouseNumber"
-				placeholder="Číslo popisné" name="houseNumber" value="@editForm.get().getHouseNumber()"></textarea>
+				placeholder="Číslo popisné" name="houseNumber" value="@editForm.get().getHouseNumber()" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="partnerCity" class="col-sm-2 control-label">Město</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerCity"
-				placeholder="Město" name="city" value="@editForm.get().getCity()"></textarea>
+				placeholder="Město" name="city" value="@editForm.get().getCity()" required>
 		</div>
 	</div>
 	<h2>Kontaktní osoby</h2>
@@ -54,17 +54,17 @@
 	<div class="contactPersonRow">
 	<h3><span class="firstname">@editForm.get().getContactPersons().get(index).getFirstName()</span> <span class="lastname">@editForm.get().getContactPersons().get(index).getLastName()</span></h3>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">Jméno</label>
+			<label class="col-sm-2 control-label">Jméno<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control contactPersonName"
-					placeholder="Jméno" name="contactPersons[@index].firstName" value="@editForm.get().getContactPersons().get(index).getFirstName()">
+					placeholder="Jméno" name="contactPersons[@index].firstName" value="@editForm.get().getContactPersons().get(index).getFirstName()" required>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">Příjmení</label>
+			<label class="col-sm-2 control-label">Příjmení<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control contactPersonSurname"
-					placeholder="Příjmení" name="contactPersons[@index].lastName" value="@editForm.get().getContactPersons().get(index).getLastName()">
+					placeholder="Příjmení" name="contactPersons[@index].lastName" value="@editForm.get().getContactPersons().get(index).getLastName()" required>
 			</div>
 		</div>
 			<div class="form-group">
@@ -75,10 +75,10 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">Mail</label>
+			<label class="col-sm-2 control-label">Mail<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control"
-					placeholder="Mail" name="contactPersons[@index].email" value="@editForm.get().getContactPersons().get(index).getEmail()">
+					placeholder="Mail" name="contactPersons[@index].email" value="@editForm.get().getContactPersons().get(index).getEmail()" required>
 			</div>
 		</div>
 		<input type="hidden" value="@editForm.get().getContactPersons().get(index).getContactPersonId()" name="contactPersons[@index].contactPersonId">
