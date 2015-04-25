@@ -8,6 +8,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.user.detail;
 import service.ActionsEnum;
 import service.SecurityService;
 
@@ -17,16 +18,21 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import daos.impl.DAOs;
 
 public class UserController extends Controller {
-
-	public static Result show(Long id) {
-		//TODO mcech - pozor, vede sem odkaz z detailu projektu, po mergi overit.
-		return ok();
+	
+	@Transactional()
+	public static Result show(Long id){
+		Logger.debug(id + "");
+		User _user = DAOs.getUserDao().findById(id);
+		Logger.debug(_user+"");
+		return ok(detail.render(_user));
 	}
+		
 	
 	public static Result create() {
 		//TODO mcech - pozor, vede sem odkaz z vytvoreni/editace projektu, po mergi overit.
 		return ok();
 	}
+		
 	
 	/**
 	 * Action returns JSON array for ajax calls (autocomplete)

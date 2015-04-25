@@ -18,7 +18,9 @@ public class User extends AbstractVersionedEntity {
     public String email;
     public String firstName;
     public String lastName;
-    @ManyToOne(fetch=FetchType.EAGER)
+    public String phoneNumber;
+    
+	@ManyToOne(fetch=FetchType.EAGER)
     public StateUser stateUser;
 
     public User(){}
@@ -42,7 +44,14 @@ public class User extends AbstractVersionedEntity {
     }
 
     
-    
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
     public Long getId() {
 		return id;
 	}
