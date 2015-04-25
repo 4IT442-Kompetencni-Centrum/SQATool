@@ -30,6 +30,7 @@ public class ProjectDto {
 	private String managerName;
 	private boolean canBeModified = false;
 	private boolean canBeDeleted = false;
+	private Double totalHoursWorked = null;
 	
 	public Long getProjectId() {
 		return projectId;
@@ -138,6 +139,12 @@ public class ProjectDto {
 	}
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
+	}
+	public Double getTotalHoursWorked() {
+		return totalHoursWorked;
+	}
+	public void setTotalHoursWorked(Double totalHoursWorked) {
+		this.totalHoursWorked = totalHoursWorked;
 	}
 	
 	

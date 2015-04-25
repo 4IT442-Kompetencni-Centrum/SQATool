@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Activity;
-import models.Project;
 import models.Reward;
 import models.User;
 import play.db.jpa.Transactional;
@@ -18,8 +17,8 @@ import service.ProjectConverter;
 import service.SecurityService;
 import views.data.MenuDto;
 import views.html.dashboard.activities;
-import views.html.dashboard.rewards;
 import views.html.dashboard.projects;
+import views.html.dashboard.rewards;
 import daos.impl.DAOs;
 
 
@@ -52,18 +51,21 @@ public class DashboardController extends Controller {
 
         return ok(rewards.render(rewardList, getMainMenu("dashboard"), page, numberOfPages));
     }
-    
+    /**
+     * Action shows dashboard tab with projects and hours worked
+     * @param page
+     * @return
+     */
     @Transactional(readOnly = true)
     public static Result projects(Integer page) {
         User user = SecurityService.fetchUser(session("authid"));
 
-        List<Project> projectList = DAOs.getProjectDao().getProjectsForUser(user, page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
+        List<Object[]> projectList = DAOs.getProjectDao().getProjectsForUser(user, page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
 
         Integer total = DAOs.getProjectDao().getNumberOfProjectsForUser(user);
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total / Configuration.PAGE_SIZE : total / Configuration.PAGE_SIZE + 1;
 
-
-        return ok(projects.render(ProjectConverter.convertListToDto(projectList, user), getMainMenu("dashboard"), page, numberOfPages));
+        return ok(projects.render(ProjectConverter.convertListOfObjectToDto(projectList, user), getMainMenu("dashboard"), page, numberOfPages));
     }
 
 

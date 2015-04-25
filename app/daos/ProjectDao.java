@@ -23,7 +23,7 @@ public interface ProjectDao extends AbstractVersionedDao<Project> {
 	 * @param userId
 	 * @return
 	 */
-	public List<Project> getProjectsForUser(User user, Integer start, Integer limit);
+	public List<Object[]> getProjectsForUser(User user, Integer start, Integer limit);
 	
 	/**
 	 * Method returns list of all projects
