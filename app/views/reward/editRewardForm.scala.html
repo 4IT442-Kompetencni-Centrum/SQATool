@@ -1,0 +1,32 @@
+@(form: Form[forms.RewardForm], user: User, projects: List[Project])
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+
+@b3.form(action = routes.RewardController.update()) {
+    <div class="form-group">
+        <label class="control-label col-md-2 " for="@form("amount").name">Výše odměny</label>
+        <div class="col-md-3">
+            <div class="input-group">
+                <input type="text" class="form-control" name="@form("amount").name" value="@form("amount").value" />
+                <span class="input-group-addon">Kč</span>
+            </div>
+        </div>
+        <label class="control-label col-md-1" style="text-align : center" for="@form("projectId").name">Projekt</label>
+        <div class="col-md-3">
+            <select name="@form("projectId").name" class="form-control">
+                @for(project <- projects) {
+                    <option value="@project.getProjectId()" @if(project.getProjectId().toString == form("projectId").value){selected="selected"} >@project.getName()</option>
+                }
+            </select>
+        </div>
+        <label class="control-label col-md-1" style="text-align : center" for="@form("date").name">Datum</label>
+        <div class="col-md-2">
+            <input type="text" class="form-control datepicker" name="@form("date").name" value="@form("date").value" />
+        </div>
+    </div>
+
+    @b3.text(form("description"), '_label -> "Popis")
+    @b3.hidden(form("userId").name, user.getId())
+    @b3.hidden(form("rewardId").name, form("rewardId").value)
+    @b3.submit('class -> "btn btn-primary") { Zadat }
+}

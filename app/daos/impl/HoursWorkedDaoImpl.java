@@ -1,6 +1,13 @@
 package daos.impl;
 
+import java.util.List;
+
+import javax.persistence.Query;
+
+import play.db.jpa.JPA;
 import models.HoursWorked;
+import models.Project;
+import models.User;
 import daos.HoursWorkedDao;
 
 /**
@@ -14,4 +21,20 @@ public class HoursWorkedDaoImpl extends AbstractVersionedDaoImpl<HoursWorked> im
 	HoursWorkedDaoImpl() {
 
 	}
+
+	@Override
+	public List<HoursWorked> getAllForProject(Project project) {
+		Query query = JPA.em().createQuery("SELECT hw FROM HoursWorked hw WHERE hw.project = :project");
+		query.setParameter("project", project);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<HoursWorked> getAllForProjectAndUser(Project project, User user) {
+		Query query = JPA.em().createQuery("SELECT hw FROM HoursWorked hw WHERE hw.user = :user AND hw.project = :project");
+		query.setParameter("user", user);
+		query.setParameter("project", project);
+		return query.getResultList();
+	}
+
 }

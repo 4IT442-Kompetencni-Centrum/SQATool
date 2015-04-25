@@ -1,8 +1,10 @@
 package controllers;
 
 import models.Partner;
+import models.StateHoursWorked;
 import models.StateUser;
 import models.TypeRoleInBusiness;
+import models.TypeUserOnProject;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -90,5 +92,40 @@ public class Init extends Controller {
         DAOs.getStateUserDao().create(inactive);
 
         return ok(index.render("4IT442 - Software Quality Assurance Tool"));
+    }
+    
+    @Transactional(readOnly = false)
+    public static Result initRolesOnProject(){
+    	TypeUserOnProject manager = new TypeUserOnProject();
+    	manager.setKey(EnumerationWithKeys.PROJECT_MANAGER_KEY);
+    	manager.setValue("Vedoucí");
+    	DAOs.getTypeUserOnProject().create(manager);
+    	
+    	TypeUserOnProject member = new TypeUserOnProject();
+    	member.setKey(EnumerationWithKeys.PROJECT_MEMBER_KEY);
+    	member.setValue("Člen");
+    	DAOs.getTypeUserOnProject().create(member);
+    	
+    	return ok(index.render("4IT442 - Software Quality Assurance Tool"));
+    }
+    
+    @Transactional(readOnly = false)
+    public static Result initStateHoursWorked() {
+    	StateHoursWorked created = new StateHoursWorked();
+    	created.setKey(EnumerationWithKeys.STATE_HOURS_WORKED_CREATED);
+    	created.setValue("Zadaná");
+    	DAOs.getStateHoursWorkedDao().create(created);
+    	
+    	StateHoursWorked approved = new StateHoursWorked();
+    	approved.setKey(EnumerationWithKeys.STATE_HOURS_WORKED_APPROVED);
+    	approved.setValue("Schválená");
+    	DAOs.getStateHoursWorkedDao().create(approved);
+    	
+    	StateHoursWorked rejected = new StateHoursWorked();
+    	rejected.setKey(EnumerationWithKeys.STATE_HOURS_WORKED_REJECTED);
+    	rejected.setValue("Zamítnutá");
+    	DAOs.getStateHoursWorkedDao().create(rejected);
+    	
+    	return ok(index.render("4IT442 - Software Quality Assurance Tool"));
     }
 }

@@ -2,6 +2,10 @@
     font-weight: bold;
 }
 
+.marginRow {
+	margin: 10px 0 !important;
+}
+
 #main-content{
     min-height: 400px;
     border-left: 2px solid #eee;
@@ -104,4 +108,99 @@
 .menuItem span {
 	float: right;
 	font-size: 20px;
+}
+
+ul.activity-detail {
+    line-height: 175%;
+}
+
+span.user-logged-on-activity:after {
+    content: ",";
+}
+
+span.user-logged-on-activity:last-of-type:after {
+    content: "";
+}
+
+div#dashboard {
+    margin-top: 20px;
+}
+
+img.logo {
+    max-width: 100%;
+    max-height: 46px;
+}
+
+nav.navbar.main-navbar {
+    background: #ffffff;
+}
+
+nav.navbar.main-navbar .navbar-brand {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+div.logged-user-informations {
+    display: none;
+}
+
+nav.navbar.main-navbar ul.navbar-nav li.divider {
+    border-top: 1px solid rgba(0,0,0,0.15);
+    margin: 5px 0 15px 0;
+}
+
+nav.navbar.main-navbar ul.navbar-nav li.logged-as {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 80%;
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    nav.navbar.main-navbar {
+        height: 100px;
+    }
+
+    nav.navbar.main-navbar .navbar-brand {
+        padding-top: 17px;
+        padding-bottom: 17px;
+        max-width: 330px;
+    }
+
+    img.logo {
+        max-height: 96px;
+    }
+
+    nav.navbar.main-navbar .navbar-collapse {
+        padding-top: 5px;
+    }
+
+    nav.navbar.main-navbar ul.navbar-nav {
+        clear: both;
+        margin-top: -10px;
+        border: 1px solid rgba(0,0,0,0.15);
+    }
+
+    nav.navbar.main-navbar ul.navbar-nav li a{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: 0;
+        border-radius: 0;
+    }
+
+    div.logged-user-informations {
+        display: block;
+        float: right;
+        margin-right: -15px;
+    }
+
+    nav.navbar.main-navbar ul.navbar-nav li.xs-only {
+        display: none;
+    }
+}
+
+@media (max-width: 450px) {
+    ul.dashboard-tabs li a {
+        padding: 10px 6px;
+    }
 }

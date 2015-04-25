@@ -1,46 +1,40 @@
-@import service.ActionsEnum
 @import views.data.MenuDto
+@import service.ActionsEnum
 @import service.SecurityService
-@import daos.impl.DAOs;
-@(activities: List[Activity], numberOfPages: Integer, activePage: Integer, menu: List[MenuDto])
+@(activities: List[Activity], submenu: List[MenuDto], activePage: Integer, numberOfPages: Integer)
 @user = @{SecurityService.fetchUser(session.get("authid"))}
-@main("Aktivity", "activities", menu){
-    <h1>Aktivity</h1>
-
-    @if(activities.size == 0) {
+@dashboard("activities", submenu) {
+    @if(activities.size == 0){
         <div class="alert alert-info">
-            <p>Nebyly vytvořeny žádné aktivity.</p>
+            <p>
+                Nejste přihlášen(a) na žádné aktivity.
+            </p>
         </div>
-    } else {
+    }else{
         <table class="table table-hover table-striped">
             <tbody>
             @for(activity <- activities) {
                 <tr>
                     <td>
-                        <a href="@routes.ActivityController.show(activity.getActivityId())" class="btn btn-link btn-xs">
-                        <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
+                        <a href="@routes.ActivityController.show(activity.getActivityId())" class="btn btn-link">
+                            <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
                         </a>
                     </td>
                     <td class="text-right">
                         @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
-                            <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link btn-xs">
+                            <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link">
                                 <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
                             </a>
                         }
                         @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
-                            <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link btn-xs" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
+                            <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
                             </a>
                         }
-                        @if(DAOs.getUserLoggedOnActivityDao().isLogged(activity,user)){
-                            <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-danger">
-                                Odhlásit
-                            </a>
-                        }else{
-                            <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
-                                Přihlásit
-                            </a>
-                        }
+
+                        <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-danger">
+                            Odhlásit
+                        </a>
                     </td>
                 </tr>
             }
@@ -55,12 +49,12 @@
                     </li>
                 }else{
                     <li>
-                        <a href="@routes.ActivityController.showAll(activePage-1)">&laquo;</a>
+                        <a href="@routes.DashboardController.activities(activePage-1)">&laquo;</a>
                     </li>
                 }
                 @for(page <- 0 until numberOfPages) {
                     <li @if(page == activePage) { class="active" }>
-                        <a href="@routes.ActivityController.showAll(page)">@(page+1)</a>
+                        <a href="@routes.DashboardController.activities(page)">@(page+1)</a>
                     </li>
                 }
                 @if(activePage == numberOfPages-1) {
@@ -69,7 +63,7 @@
                     </li>
                 }else{
                     <li>
-                        <a href="@routes.ActivityController.showAll(activePage+1)">&raquo;</a>
+                        <a href="@routes.DashboardController.activities(activePage+1)">&raquo;</a>
                     </li>
                 }
             </ul>

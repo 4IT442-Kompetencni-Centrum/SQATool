@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.persistence.OptimisticLockException;
 
+import models.HoursWorked;
 import models.Partner;
 import models.Project;
 import models.User;
+import models.UserOnProject;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -16,8 +18,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import service.ActionsEnum;
 import service.Configuration;
+import service.EnumerationWithKeys;
+import service.HoursWorkedConverter;
 import service.ProjectConverter;
 import service.SecurityService;
+import views.data.HoursWorkedDto;
 import views.data.MenuDto;
 import views.data.ProjectDto;
 import views.html.projects.projectDetail;
@@ -58,7 +63,7 @@ public class ProjectController extends Controller{
 		Integer totalProjects = DAOs.getProjectDao().getNumberOfProjects();
 		Integer numberOfPages = totalProjects % Configuration.PAGE_SIZE == 0 ? totalProjects/Configuration.PAGE_SIZE : totalProjects/Configuration.PAGE_SIZE + 1; 
 		Logger.debug("Page with list of projects is shown. Number of projects id db is {}", totalProjects);
-		return ok(projects.render(ProjectConverter.convertListToDto(proj), getMainMenu(user), numberOfPages, page));
+		return ok(projects.render(ProjectConverter.convertListToDto(proj, user), getMainMenu(user), numberOfPages, page));
 	}
 	
 	/**
@@ -89,6 +94,11 @@ public class ProjectController extends Controller{
 		Project newProject = ProjectConverter.convertToEntity(projectForm.get());
 		newProject.setVisible(true);
 		DAOs.getProjectDao().create(newProject);
+		if (newProject.getUserOnProject() != null) {
+			for (UserOnProject uop : newProject.getUserOnProject()) {
+				DAOs.getUserOnProjectDao().create(uop);
+			}
+		}
 		Logger.debug("Action for saving data of new project was called.");
 		return redirect(routes.ProjectController.showAll(0).absoluteURL(request()));
 	}
@@ -97,7 +107,7 @@ public class ProjectController extends Controller{
 	 * @param projectId
 	 * @return
 	 */
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=true)
 	public static Result detail(Long projectId) {
 		User user = SecurityService.fetchUser(session("authid"));
 		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_DETAIL)) {
@@ -109,8 +119,42 @@ public class ProjectController extends Controller{
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
 			Logger.debug("Partner detail page is shown.");
-			return ok(projectDetail.render(ProjectConverter.convertToDto(project), getBackToListMenu(user), null, new ArrayList<User>()));
+			Boolean isProjectManager = isProjectManager(project, user);
+			List<HoursWorkedDto> hoursWorked = null;
+			if (isProjectManager != null && isProjectManager == true) {
+				//isProjectManager is null for users who doesnt participate on project
+				Logger.debug("User is project manager. All timesheets are shown.");
+				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProject(project));
+			} else {
+				Logger.debug("User is not project manager. Only his timesheet is shown.");
+				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProjectAndUser(project, user));
+			}
+			return ok(projectDetail.render(ProjectConverter.convertToDto(project, null), getBackToListMenu(user), hoursWorked, isProjectManager));
 		}
+	}
+	
+	@Transactional(readOnly=false)
+	public static Result approveHoursWorked(Long id) {
+		Logger.debug("Hours worked with id {} was approved", id);
+		HoursWorked hw = DAOs.getHoursWorkedDao().findById(id);
+		if (hw != null) {
+			hw.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_APPROVED));
+			DAOs.getHoursWorkedDao().update(hw);
+		}
+		return ok();
+	}
+	
+	@Transactional(readOnly=false)
+	public static Result rejectHoursWorked(Long id) {
+		Logger.debug("Hours worked with id {} was rejected", id);
+		HoursWorked hw = DAOs.getHoursWorkedDao().findById(id);
+		if (hw != null) {
+			if (!EnumerationWithKeys.STATE_HOURS_WORKED_APPROVED.equals(hw.getStateHoursWorked().getKey())) {
+				hw.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_REJECTED));
+				DAOs.getHoursWorkedDao().update(hw);
+			}
+		}
+		return ok();
 	}
 	
 	/**
@@ -121,15 +165,15 @@ public class ProjectController extends Controller{
 	@Transactional(readOnly=false)
 	public static Result edit(Long projectId) {
 		User user = SecurityService.fetchUser(session("authid"));
-		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_EDIT)) {
-			return redirect(routes.Application.accessDenied());
-		}		
-		//TODO tmichalicka - second level verification
-		ProjectDto dto = ProjectConverter.convertToDto(DAOs.getProjectDao().findById(projectId));
+		ProjectDto dto = ProjectConverter.convertToDto(DAOs.getProjectDao().findById(projectId), user);
 		if (dto == null) {
 			Logger.info("Project with id {} was not found.", projectId);
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		}
+		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_EDIT) || !dto.isCanBeModified()) {
+			return redirect(routes.Application.accessDenied());
+		}		
+		
 		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).fill(dto);
 		Logger.debug("Page with form for editing project is shown. Edited project has id {} and name {}.", dto.getProjectId(), dto.getName());
 		return ok(projectsEdit.render(projectForm, getBackToListMenu(user), false));
@@ -200,6 +244,13 @@ public class ProjectController extends Controller{
 					DAOs.getPartnerDao().update(partner);
 				}
 			}
+			Logger.debug("Updating user on project.");
+			if (project.getUserOnProject() != null) {
+				Logger.debug("Updating user on project. Number of user on project is {}", project.getUserOnProject().size());
+				for (UserOnProject uop : project.getUserOnProject()) {
+					DAOs.getUserOnProjectDao().update(uop);
+				}
+			}
 			project.setVisible(true);
 			Logger.debug("Project update: {}", project.toString());
 			DAOs.getProjectDao().update(project);
@@ -210,6 +261,24 @@ public class ProjectController extends Controller{
 		Logger.debug("Project update operation was called.");
 		return redirect(routes.ProjectController.showAll(0));
 	}
+	/**
+	 * Action saves new HoursWorked
+	 * @return
+	 */
+	@Transactional(readOnly=false)
+	public static final Result hoursWorked() {
+		User user = SecurityService.fetchUser(session("authid"));
+		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_DETAIL)) {
+			return redirect(routes.Application.accessDenied());
+		}
+		Form<HoursWorkedDto> hoursWorkedForm = Form.form(HoursWorkedDto.class).bindFromRequest();
+		HoursWorked hoursWorked = HoursWorkedConverter.convertToEntity(hoursWorkedForm.get());
+		hoursWorked.setUser(user);
+		hoursWorked.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_CREATED));
+		DAOs.getHoursWorkedDao().create(hoursWorked);
+		return redirect(routes.ProjectController.detail(hoursWorkedForm.get().getProjectId()));
+	}
+	
 	/**
 	 * Method returns list of items to left side menu. This implementation returns one item - back to list
 	 * @return
@@ -240,6 +309,16 @@ public class ProjectController extends Controller{
 			result.add(newProject);
 		}
 		return result;		
+	}
+	
+	private static Boolean isProjectManager(Project project, User user) {
+		for (UserOnProject uop : project.getUserOnProject()) {
+			if (user.equals(uop.getUser())) {
+				return EnumerationWithKeys.PROJECT_MANAGER_KEY.equals(uop.getTypeUserOnProject().getKey());
+			}
+		}
+		Logger.debug("User is not on project with id {} ", project.getProjectId());
+		return null;
 	}
 	
 }

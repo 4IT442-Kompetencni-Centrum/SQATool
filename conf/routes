@@ -9,6 +9,7 @@ GET         /login                                controllers.Login.showLoginPag
 POST        /login                                controllers.Login.authenticate()
 GET         /test                                 controllers.Application.testDAO()
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
+GET         /initRolesOnProject                   controllers.Init.initRolesOnProject()
 GET         /logout                               controllers.Login.logout()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                         controllers.Assets.at(path="/public", file)
@@ -21,6 +22,9 @@ GET         /projekty/detail/:projectId           controllers.ProjectController.
 GET         /projekty/upravit/:projectId          controllers.ProjectController.edit(projectId: Long)
 GET         /projekty/smazat/:projectId           controllers.ProjectController.delete(projectId: Long)
 GET         /projekty/nenalezen/:projectId        controllers.ProjectController.projectNotFound(projectId: Long)
+POST        /projekty/odpracovanaDoba/nova        controllers.ProjectController.hoursWorked()
+POST        /projekty/odpracovanaDoba/zamitnout/id controllers.ProjectController.rejectHoursWorked(id: Long)
+POST        /projekty/odpracovanaDoba/schvalit/id controllers.ProjectController.approveHoursWorked(id: Long)
 GET         /projekty/                            controllers.ProjectController.showAll(page: Integer ?= 0)
 GET         /projekty/:page                       controllers.ProjectController.showAll(page: Integer)
 GET	        /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
@@ -43,7 +47,7 @@ POST        /partneri                             controllers.PartnerController.
 
 # Rewards
 GET         /odmeny                               controllers.RewardController.showAll(page: Integer ?= 0)
-GET         /odmeny/nova                          controllers.RewardController.add()
+GET         /odmeny/nova/:userId                  controllers.RewardController.add(userId: Long)
 POST        /odmeny/nova/vytvorit                 controllers.RewardController.create()
 GET         /odmeny/upravit/ulozit                controllers.RewardController.update()
 GET         /odmeny/upravit/:rewardId             controllers.RewardController.edit(rewardId: Long)
@@ -61,6 +65,7 @@ GET         /uzivatel/json/:query                 controllers.UserController.get
 GET         /initRoles                            controllers.Init.initRolesInBusiness()
 GET         /initPartners                         controllers.Init.initPartners()
 GET         /initStateUser                        controllers.Init.initStateUser()
+GET         /initStateHoursWorked                 controllers.Init.initStateHoursWorked()
 
 #activities
 GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)
@@ -68,6 +73,8 @@ GET         /aktivity/nova                        controllers.ActivityController
 GET         /aktivity/nova/vytvorit               controllers.ActivityController.create()
 GET         /aktivity/upravit/:activityId         controllers.ActivityController.edit(activityId: Long)
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
+GET         /aktivity/prihlasit/:activityId       controllers.ActivityController.logIn(activityId: Long)
+GET         /aktivity/odhlasit/:activityId        controllers.ActivityController.logOut(activityId: Long)
 GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
 
 #access denied
@@ -75,3 +82,10 @@ GET			/pristupOdepren						  controllers.Application.accessDenied()
 
 #users
 GET			/uzivatel/:id/detail				  controllers.UserController.show(id:Long)
+GET			/uzivatel/novy						  controllers.UserController.create()
+
+
+#dashboard
+GET         /dashboard/aktivity                   controllers.DashboardController.activities(page:Integer ?= 0)
+GET         /dashboard/odmeny                     controllers.DashboardController.rewards(page:Integer ?= 0)
+GET         /dashboard/projekty                   controllers.DashboardController.projects(page:Integer ?= 0)

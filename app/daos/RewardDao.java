@@ -1,6 +1,7 @@
 package daos;
 
 import models.Reward;
+import models.User;
 
 import java.util.List;
 
@@ -27,4 +28,23 @@ public interface RewardDao extends AbstractDao<Reward> {
      * @return Integer
      */
     public Integer count();
+
+
+    /**
+     * Returns users rewards
+     *
+     * @param user
+     * @param offset
+     * @param limit
+     * @return
+     */
+    public List<Reward> findByUser(User user, Integer offset, Integer limit);
+
+
+    /**
+     * Returns number of all users rewards
+     *
+     * @return Integer
+     */
+    public Integer countUsersRewards(User user);
 }

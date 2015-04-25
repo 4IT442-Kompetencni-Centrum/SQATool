@@ -65,7 +65,7 @@ public class PartnerController extends Controller {
 		Integer totalPartners = DAOs.getPartnerDao().getNumberOfPartners();
 		Integer numberOfPages = totalPartners % Configuration.PAGE_SIZE == 0 ? totalPartners/Configuration.PAGE_SIZE : totalPartners/Configuration.PAGE_SIZE + 1; 
 		Logger.debug("Page with list of partners is shown. Number of partners id db is {}", totalPartners);
-		return ok(partners.render(PartnerConverter.convertListToDto(proj), getMainMenu(user), numberOfPages, page));
+		return ok(partners.render(PartnerConverter.convertListToDto(proj), getMainMenu(user), numberOfPages, page, user));
 	
 	}
 	

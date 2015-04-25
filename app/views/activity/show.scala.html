@@ -1,32 +1,59 @@
+@import service.SecurityService
+@import service.ActionsEnum
 @import views.data.MenuDto
-@(activity: Activity, menu: List[MenuDto])
+@(activity: Activity, menu: List[MenuDto], organizer: User, loggedUsers: List[User], logged: Boolean)
+@user = @{SecurityService.fetchUser(session.get("authid"))}
 @main("Aktivita", "activities", menu){
-    <h1>Aktivita</h1>
+    <h1>Detail aktivity</h1>
 
     <table class="table table-hover table-striped">
         <tr>
-            <th>Id</th>
-            <td>@activity.getActivityId()</td>
-        </tr>
-        <tr>
-            <th>Název</th>
-            <td>@activity.getName()</td>
-        </tr>
-        <tr>
-            <th>Od</th>
-            <td>@activity.getTimeFrom()</td>
-        </tr>
-        <tr>
-            <th>Do</th>
-            <td>@activity.getTimeTo()</td>
-        </tr>
-        <tr>
-            <th>Místo</th>
-            <td>@activity.getPlace()</td>
-        </tr>
-        <tr>
-            <th>Popis</th>
-            <td>@activity.getDescription()</td>
+            <td>
+                <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
+            </td>
+            <td class="text-right">
+                @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_EDIT)) {
+                    <a href="@routes.ActivityController.edit(activity.getActivityId())" class="btn btn-link btn-xs">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                    </a>
+                }
+                @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
+                    <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link btn-xs" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
+                    </a>
+                }
+                @if(logged){
+                    <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-danger">
+                        Odhlásit
+                    </a>
+                } else {
+                    <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
+                        Přihlásit
+                    </a>
+                }
+            </td>
         </tr>
     </table>
+
+    <hr>
+
+    <p>
+        @activity.getDescription()
+    </p>
+
+    <ul class="list-unstyled activity-detail">
+        <li><strong>Typ:</strong> @activity.getTypeActivity().getValue()</li>
+        <li>
+            @if(activity.getTimeFrom() != null){<strong>Od:</strong> @activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}
+            @if(activity.getTimeTo() != null){<strong>Do:</strong> @activity.getTimeTo().format("dd.MM.yyyy HH:mm")}
+        </li>
+        <li><strong>Místo konání: </strong>@activity.getPlace()</li>
+        <li><strong>Organizátor: </strong>@organizer.getFirstName() @organizer.getLastName()</li>
+        <li>
+            <strong>Přihlášení účastníci: </strong>
+            @for(user <- loggedUsers) {
+                <span class="user-logged-on-activity">@user.getFirstName() @user.getLastName()</span>
+            }
+        </li>
+    </ul>
 }

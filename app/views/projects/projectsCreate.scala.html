@@ -49,6 +49,21 @@
 				id="projectEndDate" placeholder="Konec projektu" name="dateEnd">
 		</div>
 	</div>
+	<div class="form-group">
+		<label for="projectManager" class="col-sm-2 control-label">Vedoucí</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control"
+				id="projectManager" placeholder="Vedoucí projektu" name="managerName">
+		</div>
+	</div>
+	<div class="form-group memberRow">
+		<label class="col-sm-2 control-label">Člen</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control memberElem"
+				 placeholder="Člen projektu" name="memberNames[]">
+		</div>
+	</div>
+	<div class="newMemberPlace hidden"></div>
 	<div class="form-group partnerRow">
 		<label for="projectPartner" class="col-sm-2 control-label">Partner</label>
 		<div class="col-sm-10">
@@ -69,9 +84,22 @@
 
 		<div class="newPartnerPlace hidden"></div>
 	</div>
+	<div class="defaultMemberRowWrap hidden">
+		<div class="form-group defaultMemberRow">
+			<label class="col-sm-2 control-label">Člen</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control memberElem"
+					placeholder="Člen projektu" name="memberNames[]">
+			</div>
+		</div>
+
+		<div class="newMemberPlace hidden"></div>
+	</div>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			<div id="projectPartnersIds" class="hidden"></div>
+			<div id="dbIds" class="hidden">
+				<input type="hidden" name="managerId" id="managerId">
+			</div>
 			<button type="submit" class="btn btn-success">Přidat</button>
 		</div>
 	</div>
@@ -96,6 +124,28 @@
 				<button class="btn btn-warning" id="unknowPartnerModalCancel">Zrušit</button>
 				<a href="@routes.PartnerController.create()" target="_blank" class="btn btn-primary">Přidat
 					partnera</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="unknowUserModal" class="modal fade" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Neznámá osoba</h3>
+			</div>
+			<div class="modal-body">
+				<p>
+					Tak tohle asi nepůjde. Totohle člověka fakt neznám. Osobu
+					nejdříve přidej na <a href="@routes.UserController.create()" target="_blank">této
+						stránce</a>.
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-warning" id="unknowUserModalCancel">Zrušit</button>
+				<a href="@routes.UserController.create()" target="_blank" class="btn btn-primary">Přidat
+					člena</a>
 			</div>
 		</div>
 	</div>

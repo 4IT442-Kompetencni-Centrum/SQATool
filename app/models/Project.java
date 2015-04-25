@@ -44,8 +44,16 @@ public class Project extends AbstractVersionedEntity {
 	private Set<Partner> partners;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private StateProject stateProject;
+	@OneToMany(mappedBy="project")
+	private List<UserOnProject> userOnProject;
 	
 	
+	public List<UserOnProject> getUserOnProject() {
+		return userOnProject;
+	}
+	public void setUserOnProject(List<UserOnProject> userOnProject) {
+		this.userOnProject = userOnProject;
+	}
 	public Long getProjectId() {
 		return projectId;
 	}

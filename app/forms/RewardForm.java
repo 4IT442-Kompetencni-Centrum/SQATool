@@ -2,8 +2,10 @@ package forms;
 
 
 import daos.impl.DAOs;
+import models.Project;
 import models.Reward;
 import models.User;
+import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import java.util.Date;
@@ -15,6 +17,7 @@ public class RewardForm {
     @Constraints.Required
     protected Integer amount;
 
+    @Formats.DateTime(pattern="dd.MM.yyyy")
     protected Date date;
 
     protected String description;
@@ -22,10 +25,8 @@ public class RewardForm {
     @Constraints.Required
     private Long userId;
 
-    public Long getRewardId() {
-        return rewardId;
-    }
-
+    @Formats.DateTime(pattern="dd.MM.yyyy")
+    private Long projectId;
 
     public RewardForm() {
 
@@ -37,8 +38,19 @@ public class RewardForm {
         this.date = reward.getDate();
         this.description = reward.getDescription();
 
-        if (reward.getUser() != null)
-            this.userId = reward.getUser().id;
+
+        if (reward.getUser() != null) {
+            this.userId = reward.getUser().getId();
+        }
+
+        if (reward.getProject() != null) {
+            this.projectId = reward.getProject().getProjectId();
+        }
+    }
+
+
+    public Long getRewardId() {
+        return rewardId;
     }
 
     public RewardForm setRewardId(Long rewardId) {
@@ -82,6 +94,15 @@ public class RewardForm {
         return this;
     }
 
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public RewardForm setProjectId(Long projectId) {
+        this.projectId = projectId;
+        return this;
+    }
+
     public Reward getReward() {
         Reward reward = null;
 
@@ -106,6 +127,13 @@ public class RewardForm {
             if (user != null)
                 reward.setUser(user);
 
+        }
+
+        if(this.getProjectId() != null) {
+            Project project = DAOs.getProjectDao().findById(this.getProjectId());
+
+            if(project != null)
+                reward.setProject(project);
         }
 
         return reward;

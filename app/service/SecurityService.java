@@ -3,10 +3,12 @@ package service;
 import java.util.HashMap;
 import java.util.List;
 
-import daos.impl.DAOs;
+import models.Project;
 import models.RoleInBusiness;
 import models.User;
+import models.UserOnProject;
 import play.Logger;
+import daos.impl.DAOs;
 /**
  * Secirity service for checking, if user has permission to do given actions.
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
@@ -51,7 +53,7 @@ public class SecurityService {
 				return true;
 			}
 		}
-		Logger.warn("Access denied for user with permissions {} for action {}", userRoles, action);
+		Logger.debug("Access denied for user with permissions {} for action {}", userRoles, action);
 		return false;
 	}
 	/**
@@ -73,6 +75,31 @@ public class SecurityService {
 		return DAOs.getUserDao().findById(userId);
 	}
 	
+	public static boolean canDeleteProject(Project project, User user) {
+		return hasAccess(user, ActionsEnum.PROJECT_DELETE);
+	}
+	
+	/**
+	 * Method checks if user can modify project
+	 * @param project
+	 * @param user
+	 * @return
+	 */
+	public static boolean canEditProject(Project project, User user) {
+		if (hasAccess(user, ActionsEnum.PROJECT_DELETE)) {
+			return true;
+		}
+		if (project.getUserOnProject() == null) {
+			return false;
+		}
+		for (UserOnProject role : project.getUserOnProject()) {
+			if (user.getId().equals(role.getUser().getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Method initializes map with access rights
 	 */
@@ -81,6 +108,15 @@ public class SecurityService {
 			Logger.info("Initialization of accessRights map");
 			accessMap = new HashMap<ActionsEnum, HashMap<String,Boolean>>();
 		}
+		
+		initProjectAccessMap();
+		initPartnerAccessMap();
+		initActivityAccessMap();
+		initRewardAccessMap();
+		initMemberAccessMap();
+	}
+
+	private static void initProjectAccessMap() {
 		HashMap<String, Boolean> projectShowAll = new HashMap<String, Boolean>();
 		projectShowAll.put(EnumerationWithKeys.MEMBER_KEY, true);
 		projectShowAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
@@ -115,7 +151,9 @@ public class SecurityService {
 		projectDeleteMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		projectDeleteMap.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.PROJECT_DELETE, projectDeleteMap);
-		
+	}
+	
+	private static void initPartnerAccessMap() {
 		HashMap<String, Boolean> partnerShowAllMap = new HashMap<String, Boolean>();
 		partnerShowAllMap.put(EnumerationWithKeys.MEMBER_KEY, true);
 		partnerShowAllMap.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
@@ -150,21 +188,18 @@ public class SecurityService {
 		partnerUpdateMap.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		partnerUpdateMap.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.PARTNER_EDIT, partnerUpdateMap);
-
-		initActivityAccessMap();
 	}
-
 
 	private static void initActivityAccessMap() {
 		HashMap<String, Boolean> showAll = new HashMap<>();
-		showAll.put(EnumerationWithKeys.MEMBER_KEY, false);
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, true);
 		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.ACTIVITY_SHOW_ALL, showAll);
 
 		HashMap<String, Boolean> show = new HashMap<>();
-		show.put(EnumerationWithKeys.MEMBER_KEY, false);
+		show.put(EnumerationWithKeys.MEMBER_KEY, true);
 		show.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
 		show.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		show.put(EnumerationWithKeys.ADMIN_KEY, true);
@@ -188,7 +223,54 @@ public class SecurityService {
 		delete.put(EnumerationWithKeys.MEMBER_KEY, false);
 		delete.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
 		delete.put(EnumerationWithKeys.HEAD_KC_KEY, true);
-		delete.put(EnumerationWithKeys.ADMIN_KEY, false);
+		delete.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.ACTIVITY_DELETE, delete);
+	}
+
+
+	private static void initRewardAccessMap() {
+		HashMap<String, Boolean> showAll = new HashMap<>();
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, false);
+		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_SHOW_ALL, showAll);
+
+		HashMap<String, Boolean> show = new HashMap<>();
+		show.put(EnumerationWithKeys.MEMBER_KEY, false);
+		show.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		show.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		show.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_SHOW, show);
+
+		HashMap<String, Boolean> add = new HashMap<>();
+		add.put(EnumerationWithKeys.MEMBER_KEY, false);
+		add.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		add.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		add.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_ADD, add);
+
+		HashMap<String, Boolean> edit = new HashMap<>();
+		edit.put(EnumerationWithKeys.MEMBER_KEY, false);
+		edit.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		edit.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		edit.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_EDIT, edit);
+
+		HashMap<String, Boolean> delete = new HashMap<>();
+		delete.put(EnumerationWithKeys.MEMBER_KEY, false);
+		delete.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		delete.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		delete.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.REWARD_DELETE, delete);
+	}
+	
+	private static void initMemberAccessMap() {
+		HashMap<String, Boolean> showAll = new HashMap<>();
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, true);
+		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.MEMBER_SHOW_ALL, showAll);		
 	}
 }

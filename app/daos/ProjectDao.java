@@ -3,6 +3,7 @@ package daos;
 import java.util.List;
 
 import models.Project;
+import models.User;
 
 /**
  * DAO for DB operations for Project objects.
@@ -18,6 +19,13 @@ public interface ProjectDao extends AbstractVersionedDao<Project> {
 	public List<Project> getAllProjectsForUser(Long userId);
 	
 	/**
+	 * Method returns list of project where user with given id participates
+	 * @param userId
+	 * @return
+	 */
+	public List<Project> getProjectsForUser(User user, Integer start, Integer limit);
+	
+	/**
 	 * Method returns list of all projects
 	 * @param start - index of first project
 	 * @param limit - maximum number of projects
@@ -30,5 +38,12 @@ public interface ProjectDao extends AbstractVersionedDao<Project> {
 	 * @return
 	 */
 	public Integer getNumberOfProjects();
+	
+	/**
+	 * Method returns total number of projects where user is assigned
+	 * @return
+	 */
+	public Integer getNumberOfProjectsForUser(User user);
+	
 	
 }

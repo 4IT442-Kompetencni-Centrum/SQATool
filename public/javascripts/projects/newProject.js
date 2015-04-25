@@ -1,26 +1,47 @@
+var actualItems = {};
+var actualItemsManager = {};
+var actualItemsMembers = {};
+function resolveAjaxReponseData(data, storageArray) {
+	storageArray = {};
+	  for (var i=0; i < data.length; i++) {
+	        var jsonData = data[i];
+	        storageArray[jsonData.value] = jsonData;
+	    }
+	  return storageArray;
+}
+var typeAheadPartnerParam = {
+		  displayKey: 'value',
+		  highlight: true,
+		  minLength: 2,
+		  source: function(query, process) {
+			  $.getJSON("/partneri/json/"+query, function(data){
+				  actualItems = resolveAjaxReponseData(data, actualItems);
+				  return process(data);
+			  });
+		  }
+	}
+var typeAheadUserParam = {
+		  displayKey: 'value',
+		  highlight: true,
+		  minLength: 2,
+		  source: function(query, process) {
+			  $.getJSON("/uzivatel/json/"+query, function(data){
+				  actualItemsMembers = resolveAjaxReponseData(data, actualItemsMembers);
+				  return process(data);
+			  });
+		  }
+	}
 $(document).ready(function(){
 		$("form").submit(function(){
 			//magic trick ;-)
 			//to submit form correctly, all temp fields (without index) have to be removed
 			$("input[name='partnerNames[]']").remove();
+			$("input[name='memberNames[]']").remove();
 		});
-		var actualItems = {};
+/**************************init partner dynamic fiels**********************************/
+		
 		//init first autocomplete for partner
-		$(".partnerRow .partnerElem").typeahead(null, {
-			  displayKey: 'value',
-			  highlight: true,
-			  minLength: 2,
-			  source: function(query, process) {
-				  $.getJSON("/partneri/json/"+query, function(data){
-					  actualItems = {};
-					  for (var i=0; i < data.length; i++) {
-					        var jsonData = data[i];
-					        actualItems[jsonData.value] = jsonData;
-					    }
-					  return process(data);
-				  });
-			  }
-		});
+		$(".partnerRow .partnerElem").typeahead(null, typeAheadPartnerParam);
 		bindSelectedAction();
 		var selectedPartner = null;
 		function bindSelectedAction() {
@@ -38,7 +59,7 @@ $(document).ready(function(){
 				$("#unknowPartnerModal").modal('hide');
 			});
 			$('.partnerRow .partnerElem.tt-input').on('typeahead:selected', function(evt, item) {
-				var hiddenArea = $("#projectPartnersIds");
+				var hiddenArea = $("#dbIds");
 				var id = actualItems[item.value].id;
 				var defaultElem = $(event.target).parents(".partnerRow");
 				var order = 0;
@@ -65,23 +86,79 @@ $(document).ready(function(){
 					$($(".newPartnerPlace")[0]).replaceWith(newPartnerRow.html());
 					var rows = $(".partnerRow");
 					var newRow = $(rows[rows.length-1]);
-					newRow.find(".partnerElem").typeahead(null, {
-						  displayKey: 'value',
-						  highlight: true,
-						  minLength: 2,
-						  source: function(query, process) {
-							  $.getJSON("/partneri/json/"+query, function(data){
-								  actualItems = {};
-								  for (var i=0; i < data.length; i++) {
-								        var jsonData = data[i];
-								        actualItems[jsonData.value] = jsonData;
-								    }
-								  return process(data);
-							  });
-						  }
-					});
+					newRow.find(".partnerElem").typeahead(null, typeAheadPartnerParam);
 					
 					bindSelectedAction();
+				}
+			});
+		}
+/**************************init member dynamic fiels**********************************/
+		
+		//init first autocomplete for project member
+		$("#projectManager").typeahead(null, typeAheadUserParam);
+		$('#projectManager.tt-input').on('typeahead:selected', function(evt, item) {
+			var hiddenArea = $("#dbIds");
+			var id = actualItemsMembers[item.value].id;
+			$("#managerId").val(id);
+		});
+		$('#projectManager.tt-input').change( function(e){
+			selectedMember = $(e.target);
+			//if unknown name is written -> alert warning
+			$("#unknowUserModal").modal({
+				backdrop: 'static',
+				keyboard: false
+			});
+		});
+		
+		//init first autocomplete for member
+		$(".memberRow .memberElem").typeahead(null, typeAheadUserParam);
+		bindSelectedActionUser();
+		var selectedMember = null;
+		function bindSelectedActionUser() {
+			$('.memberRow .memberElem.tt-input').off('typeahead:selected');
+			$('.memberRow .memberElem.tt-input').change( function(e){
+				selectedMember = $(e.target);
+				//if unknown name is written -> alert warning
+				$("#unknowUserModal").modal({
+					backdrop: 'static',
+					keyboard: false
+				});
+			});
+			$("#unknowPartnerModalCancel").click(function(){
+				selectedMember.val("");
+				$("#unknowPartnerModal").modal('hide');
+			});
+			$('.memberRow .memberElem.tt-input').on('typeahead:selected', function(evt, item) {
+				var hiddenArea = $("#dbIds");
+				var id = actualItemsMembers[item.value].id;
+				var defaultElem = $(event.target).parents(".memberRow");
+				var order = 0;
+				var elems = $('.memberRow');
+				for (var i = 0; i < elems.length; i++) {
+					if ($(elems[i])[0] == defaultElem[0]) {
+						order = i;
+						break;
+					}
+				}
+				var storageInput = hiddenArea.find("input[name='memberIds["+order+"]']");
+				var addedElem = false
+				if (storageInput.length == 0) {
+					hiddenArea.append("<input type='hidden' name='memberIds["+order+"]'>");
+					storageInput = hiddenArea.find("input[name='memberIds["+order+"]']");
+					addedElem = true;
+				}
+				storageInput.val(id);
+				if (addedElem) {
+					var defaultMemberRow = $(".defaultMemberRowWrap");
+					var newMemberRow = defaultMemberRow.clone();
+					newMemberRow.find(".memberElem").val("");
+					newMemberRow.find(".defaultMemberRow").addClass("memberRow").removeClass("defaultMemberRow");
+					$($(".newMemberPlace")[0]).replaceWith(newMemberRow.html());
+					var rows = $(".memberRow");
+					var newRow = $(rows[rows.length-1]);
+					newRow.find(".memberElem").typeahead(null, typeAheadUserParam);
+					
+					bindSelectedActionUser();
 				}
 			});
 		}

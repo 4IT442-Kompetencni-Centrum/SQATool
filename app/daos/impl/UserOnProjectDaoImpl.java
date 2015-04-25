@@ -1,5 +1,10 @@
 package daos.impl;
 
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+
+import play.Logger;
+import play.db.jpa.JPA;
 import models.UserOnProject;
 import daos.UserOnProjectDao;
 
@@ -13,5 +18,18 @@ public class UserOnProjectDaoImpl extends AbstractVersionedDaoImpl<UserOnProject
 
 	UserOnProjectDaoImpl() {
 	
+	}
+
+	@Override
+	public UserOnProject getByProjectAndUser(Long userId, Long projectId) {
+		TypedQuery<UserOnProject> query = JPA.em().createQuery("SELECT uop FROM UserOnProject uop WHERE uop.user.id = :userId AND uop.project.projectId = :projectId", UserOnProject.class);
+		query.setParameter("projectId", projectId);
+		query.setParameter("userId", userId);
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException ex) {
+			Logger.debug("No result was found for userId {} and projectId {} ", userId, projectId);
+			return null;
+		}
 	}
 }
