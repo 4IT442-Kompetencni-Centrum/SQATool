@@ -13,7 +13,7 @@
         </div>
         <label class="control-label col-md-1" style="text-align : center" for="@form("project").name">Projekt</label>
         <div class="col-md-3">
-            <select name="@form("project").name" class="form-control">
+            <select name="@form("projectId").name" class="form-control">
             @for(project <- projects) {
                 <option value="@project.getProjectId()">@project.getName()</option>
             }

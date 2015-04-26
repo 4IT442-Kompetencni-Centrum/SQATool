@@ -18,6 +18,7 @@ public class RewardForm {
     protected Integer amount;
 
     @Formats.DateTime(pattern="dd.MM.yyyy")
+    @Constraints.Required
     protected Date date;
 
     protected String description;
@@ -26,6 +27,7 @@ public class RewardForm {
     private Long userId;
 
     @Formats.DateTime(pattern="dd.MM.yyyy")
+    @Constraints.Required
     private Long projectId;
 
     public RewardForm() {

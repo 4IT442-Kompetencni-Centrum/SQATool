@@ -31,7 +31,7 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 	@Override
 	public List<Project> getAllProjectsForUser(Long userId) {
 
-		Query query = JPA.em().createQuery("SELECT p FROM Project p WHERE p.visible = TRUE AND p.userOnProject.user.id = :user ORDER BY p.dateStart");
+		Query query = JPA.em().createQuery("SELECT p FROM Project p JOIN p.userOnProject uop WHERE p.visible = TRUE AND uop.user.id = :user ORDER BY p.dateStart");
 		query.setParameter("user", userId);
 		return query.getResultList();
 	}
