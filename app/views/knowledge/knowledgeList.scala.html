@@ -5,13 +5,20 @@
     <table>
     <tr>
     	<td>Popis:</td>
-    	<td>@user.getBio()</td>
+    	<td>
+ 			<textarea>@user.getBio()</textarea>
+ 		</td>
     
-    @for((knowledge, counter) <- knowledgeList.zipWithIndex){
+    @for((knowledge) <- knowledgeList){
     	<tr>
-    		<td>Znalost @counter: </td>
-    		<td>@knowledge.getKnowledge.getValue() - </td>
-    		<td>@knowledge.getLevel().getValue()</td>
+    		<td>
+    			<select>
+    				<option name="@knowledge.getKnowledge().getTypeKnowledgeId()">@knowledge.getKnowledge().getValue()</option>
+    			<select>
+    			<select>
+    				<option name="@knowledge.getLevel().getTypeLevelKnowledgeId()">@knowledge.getLevel().getValue()</option>
+    			</select>
+    		</td>
     	</tr>
     }    
     </table>
