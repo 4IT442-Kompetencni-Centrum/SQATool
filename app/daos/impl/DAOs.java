@@ -16,6 +16,7 @@ import daos.TypeUserOnProjectDao;
 import daos.UserDao;
 import daos.UserLoggedOnActivityDao;
 import daos.UserOnProjectDao;
+import daos.UsersKnowledgeDao;
 
 /**
  * Storage class for DAOs.
@@ -39,12 +40,20 @@ public class DAOs {
     private static StateUserDao stateUserDao;
     private static TypeUserOnProjectDao typeUserOnProjectDao;
     private static StateHoursWorkedDao stateHoursWorkedDao;
+    private static UsersKnowledgeDao usersKnowledgeDao;
     
-	public static ProjectDao getProjectDao() {
+    public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
 			projectDao = new ProjectDaoImpl();
 		}
 		return projectDao;
+	}
+    
+    public static UsersKnowledgeDao getUserKnowledgeDao() {
+		if (usersKnowledgeDao == null) {
+			usersKnowledgeDao = new UsersKnowledgeDaoImpl();
+		}
+		return usersKnowledgeDao;
 	}
 
 	public static ContactPersonDao getContactPersonDao() {

@@ -3,12 +3,14 @@ package controllers;
 import java.util.List;
 
 import models.User;
+import models.UsersKnowledge;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.user.detail;
+import views.html.knowledge.*;
 import service.ActionsEnum;
 import service.SecurityService;
 
@@ -32,6 +34,20 @@ public class UserController extends Controller {
 		//TODO mcech - pozor, vede sem odkaz z vytvoreni/editace projektu, po mergi overit.
 		return ok();
 	}
+	
+	@Transactional
+	public static Result listUsersKnowledge(Long userId){
+		List<UsersKnowledge> usersKnowledge = DAOs.getUserKnowledgeDao().getUsersKnowledge(userId);
+		User user = DAOs.getUserDao().findById(userId);
+		return ok(knowledgeList.render(usersKnowledge, user));
+	}
+	
+	@Transactional
+	public static Result editUsersKnowledge(Long userId){
+		List<UsersKnowledge> usersKnowledge = DAOs.getUserKnowledgeDao().getUsersKnowledge(userId);
+		User user = DAOs.getUserDao().findById(userId);
+		return ok(knowledgeForm.render(usersKnowledge, user));
+	}	
 		
 	
 	/**
