@@ -19,6 +19,8 @@ public class User extends AbstractVersionedEntity {
     public String firstName;
     public String lastName;
     public String phoneNumber;
+    @Column(length = 500)
+    public String bio;
     
 	@ManyToOne(fetch=FetchType.EAGER)
     public StateUser stateUser;
@@ -30,7 +32,15 @@ public class User extends AbstractVersionedEntity {
         this.password = password;
     }
 
-    public List<RoleInBusiness> getRoleInBusiness() {
+    public String getBio() {
+		return bio;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+
+	public List<RoleInBusiness> getRoleInBusiness() {
 		return roleInBusiness;
 	}
 

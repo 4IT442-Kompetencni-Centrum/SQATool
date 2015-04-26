@@ -1,0 +1,18 @@
+@(knowledgeList: List[UsersKnowledge], user: User)
+@main("Znalosti"){
+    <h1>Znalosti</h1>
+    
+    <table>
+    <tr>
+    	<td>Popis:</td>
+    	<td>@user.getBio()</td>
+    
+    @for((knowledge, counter) <- knowledgeList.zipWithIndex){
+    	<tr>
+    		<td>Znalost @counter: </td>
+    		<td>@knowledge.getKnowledge.getValue() - </td>
+    		<td>@knowledge.getLevel().getValue()</td>
+    	</tr>
+    }    
+    </table>
+}
