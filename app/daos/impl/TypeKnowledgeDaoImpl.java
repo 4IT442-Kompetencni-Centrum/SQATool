@@ -24,7 +24,13 @@ public class TypeKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<TypeKnowle
 
 	@Override
 	public List<TypeKnowledge> getAllKnowledge() {
-		return null;
+		TypedQuery query = JPA.em().createQuery("SELECT kn FROM TypeKnowledge", TypeKnowledge.class) ;
+		try {
+			return query.getResultList();
+		} catch (NoResultException ex) {
+			Logger.debug("No result was found for Knowledge");
+			return null;
+		}
 	}
 
 }

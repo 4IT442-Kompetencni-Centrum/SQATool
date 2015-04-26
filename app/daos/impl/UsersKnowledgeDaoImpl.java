@@ -5,8 +5,10 @@ import javax.persistence.TypedQuery;
 
 import play.Logger;
 import play.db.jpa.JPA;
+import models.TypeKnowledge;
 import models.UsersKnowledge;
 import daos.UsersKnowledgeDao;
+
 import java.util.List;
 
 public class UsersKnowledgeDaoImpl extends AbstractVersionedDaoImpl<UsersKnowledge>
@@ -27,4 +29,5 @@ public class UsersKnowledgeDaoImpl extends AbstractVersionedDaoImpl<UsersKnowled
 			return null;
 		}
 	}
+
 }
