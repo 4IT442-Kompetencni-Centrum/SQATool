@@ -29,9 +29,9 @@ public class DashboardController extends Controller {
     public static Result activities(Integer page) {
         User user = SecurityService.fetchUser(session("authid"));
 
-        List<Activity> activityList = DAOs.getUserLoggedOnActivityDao().findByUser(user, page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
+        List<Activity> activityList = DAOs.getUserLoggedOnActivityDao().findFutureActivitiesByUser(user, page * Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
 
-        Integer total = DAOs.getUserLoggedOnActivityDao().countUserActivities(user);
+        Integer total = DAOs.getUserLoggedOnActivityDao().countFutureUserActivities(user);
         Integer numberOfPages = total % Configuration.PAGE_SIZE == 0 ? total / Configuration.PAGE_SIZE : total / Configuration.PAGE_SIZE + 1;
 
 
