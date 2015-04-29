@@ -7,24 +7,20 @@ import org.hibernate.cfg.NotYetImplementedException;
 
 import play.Logger;
 import play.db.jpa.JPA;
+import models.LevelOfKnowledge;
 import models.TypeKnowledge;
 import models.UsersKnowledge;
+import daos.LevelOfKnowledgeDao;
 import daos.TypeKnowledgeDao;
 
 import java.util.List;
 
-public class TypeKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<TypeKnowledge>
-		implements TypeKnowledgeDao {
-
-
-	@Override
-	public List<TypeKnowledge> getUsersNotFiledRequiredKnowledge(Long userId) {
-		throw new NotYetImplementedException();
-	}
+public class LevelOfKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<LevelOfKnowledge>
+		implements LevelOfKnowledgeDao {
 
 	@Override
-	public List<TypeKnowledge> getAllKnowledge() {
-		TypedQuery<TypeKnowledge> query = JPA.em().createQuery("SELECT kn FROM TypeKnowledge as kn", TypeKnowledge.class) ;
+	public List<LevelOfKnowledge> getAllLevels() {
+		TypedQuery<LevelOfKnowledge> query = JPA.em().createQuery("SELECT lk FROM LevelOfKnowledge as lk", LevelOfKnowledge.class) ;
 		try {
 			return query.getResultList();
 		} catch (NoResultException ex) {
