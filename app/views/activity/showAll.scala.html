@@ -18,7 +18,7 @@
                 <tr>
                     <td>
                         <a href="@routes.ActivityController.show(activity.getActivityId())" class="btn btn-link btn-xs">
-                        <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName()
+                        <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName() (@activity.getCapacity()/@activity.getCapacityMax())
                         </a>
                     </td>
                     <td class="text-right">
