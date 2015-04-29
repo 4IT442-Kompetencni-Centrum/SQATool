@@ -50,7 +50,8 @@
             @if(activity.getTimeTo() != null){<strong>Do:</strong> @activity.getTimeTo().format("dd.MM.yyyy HH:mm")}
         </li>
         <li><strong>Místo konání:</strong> @activity.getPlace()</li>
-        <li><strong>Organizátor:</strong> @organizer.getFirstName() @organizer.getLastName()</li>
+        <li><strong>Kapacita:</strong> @activity.getCapacity()/@activity.getCapacityMax()</li>
+        <li><strong>Odpovědná osoba:</strong> @organizer.getFirstName() @organizer.getLastName()</li>
         <li>
             <strong>Přihlášení účastníci: </strong>
             @for(user <- loggedUsers) {
