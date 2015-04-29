@@ -49,7 +49,7 @@ POST        /partneri                             controllers.PartnerController.
 GET         /odmeny                               controllers.RewardController.showAll(page: Integer ?= 0)
 GET         /odmeny/nova/:userId                  controllers.RewardController.add(userId: Long)
 POST        /odmeny/nova/vytvorit                 controllers.RewardController.create()
-GET         /odmeny/upravit/ulozit                controllers.RewardController.update()
+POST        /odmeny/upravit/ulozit                controllers.RewardController.update()
 GET         /odmeny/upravit/:rewardId             controllers.RewardController.edit(rewardId: Long)
 GET         /odmeny/:rewardId                     controllers.RewardController.show(rewardId: Long)
 GET         /odmeny/smazat/:rewardId              controllers.RewardController.delete(rewardId: Long)
@@ -70,7 +70,8 @@ GET         /initStateHoursWorked                 controllers.Init.initStateHour
 #activities
 GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)
 GET         /aktivity/nova                        controllers.ActivityController.add()
-GET         /aktivity/nova/vytvorit               controllers.ActivityController.create()
+POST        /aktivity/nova/vytvorit               controllers.ActivityController.create()
+POST        /aktivity/upravit/ulozit              controllers.ActivityController.update()
 GET         /aktivity/upravit/:activityId         controllers.ActivityController.edit(activityId: Long)
 GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
 GET         /aktivity/prihlasit/:activityId       controllers.ActivityController.logIn(activityId: Long)

@@ -4,7 +4,7 @@
 @main("Aktivita", "activities", menu){
     <h1>Nová aktivita</h1>
 
-    @b3.form(action = routes.ActivityController.create()){
+    @b3.form(action = routes.ActivityController.update()){
         @b3.text(form("name"), '_label -> "Název")
         @b3.select(form("typeActivity"), options = activityTypes.toSeq, '_label -> "Typ Aktivity")
         @b3.textarea(form("description"), '_label -> "Popis")
