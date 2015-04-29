@@ -24,6 +24,12 @@
 	width: 100%;
 }
 
+.mandatoryAttr:before {
+	content: " *";
+	color: red;
+	font-weight: bold;
+}
+
 .typeahead,
 .tt-query,
 .tt-hint {

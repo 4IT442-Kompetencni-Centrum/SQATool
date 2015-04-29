@@ -1,11 +1,16 @@
 package views.data;
 
+import play.data.validation.Constraints.Required;
+
 
 public class ContactPersonDto {
 	private Long contactPersonId;
+	@Required
 	private String firstName;
+	@Required
 	private String lastName;
 	private String phoneNumber;
+	@Required
 	private String email;
 	private Integer version;
 	public Long getContactPersonId() {

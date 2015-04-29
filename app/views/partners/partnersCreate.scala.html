@@ -5,39 +5,39 @@
 <h1>Vytvořit partnera</h1>
 <form class="form-horizontal" action="@routes.PartnerController.saveNewPartner()" method="POST">
 	<div class="form-group">
-		<label for="partnerName" class="col-sm-2 control-label">Název</label>
+		<label for="partnerName" class="col-sm-2 control-label">Název<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerName"
 				placeholder="Název partnera" name="name" required>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="partnerIc" class="col-sm-2 control-label">IČO</label>
+		<label for="partnerIc" class="col-sm-2 control-label">IČO<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="number" class="form-control" id="partnerIc"
-				placeholder="IČO" name="ic">
+				placeholder="IČO" name="ic" required>
 		</div>
 	</div>
 	<h2>Adresa</h2>
 	<div class="form-group">
-		<label for="partnerStreet" class="col-sm-2 control-label">Ulice</label>
+		<label for="partnerStreet" class="col-sm-2 control-label">Ulice<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerStreet"
-				placeholder="Ulice" name="street"></textarea>
+				placeholder="Ulice" name="street" required>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="partnerHouseNumber" class="col-sm-2 control-label">Číslo popisné</label>
+		<label for="partnerHouseNumber" class="col-sm-2 control-label">Číslo popisné<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerHouseNumber"
-				placeholder="Číslo popisné" name="houseNumber"></textarea>
+				placeholder="Číslo popisné" name="houseNumber" required>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="partnerCity" class="col-sm-2 control-label">Město</label>
+		<label for="partnerCity" class="col-sm-2 control-label">Město<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerCity"
-				placeholder="Město" name="city"></textarea>
+				placeholder="Město" name="city" required>
 		</div>
 	</div>
 	<h2>Kontaktní osoby</h2>
@@ -45,31 +45,31 @@
 	<div class="contactPersonRow">
 	<h3><span class="firstname">Kontaktní osoba</span> <span class="lastname"></span></h3>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">Jméno</label>
+			<label class="col-sm-2 control-label">Jméno<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control contactPersonName"
-					placeholder="Jméno" name="contactPersons[0].firstName"></textarea>
+					placeholder="Jméno" name="contactPersons[0].firstName" required>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">Příjmení</label>
+			<label class="col-sm-2 control-label">Příjmení<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control contactPersonSurname"
-					placeholder="Příjmení" name="contactPersons[0].lastName"></textarea>
+					placeholder="Příjmení" name="contactPersons[0].lastName" required>
 			</div>
 		</div>
 			<div class="form-group">
 			<label class="col-sm-2 control-label">Telefon</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control"
-					placeholder="Telefon" name="contactPersons[0].phoneNumber"></textarea>
+					placeholder="Telefon" name="contactPersons[0].phoneNumber">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Mail</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control"
-					placeholder="Mail" name="contactPersons[0].email"></textarea>
+					placeholder="Mail" name="contactPersons[0].email" required>
 			</div>
 		</div>
 	</div>

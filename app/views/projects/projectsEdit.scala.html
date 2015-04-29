@@ -14,55 +14,57 @@
 	</div>
 	}
 	<div class="form-group">
-		<label for="projectShortcut" class="col-sm-2 control-label">Označení</label>
-		<div class="col-sm-10">
+		<label for="projectShortcut" class="col-sm-2 control-label">Označení<span class="mandatoryAttr"></span></label>
+		<div class="col-sm-10 has-feedback shortcutInput">
 			<input type="text" class="form-control" id="projectShortcut"
 				placeholder="Označení projektu" name="shortcut" value="@editForm.get().getShortcut()" required>
+			<span class="glyphicon form-control-feedback" id="projectShortcutValidationGlyphicon"></span>
+		<div id="projectShortcutValidationMessage" class="hidden help-block">Toto označení má již jiný projekt.</div>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="projectName" class="col-sm-2 control-label">Název</label>
+		<label for="projectName" class="col-sm-2 control-label">Název<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="projectName"
 				placeholder="Název projektu" name="name" value="@editForm.get().getName()" required>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="projectDescription" class="col-sm-2 control-label">Popis</label>
+		<label for="projectDescription" class="col-sm-2 control-label">Popis<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<textarea class="form-control" id="projectDescription"
 				placeholder="Popis projektu" name="description" required>@editForm.get().getDescription()</textarea>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="projectName" class="col-sm-2 control-label">Pracnost</label>
+		<label for="projectName" class="col-sm-2 control-label">Pracnost<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="number" class="form-control" id="projectWork"
-				placeholder="Odhadovaná pracnost projektu" name="laboriousnessGues" value="@editForm.get().getLaboriousnessGues()">
+				placeholder="Odhadovaná pracnost projektu" name="laboriousnessGues" value="@editForm.get().getLaboriousnessGues()" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="projectStartDate" class="col-sm-2 control-label">Datum
-			zahájení</label>
+			zahájení<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control datepicker"
 				id="projectStartDate" placeholder="Začátek projektu"
-				name="dateStart" value="@if(editForm.get().getDateStart() != null) {@editForm.get().getDateStart().format("dd.MM.yyyy")}">
+				name="dateStart" value="@if(editForm.get().getDateStart() != null) {@editForm.get().getDateStart().format("dd.MM.yyyy")}" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="projectEndDate" class="col-sm-2 control-label">Datum
-			ukončení</label>
+			ukončení<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control datepicker"
-				id="projectEndDate" placeholder="Konec projektu" name="dateEnd" value="@if(editForm.get().getDateEnd() != null) {@editForm.get().getDateEnd().format("dd.MM.yyyy")}">
+				id="projectEndDate" placeholder="Konec projektu" name="dateEnd" value="@if(editForm.get().getDateEnd() != null) {@editForm.get().getDateEnd().format("dd.MM.yyyy")}" required>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="projectManager" class="col-sm-2 control-label">Vedoucí</label>
+		<label for="projectManager" class="col-sm-2 control-label">Vedoucí<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control"
-				id="projectManager" placeholder="Vedoucí projektu" name="managerName" value="@editForm.get().getManagerName()">
+				id="projectManager" placeholder="Vedoucí projektu" name="managerName" value="@editForm.get().getManagerName()" required>
 		</div>
 	</div>
 	@for(index <- 0 until editForm.get().getMemberNames().size()) {

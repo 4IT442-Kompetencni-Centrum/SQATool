@@ -20,7 +20,7 @@ public class ActivityDaoImpl extends AbstractVersionedDaoImpl<Activity>
 
     @Override
     public List<Activity> findAll(Integer offset, Integer limit) {
-        Query query = JPA.em().createQuery("SELECT a FROM Activity a WHERE a.visible = TRUE");
+        Query query = JPA.em().createQuery("SELECT a FROM Activity a WHERE a.visible = TRUE ORDER BY a.timeFrom DESC");
 
         if(offset != 0)
             query.setFirstResult(offset);

@@ -15,7 +15,20 @@
 	<table class="table table-striped table-hover">
 		@for(project <- projects) {
 		<tr>
-			<td><a href="@routes.ProjectController.detail(project.getProjectId())"><strong>@Html(project.getShortcut()):</strong> @Html(project.getName())</a></td>
+			<td><a href="@routes.ProjectController.detail(project.getProjectId())"><strong>@Html(project.getShortcut()):</strong> @Html(project.getName())</a> 
+				@if(project.getTotalHoursWorked() != null) {
+					/
+					@if(project.getTotalHoursWorked() == 1.0) {
+						@project.getTotalHoursWorked() hodina
+					} else {
+						@if(project.getTotalHoursWorked() > 1.0 && project.getTotalHoursWorked() < 5.0) {
+							@project.getTotalHoursWorked() hodiny
+						} else {
+							@project.getTotalHoursWorked() hodin
+						} 
+					}
+				}
+			</td>
 			<td class="text-right">
 			@if(project.isCanBeModified()) {
 			<a href="@routes.ProjectController.edit(project.getProjectId())" class="btn btn-link btn-xs">

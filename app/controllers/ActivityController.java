@@ -153,8 +153,11 @@ public class ActivityController extends Controller {
     public static Result logIn(Long activityId) {
         Activity activity = DAOs.getActivityDao().findById(activityId);
 
-        if(activity == null)
+        if (activity == null)
             return notFound(notFound.render());
+
+        if (activity.getCapacity() == activity.getCapacityMax())
+            return redirect(controllers.routes.ActivityController.show(activity.getActivityId()));
 
         User user = SecurityService.fetchUser(session("authid"));
         TypeRoleOnActivity role = DAOs.getTypeRoleOnActivityDao().findByKey(EnumerationWithKeys.TYPE_ROLE_ON_ACTIVITY_LOGGED);
@@ -166,6 +169,9 @@ public class ActivityController extends Controller {
 
         DAOs.getUserLoggedOnActivityDao().create(item);
 
+        activity.setCapacity(activity.getCapacity() + 1);
+        DAOs.getActivityDao().update(activity);
+
         return redirect(controllers.routes.ActivityController.show(activity.getActivityId()));
     }
 
@@ -173,14 +179,20 @@ public class ActivityController extends Controller {
     public static Result logOut(Long activityId) {
         Activity activity = DAOs.getActivityDao().findById(activityId);
 
-        if(activity == null)
+        if (activity == null)
             return notFound(notFound.render());
 
         User user = SecurityService.fetchUser(session("authid"));
         TypeRoleOnActivity role = DAOs.getTypeRoleOnActivityDao().findByKey(EnumerationWithKeys.TYPE_ROLE_ON_ACTIVITY_LOGGED);
         UserLoggedOnActivity item = DAOs.getUserLoggedOnActivityDao().find(activity, user, role);
 
+        if (item == null)
+            return redirect(controllers.routes.ActivityController.show(activity.getActivityId()));
+
         DAOs.getUserLoggedOnActivityDao().delete(item);
+
+        activity.setCapacity(activity.getCapacity() - 1);
+        DAOs.getActivityDao().update(activity);
 
         return redirect(controllers.routes.ActivityController.show(activity.getActivityId()));
     }

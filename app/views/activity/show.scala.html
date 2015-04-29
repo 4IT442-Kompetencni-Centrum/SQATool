@@ -27,9 +27,11 @@
                         Odhlásit
                     </a>
                 } else {
-                    <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
-                        Přihlásit
-                    </a>
+                    @if(activity.getCapacity() < activity.getCapacityMax()) {
+                        <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
+                            Přihlásit
+                        </a>
+                    }
                 }
             </td>
         </tr>
@@ -47,8 +49,9 @@
             @if(activity.getTimeFrom() != null){<strong>Od:</strong> @activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}
             @if(activity.getTimeTo() != null){<strong>Do:</strong> @activity.getTimeTo().format("dd.MM.yyyy HH:mm")}
         </li>
-        <li><strong>Místo konání: </strong>@activity.getPlace()</li>
-        <li><strong>Organizátor: </strong>@organizer.getFirstName() @organizer.getLastName()</li>
+        <li><strong>Místo konání:</strong> @activity.getPlace()</li>
+        <li><strong>Kapacita:</strong> @activity.getCapacity()/@activity.getCapacityMax()</li>
+        <li><strong>Odpovědná osoba:</strong> @organizer.getFirstName() @organizer.getLastName()</li>
         <li>
             <strong>Přihlášení účastníci: </strong>
             @for(user <- loggedUsers) {

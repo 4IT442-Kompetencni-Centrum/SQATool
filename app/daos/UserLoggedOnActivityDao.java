@@ -58,7 +58,7 @@ public interface UserLoggedOnActivityDao extends AbstractNonVersionedDao<UserLog
      * @param limit
      * @return
      */
-    public List<Activity> findByUser(User user, Integer offset, Integer limit);
+    public List<Activity> findFutureActivitiesByUser(User user, Integer offset, Integer limit);
 
 
     /**
@@ -66,5 +66,5 @@ public interface UserLoggedOnActivityDao extends AbstractNonVersionedDao<UserLog
      * @param user
      * @return
      */
-    public Integer countUserActivities(User user);
+    public Integer countFutureUserActivities(User user);
 }

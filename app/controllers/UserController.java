@@ -3,10 +3,13 @@ package controllers;
 import java.util.List;
 import java.util.Map;
 
+
 import models.Activity;
 import models.LevelOfKnowledge;
 import models.TypeKnowledge;
 import models.TypeRoleOnActivity;
+import forms.RewardForm;
+import models.Project;
 import models.User;
 import models.UserLoggedOnActivity;
 import models.UsersKnowledge;
@@ -41,7 +44,12 @@ public class UserController extends Controller {
 		Logger.debug(id + "");
 		User _user = DAOs.getUserDao().findById(id);
 		Logger.debug(_user+"");
-		return ok(detail.render(_user));
+
+
+		List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(_user.getId());
+		Form<RewardForm> rewardForm = Form.form(RewardForm.class);
+
+		return ok(detail.render(_user,projects,rewardForm));
 	}
 		
 	@Transactional(readOnly = false)

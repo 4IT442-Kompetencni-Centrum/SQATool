@@ -74,7 +74,12 @@ public class SecurityService {
 		}
 		return DAOs.getUserDao().findById(userId);
 	}
-	
+	/**
+	 * Method checks if user can delete project
+	 * @param project
+	 * @param user
+	 * @return
+	 */	
 	public static boolean canDeleteProject(Project project, User user) {
 		return hasAccess(user, ActionsEnum.PROJECT_DELETE);
 	}
@@ -94,7 +99,7 @@ public class SecurityService {
 		}
 		for (UserOnProject role : project.getUserOnProject()) {
 			if (user.getId().equals(role.getUser().getId())) {
-				return true;
+				return EnumerationWithKeys.PROJECT_MANAGER_KEY.equals(role.getTypeUserOnProject().getKey());
 			}
 		}
 		return false;

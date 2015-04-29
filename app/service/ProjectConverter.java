@@ -129,4 +129,18 @@ public class ProjectConverter {
 		
 		return res;
 	}
+	
+	public static List<ProjectDto> convertListOfObjectToDto(List<Object[]> orig, User user){
+		List<ProjectDto> res = new ArrayList<ProjectDto>();
+		
+		for (Object[] p : orig) {
+			Project tmp = (Project) p[0];
+			ProjectDto dto = convertToDto(tmp, user);
+			dto.setTotalHoursWorked(p[1] == null ? 0.0 : (Double)p[1]);
+			res.add(dto);
+			
+		}
+		
+		return res;
+	}
 }

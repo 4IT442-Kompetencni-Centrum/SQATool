@@ -67,10 +67,10 @@ public class UserLoggedOnActivityDaoImpl extends AbstractNonVersionedDaoImpl<Use
     }
 
     @Override
-    public List<Activity> findByUser(User user, Integer offset, Integer limit) {
+    public List<Activity> findFutureActivitiesByUser(User user, Integer offset, Integer limit) {
         TypeRoleOnActivity role = DAOs.getTypeRoleOnActivityDao().findByKey(EnumerationWithKeys.TYPE_ROLE_ON_ACTIVITY_LOGGED);
 
-        Query q = JPA.em().createQuery("SELECT a FROM UserLoggedOnActivity ula JOIN ula.activity a WHERE a.visible = TRUE AND ula.typeRoleOnActivity = :role AND ula.user = :user");
+        Query q = JPA.em().createQuery("SELECT a FROM UserLoggedOnActivity ula JOIN ula.activity a WHERE a.visible = TRUE AND ula.typeRoleOnActivity = :role AND ula.user = :user AND a.timeTo >= now() ");
         q.setParameter("role", role);
         q.setParameter("user", user);
 
@@ -83,7 +83,7 @@ public class UserLoggedOnActivityDaoImpl extends AbstractNonVersionedDaoImpl<Use
     }
 
     @Override
-    public Integer countUserActivities(User user) {
+    public Integer countFutureUserActivities(User user) {
         TypeRoleOnActivity role = DAOs.getTypeRoleOnActivityDao().findByKey(EnumerationWithKeys.TYPE_ROLE_ON_ACTIVITY_LOGGED);
 
         TypedQuery<Long> q = JPA.em().createQuery("SELECT count(ula) FROM UserLoggedOnActivity ula JOIN ula.activity a WHERE a.visible = TRUE AND ula.typeRoleOnActivity = :role AND ula.user = :user", Long.class);
