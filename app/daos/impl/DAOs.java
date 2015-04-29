@@ -3,6 +3,7 @@ package daos.impl;
 import daos.ActivityDao;
 import daos.ContactPersonDao;
 import daos.HoursWorkedDao;
+import daos.LevelOfKnowledgeDao;
 import daos.PartnerDao;
 import daos.ProjectDao;
 import daos.RewardDao;
@@ -17,6 +18,7 @@ import daos.UserDao;
 import daos.UserLoggedOnActivityDao;
 import daos.UserOnProjectDao;
 import daos.UsersKnowledgeDao;
+import daos.TypeKnowledgeDao;
 
 /**
  * Storage class for DAOs.
@@ -41,6 +43,8 @@ public class DAOs {
     private static TypeUserOnProjectDao typeUserOnProjectDao;
     private static StateHoursWorkedDao stateHoursWorkedDao;
     private static UsersKnowledgeDao usersKnowledgeDao;
+    private static TypeKnowledgeDao typeKnowledgeDao;
+    private static LevelOfKnowledgeDao levelOfKnowledgeDao;
     
     public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -54,6 +58,20 @@ public class DAOs {
 			usersKnowledgeDao = new UsersKnowledgeDaoImpl();
 		}
 		return usersKnowledgeDao;
+	}
+    
+    public static TypeKnowledgeDao getTypeKnowledgeDao() {
+		if (typeKnowledgeDao == null) {
+			typeKnowledgeDao = new TypeKnowledgeDaoImpl();
+		}
+		return typeKnowledgeDao;
+	}
+    
+    public static LevelOfKnowledgeDao getLevelOfKnowledgeDao() {
+		if (levelOfKnowledgeDao == null) {
+			levelOfKnowledgeDao = new LevelOfKnowledgeDaoImpl();
+		}
+		return levelOfKnowledgeDao;
 	}
 
 	public static ContactPersonDao getContactPersonDao() {

@@ -9,6 +9,7 @@ import javax.validation.Constraint;
 
 public class UsersForm {
 
+	@Constraints.Required
     protected Long userId;
 
     @Constraints.Required

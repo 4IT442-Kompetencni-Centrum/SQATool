@@ -35,6 +35,7 @@ public enum ActionsEnum {
 
 	//user actions
 	MEMBER_SHOW_ALL,
+	USER_EDIT_PROFILE,
 	//TODO mcech
 	//TODO pkadlec
 }
