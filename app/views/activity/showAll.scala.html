@@ -36,10 +36,12 @@
                             <a href="@routes.ActivityController.logOut(activity.getActivityId())" class="btn btn-xs btn-danger">
                                 Odhlásit
                             </a>
-                        }else{
-                            <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
-                                Přihlásit
-                            </a>
+                        } else {
+                            @if(activity.getCapacity() < activity.getCapacityMax()) {
+                                <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
+                                    Přihlásit
+                                </a>
+                            }
                         }
                     </td>
                 </tr>

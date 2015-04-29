@@ -44,6 +44,12 @@ public class Activity extends AbstractVersionedEntity {
     protected StateActivity stateActivity;
 
 
+
+    public Activity(){
+        this.capacity = 0;
+    }
+
+
     /**
      * Get Activity Id
      *
