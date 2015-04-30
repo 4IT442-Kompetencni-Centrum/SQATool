@@ -30,7 +30,6 @@ import views.data.ProjectDto;
 import views.html.projects.projectDetail;
 import views.html.projects.projectNotFound;
 import views.html.projects.projects;
-import views.html.projects.projectsCreate;
 import views.html.projects.projectsEdit;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -80,9 +79,9 @@ public class ProjectController extends Controller{
 		if (!SecurityService.hasAccess(user, ActionsEnum.PROJECT_CREATE)) {
 			return redirect(routes.Application.accessDenied());
 		}
-		Form<ProjectDto> projectForm = Form.form(ProjectDto.class);
+		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).fill(new ProjectDto());
 		Logger.debug("Page with form for creating new project is shown.");
-		return ok(projectsCreate.render(projectForm, getBackToListMenu(user)));
+		return ok(projectsEdit.render(projectForm, getBackToListMenu(user), "Přidat projekt", routes.ProjectController.saveNewProject().absoluteURL(request()), false));
 	}
 	/**
 	 * Action saves new project
@@ -180,7 +179,7 @@ public class ProjectController extends Controller{
 		
 		Form<ProjectDto> projectForm = Form.form(ProjectDto.class).fill(dto);
 		Logger.debug("Page with form for editing project is shown. Edited project has id {} and name {}.", dto.getProjectId(), dto.getName());
-		return ok(projectsEdit.render(projectForm, getBackToListMenu(user), false));
+		return ok(projectsEdit.render(projectForm, getBackToListMenu(user), "Upravit projekt", routes.ProjectController.updateProject(false).absoluteURL(request()), false));
 	}
 	
 	/**
@@ -260,7 +259,7 @@ public class ProjectController extends Controller{
 			DAOs.getProjectDao().update(project);
 		} catch (OptimisticLockException e) {
 			Logger.info("Project {} was edited by another user. ", projectForm.get());
-			return ok(projectsEdit.render(projectForm, getBackToListMenu(user), true));
+			return ok(projectsEdit.render(projectForm, getBackToListMenu(user), "Upravit projekt", routes.ProjectController.updateProject(true).absoluteURL(request()), true));
 		}
 		Logger.debug("Project update operation was called.");
 		return redirect(routes.ProjectController.showAll(0));
@@ -332,6 +331,7 @@ public class ProjectController extends Controller{
 	
 	private static Boolean isProjectManager(Project project, User user) {
 		for (UserOnProject uop : project.getUserOnProject()) {
+			if (!uop.getVisible()) continue;
 			if (user.equals(uop.getUser())) {
 				return EnumerationWithKeys.PROJECT_MANAGER_KEY.equals(uop.getTypeUserOnProject().getKey());
 			}

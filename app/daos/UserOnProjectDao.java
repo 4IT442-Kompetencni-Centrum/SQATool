@@ -1,5 +1,7 @@
 package daos;
 
+import java.util.List;
+
 import models.UserOnProject;
 
 /**
@@ -9,5 +11,6 @@ import models.UserOnProject;
  */
 public interface UserOnProjectDao extends AbstractVersionedDao<UserOnProject> {
 	public UserOnProject getByProjectAndUser(Long userId, Long projectId);
+	public List<UserOnProject> getByProject(Long projectId);
 
 }

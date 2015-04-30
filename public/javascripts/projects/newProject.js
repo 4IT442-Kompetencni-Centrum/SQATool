@@ -32,6 +32,45 @@ var typeAheadUserParam = {
 		  }
 	}
 
+function doDeleteMember(event) {
+	console.log("volano");
+	var elem = $(event.target);
+	var row = elem.parents(".memberRow");
+	var partnerInput = row.find(".memberElem.tt-input");
+	var elemName = partnerInput.attr("name");
+	var index = elemName.replace("memberNames[", "").replace("]", "");
+	row.remove();
+	var rows = $(".memberRow");
+	for (var i = index; i < rows.length; i++) {
+		var tmp = $(rows[i]);
+		tmp.find(".memberElem.tt-input").attr("name", "memberNames["+i+"]");
+		if (i < rows.length-1) {
+			$("input[name='memberIds["+(i)+"]']").val($("input[name='memberIds["+(parseInt(i)+1)+"]']").val());
+		} else {
+			$("input[name='memberIds["+(i)+"]']").remove();
+		}
+	}
+}
+
+function doDeletePartner(event) {
+	var elem = $(event.target);
+	var row = elem.parents(".partnerRow");
+	var partnerInput = row.find(".partnerElem.tt-input");
+	var elemName = partnerInput.attr("name");
+	var index = elemName.replace("partnerNames[", "").replace("]", "");
+	row.remove();
+	var rows = $(".partnerRow");
+	for (var i = index; i < rows.length; i++) {
+		var tmp = $(rows[i]);
+		tmp.find(".partnerElem.tt-input").attr("name", "partnerNames["+i+"]");
+		if (i < rows.length-1) {
+			$("input[name='partnerIds["+(i)+"]']").val($("input[name='partnerIds["+(parseInt(i)+1)+"]']").val());
+		} else {
+			$("input[name='partnerIds["+(i)+"]']").remove();
+		}
+	}
+}
+
 $(document).ready(function(){
 		//init project shortcut check
 		$("#projectShortcut").on("keyup", function(event) {
@@ -39,7 +78,6 @@ $(document).ready(function(){
 			$.getJSON("/projekty/volny/" + query,
 				function (data) {
 					var projectId = $("input[name='projectId']").val();
-					console.log(projectId +" "+ data.project);
 					if (data.isFree == 0 && projectId != data.project) {
 						$("#projectShortcutValidationGlyphicon").removeClass("glyphicon-ok");
 						$("#projectShortcutValidationGlyphicon").addClass("glyphicon-remove");
@@ -112,7 +150,9 @@ $(document).ready(function(){
 					var rows = $(".partnerRow");
 					var newRow = $(rows[rows.length-1]);
 					newRow.find(".partnerElem").typeahead(null, typeAheadPartnerParam);
-					
+					newRow.find(".deletePartner").on("click", function(event) {
+						doDeletePartner(event)
+					});
 					bindSelectedAction();
 				}
 			});
@@ -149,7 +189,7 @@ $(document).ready(function(){
 					keyboard: false
 				});
 			});
-			$("#unknowPartnerModalCancel").click(function(){
+			$("#unknowMemberModalCancel").click(function(){
 				selectedMember.val("");
 				$("#unknowPartnerModal").modal('hide');
 			});
@@ -182,9 +222,19 @@ $(document).ready(function(){
 					var rows = $(".memberRow");
 					var newRow = $(rows[rows.length-1]);
 					newRow.find(".memberElem").typeahead(null, typeAheadUserParam);
-					
+					newRow.find(".deleteMember").on("click", function(event) {
+						doDeleteMember(event)
+					});
 					bindSelectedActionUser();
 				}
 			});
 		}
+/********************************delete buttons***************************************/
+		$(".deletePartner").click(function(event){
+			doDeletePartner(event);
+		});
+		
+		$(".deleteMember").click(function(event){
+			doDeleteMember(event);
+		});
 });

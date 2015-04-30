@@ -1,5 +1,6 @@
 package views.data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,14 @@ public class ProjectDto {
 	private boolean canBeModified = false;
 	private boolean canBeDeleted = false;
 	private Double totalHoursWorked = null;
+	
+	public ProjectDto() {
+		partnerIds = new ArrayList<Long>();
+		memberIds = new ArrayList<Long>();
+		partners = new ArrayList<PartnerDto>();
+		memberNames = new ArrayList<String>();
+		partnerNames = new ArrayList<String>();
+	}
 	
 	public Long getProjectId() {
 		return projectId;
