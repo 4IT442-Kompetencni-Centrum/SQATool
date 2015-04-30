@@ -29,7 +29,6 @@ INSERT INTO SQA_USER (id, version, visible, firstname, lastname, password, usern
 INSERT INTO SQA_USER (id, version, visible, firstname, lastname, password, username) VALUES(2, 0, TRUE, 'Karel', 'Vedouci', 'head', 'head');
 INSERT INTO SQA_USER (id, version, visible, firstname, lastname, password, username) VALUES(3, 0, TRUE, 'Filip', 'Manazer', 'manager', 'manager');
 INSERT INTO SQA_USER (id, version, visible, firstname, lastname, password, username) VALUES(4, 0, TRUE, 'Dominik', 'Clen', 'member', 'member');
-
 INSERT INTO SQA_USER (id, version, visible, firstname, lastname, password, username) VALUES(5, 0, TRUE, 'Tomas', 'Michalicka', 'tomas', 'tomas');
 INSERT INTO SQA_USER (id, version, visible, firstname, lastname, password, username) VALUES(6, 0, TRUE, 'Ales', 'Jiranek', 'ales', 'ales');
 INSERT INTO SQA_USER (id, version, visible, firstname, lastname, password, username) VALUES(7, 0, TRUE, 'Petr', 'Kadlec', 'petr', 'petr');
@@ -55,12 +54,8 @@ INSERT INTO SQA_ROLE_IN_BUSINESS (roleinbusinessid, typeroleinbusiness_id, user_
 INSERT INTO SQA_ROLE_IN_BUSINESS (roleinbusinessid, typeroleinbusiness_id, user_id) VALUES(13, 1, 13);
 
 # --- !Downs
-DELETE FROM sqa_user_on_project;
-DELETE FROM sqa_user_logged_on_activity;
-DELETE FROM sqa_hours_worked;
-DELETE FROM sqa_activity;
-DELETE FROM SQA_ROLE_IN_BUSINESS;
 DELETE FROM SQA_USER;
+DELETE FROM SQA_ROLE_IN_BUSINESS;
 DELETE FROM sqa_type_activity;
 DELETE FROM sqa_state_activity;
 DELETE FROM sqa_type_role_on_activity;
