@@ -12,14 +12,14 @@ public class StateHoursWorked extends AbstractEnumWithKey {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long stateHoursWorked;
+	private Long stateHoursWorkedId;
 
-	public Long getStateHoursWorked() {
-		return stateHoursWorked;
+	public Long getStateHoursWorkedId() {
+		return stateHoursWorkedId;
 	}
 
-	public void setStateHoursWorked(Long stateHoursWorked) {
-		this.stateHoursWorked = stateHoursWorked;
+	public void setStateHoursWorkedId(Long stateHoursWorkedId) {
+		this.stateHoursWorkedId = stateHoursWorkedId;
 	}
 	
 	
