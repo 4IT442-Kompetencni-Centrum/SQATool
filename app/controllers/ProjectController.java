@@ -140,6 +140,8 @@ public class ProjectController extends Controller{
 	public static Result approveHoursWorked(Long id) {
 		Logger.debug("Hours worked with id {} was approved", id);
 		HoursWorked hw = DAOs.getHoursWorkedDao().findById(id);
+		Boolean isPM = isProjectManager(hw.getProject(), SecurityService.fetchUser(session("authid")));
+		if (isPM == null || isPM == false) ok(); 
 		if (hw != null) {
 			hw.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_APPROVED));
 			DAOs.getHoursWorkedDao().update(hw);
@@ -151,6 +153,8 @@ public class ProjectController extends Controller{
 	public static Result rejectHoursWorked(Long id) {
 		Logger.debug("Hours worked with id {} was rejected", id);
 		HoursWorked hw = DAOs.getHoursWorkedDao().findById(id);
+		Boolean isPM = isProjectManager(hw.getProject(), SecurityService.fetchUser(session("authid")));
+		if (isPM == null || isPM == false) ok(); 
 		if (hw != null) {
 			if (!EnumerationWithKeys.STATE_HOURS_WORKED_APPROVED.equals(hw.getStateHoursWorked().getKey())) {
 				hw.setStateHoursWorked(DAOs.getStateHoursWorkedDao().findByKey(EnumerationWithKeys.STATE_HOURS_WORKED_REJECTED));
