@@ -11,6 +11,7 @@ import models.User;
 import play.Logger;
 import play.db.jpa.JPA;
 import service.Configuration;
+import service.EnumerationWithKeys;
 import daos.ProjectDao;
 
 /**
@@ -19,6 +20,7 @@ import daos.ProjectDao;
  *
  */
 public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements ProjectDao{
+		
 	/**
 	 * Package visible constructor
 	 */
@@ -74,14 +76,27 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 			limit = Configuration.PAGE_SIZE;
 			Logger.debug("No limit was given to getAllProjectsForUser. {} is now set as limit.", Configuration.PAGE_SIZE);
 		}
-		Query query = JPA.em().createQuery("SELECT p, SUM(hw.numberOfHours) FROM Project p "
-										 + "JOIN p.userOnProject uop LEFT OUTER JOIN p.hoursWorked hw "
-										 + "WHERE p.visible = TRUE AND uop.user = :user AND (hw.user = uop.user OR hw = null) "
-										 + "GROUP BY p ORDER BY p.dateStart "
-										 + " ")
+		if (JPA.em() == null) {
+			Logger.error("EM je null");
+		}
+		Query query = JPA.em().createNativeQuery("SELECT p.*, sum(hw.numberOfHours) as numOfHours FROM SQA_PROJECT p "
+										 + " JOIN SQA_USER_ON_PROJECT uop ON p.projectid = uop.project_projectid AND (uop.user_id = :userid) "
+										 + " JOIN SQA_HOURS_WORKED hw ON p.projectid = hw.project_projectid "
+										 + " WHERE p.visible = TRUE AND (hw.user_id = uop.user_id OR uop.typeUserOnProject_typeUserOnProjectId = :projectManager) "
+										 + " GROUP BY p.projectid "
+										 + " UNION "
+										 + " SELECT p.* , 0.0 as numOfHours FROM SQA_PROJECT p "
+										 + " WHERE p.projectid IN (SELECT uop.project_projectid FROM SQA_USER_ON_PROJECT uop "
+										 + " LEFT OUTER JOIN SQA_HOURS_WORKED hw ON hw.project_projectid = uop.project_projectid AND hw.user_id = :userid2 "
+										 + " WHERE uop.user_id = :userid3 AND hw IS NULL AND uop.typeUserOnProject_typeUserOnProjectId != :projectManager2) "
+										 + " ", Project.PROJECT_WORKED_HOURS_MAPPING)
 										 .setMaxResults(limit).setFirstResult(start);
-		query.setParameter("user", user);
-		//query.setParameter("user2", user);
+		query.setParameter("userid", user.getId());
+		query.setParameter("userid2", user.getId());
+		query.setParameter("userid3", user.getId());
+		Long pmId = DAOs.getTypeUserOnProject().findByKey(EnumerationWithKeys.PROJECT_MANAGER_KEY).getTypeUserOnProjectId();
+		query.setParameter("projectManager", pmId);
+		query.setParameter("projectManager2", pmId);
 		return query.getResultList();
 	}
 

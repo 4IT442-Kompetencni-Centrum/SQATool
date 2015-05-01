@@ -20,7 +20,7 @@ public class ProjectDto {
 	@Required
 	private String shortcut;
 	private Integer laboriousnessGues;
-	private Integer laboriousnessReal;
+	private Double laboriousnessReal;
 	private Integer version;
 	private List<Long> partnerIds;
 	private List<String> partnerNames;
@@ -77,10 +77,10 @@ public class ProjectDto {
 	public void setLaboriousnessGues(Integer laboriousnessGues) {
 		this.laboriousnessGues = laboriousnessGues;
 	}
-	public Integer getLaboriousnessReal() {
+	public Double getLaboriousnessReal() {
 		return laboriousnessReal;
 	}
-	public void setLaboriousnessReal(Integer laboriousnessReal) {
+	public void setLaboriousnessReal(Double laboriousnessReal) {
 		this.laboriousnessReal = laboriousnessReal;
 	}
 	public List<Long> getPartnerIds() {

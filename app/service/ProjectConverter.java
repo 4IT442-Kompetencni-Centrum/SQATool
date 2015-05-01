@@ -138,7 +138,8 @@ public class ProjectConverter {
 		for (Object[] p : orig) {
 			Project tmp = (Project) p[0];
 			ProjectDto dto = convertToDto(tmp, user);
-			dto.setTotalHoursWorked(p[1] == null ? 0.0 : (Double)p[1]);
+			Float totalHours = p[1] == null ? new Float(0) : (Float)p[1];
+			dto.setTotalHoursWorked(totalHours.doubleValue());
 			res.add(dto);
 			
 		}
