@@ -14,9 +14,34 @@ function updateSurname(event) {
 	parentContainer.find(".lastname").html($(event.target).val());
 }
 
+function updateContactPersonIndex(oldIndex, newIndex, name, row) {
+	row.find("input[name='contactPersons["+oldIndex+"]."+name+"']")
+				.attr("name", "contactPersons["+newIndex+"]."+name);
+}
+
+function deleteContactPerson(event) {
+	var button = $(event.target);
+	var row = button.parents(".contactPersonRow");
+	var inputField = row.find(".contactPersonName");
+	var inputName = inputField.attr("name");
+	var index = parseInt(inputName.replace("contactPersons[", "").replace("].firstName", ""));
+	row.remove();
+	var rows = $(".contactPersonRow");
+	for (var i = index; i < rows.length; i++) {
+		var r = $(rows[i]);
+		updateContactPersonIndex(parseInt(i)+1, i, "firstName", r);
+		updateContactPersonIndex(parseInt(i)+1, i, "lastName", r);
+		updateContactPersonIndex(parseInt(i)+1, i, "phoneNumber", r);
+		updateContactPersonIndex(parseInt(i)+1, i, "email", r);
+		updateContactPersonIndex(parseInt(i)+1, i, "version", r);
+		updateContactPersonIndex(parseInt(i)+1, i, "contactPersonId", r);
+	}
+}
+
 function bindActions() {
 	$(".contactPersonRow").find("input").off("keypress");
 	$(".contactPersonName").off("keyup");
+	$(".deleteContactPerson").off("click");
 	$(".contactPersonSurname").off("keyup");
 	$(".contactPersonRow").find("input").keypress(function(event){
 		if (isLast($(event.target).parents(".contactPersonRow"))) {
@@ -32,6 +57,9 @@ function bindActions() {
 	});
 	$(".contactPersonSurname").keyup(function(event) {
 		updateSurname(event);
+	});
+	$(".deleteContactPerson").on("click", function(event) {
+		deleteContactPerson(event);
 	});
 
 }

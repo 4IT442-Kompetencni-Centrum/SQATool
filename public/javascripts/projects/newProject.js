@@ -33,7 +33,6 @@ var typeAheadUserParam = {
 	}
 
 function doDeleteMember(event) {
-	console.log("volano");
 	var elem = $(event.target);
 	var row = elem.parents(".memberRow");
 	var partnerInput = row.find(".memberElem.tt-input");
@@ -85,6 +84,7 @@ $(document).ready(function(){
 						par.removeClass("has-success");
 						par.addClass("has-error");
 						$("#projectShortcutValidationMessage").removeClass("hidden");
+						$("#submitProject").addClass("disabled");
 					} else {
 						$("#projectShortcutValidationGlyphicon").addClass("glyphicon-ok");
 						$("#projectShortcutValidationGlyphicon").removeClass("glyphicon-remove");
@@ -92,6 +92,7 @@ $(document).ready(function(){
 						par.addClass("has-success");
 						par.removeClass("has-error");
 						$("#projectShortcutValidationMessage").addClass("hidden");
+						$("#submitProject").removeClass("disabled");
 					}
 			})
 		});

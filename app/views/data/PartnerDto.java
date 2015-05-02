@@ -1,5 +1,6 @@
 package views.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import play.data.validation.Constraints.Required;
@@ -18,6 +19,10 @@ public class PartnerDto {
 	private String houseNumber;
 	private Integer version;
 	private List<ContactPersonDto> contactPersons;
+	
+	public PartnerDto() {
+		contactPersons = new ArrayList<ContactPersonDto>();
+	}
 	
 	public Long getPartnerId() {
 		return partnerId;
