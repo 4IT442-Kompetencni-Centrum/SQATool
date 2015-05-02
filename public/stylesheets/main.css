@@ -116,7 +116,7 @@
 	font-size: 20px;
 }
 
-ul.activity-detail {
+ul.activity-detail, ul.partner-detail, ul.project-detail {
     line-height: 175%;
 }
 

@@ -112,4 +112,11 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 			return null;
 		}
 	}
+
+	@Override
+	public Double getRealLaboriousness(Project project) {
+		TypedQuery<Double> q = JPA.em().createQuery("SELECT SUM(hw.numberOfHours) from HoursWorked hw WHERE hw.project = :project", Double.class);
+		q.setParameter("project", project);
+		return q.getSingleResult();
+	}
 }

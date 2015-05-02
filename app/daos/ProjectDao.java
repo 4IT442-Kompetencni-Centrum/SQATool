@@ -45,7 +45,19 @@ public interface ProjectDao extends AbstractVersionedDao<Project> {
 	 */
 	public Integer getNumberOfProjectsForUser(User user);
 	
+	/**
+	 * Method finds all projects which name match given substring
+	 * @param str
+	 * @return
+	 */
 	public Project getProjectByShortcut(String str);
+	
+	/**
+	 * Method returns sum of all approved worked hours records for given project.
+	 * @param project
+	 * @return
+	 */
+	public Double getRealLaboriousness(Project project);
 	
 	
 }

@@ -118,10 +118,10 @@ public class ProjectController extends Controller{
 		}
 		Project project = DAOs.getProjectDao().findById(projectId);
 		if (project == null) {
-			Logger.info("Partner with id {} was not found, detail can not be shown.", projectId);
+			Logger.info("Project with id {} was not found, detail can not be shown.", projectId);
 			return redirect(routes.ProjectController.projectNotFound(projectId));
 		} else {
-			Logger.debug("Partner detail page is shown.");
+			Logger.debug("Project detail page is shown.");
 			Boolean isProjectManager = isProjectManager(project, user);
 			List<HoursWorkedDto> hoursWorked = null;
 			if (isProjectManager != null && isProjectManager == true) {
@@ -132,7 +132,9 @@ public class ProjectController extends Controller{
 				Logger.debug("User is not project manager. Only his timesheet is shown.");
 				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProjectAndUser(project, user));
 			}
-			return ok(projectDetail.render(ProjectConverter.convertToDto(project, null), getBackToListMenu(user), hoursWorked, isProjectManager));
+			ProjectDto dto = ProjectConverter.convertToDto(project, user);
+			dto.setLaboriousnessReal(DAOs.getProjectDao().getRealLaboriousness(project));
+			return ok(projectDetail.render(dto, getBackToListMenu(user), hoursWorked, isProjectManager));
 		}
 	}
 	
