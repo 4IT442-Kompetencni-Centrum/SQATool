@@ -156,7 +156,7 @@ public class ActivityController extends Controller {
         if (activity == null)
             return notFound(notFound.render());
 
-        if (activity.getCapacity() == activity.getCapacityMax())
+        if (activity.getCapacityMax() != null && activity.getCapacity() == activity.getCapacityMax())
             return redirect(controllers.routes.ActivityController.show(activity.getActivityId()));
 
         User user = SecurityService.fetchUser(session("authid"));

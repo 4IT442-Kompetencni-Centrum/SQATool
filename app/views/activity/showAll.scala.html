@@ -18,7 +18,7 @@
                 <tr>
                     <td>
                         <a href="@routes.ActivityController.show(activity.getActivityId())" class="btn btn-link btn-xs">
-                        <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName() (@activity.getCapacity()/@activity.getCapacityMax())
+                        <strong>@if(activity.getTimeFrom() != null){@activity.getTimeFrom().format("dd.MM.yyyy HH:mm")}:</strong> @activity.getName() @if(activity.getCapacityMax() != null){(@activity.getCapacity()/@activity.getCapacityMax())}
                         </a>
                     </td>
                     <td class="text-right">
@@ -37,7 +37,7 @@
                                 Odhlásit
                             </a>
                         } else {
-                            @if(activity.getCapacity() < activity.getCapacityMax()) {
+                            @if(activity.getCapacityMax() == null || activity.getCapacity() < activity.getCapacityMax()) {
                                 <a href="@routes.ActivityController.logIn(activity.getActivityId())" class="btn btn-xs btn-success">
                                     Přihlásit
                                 </a>
