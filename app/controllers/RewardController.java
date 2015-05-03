@@ -19,6 +19,7 @@ import views.html.reward.edit;
 import views.html.reward.add;
 import views.html.reward.show;
 import views.html.reward.showAll;
+import views.html.user.detail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,7 @@ public class RewardController extends Controller {
             User user = DAOs.getUserDao().findById(Long.parseLong(form.field("userId").value()));
             List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(user.getId());
 
-            return badRequest(add.render(form, user, projects, getBackToListMenu()));
+            return badRequest(detail.render(user, projects, form));
         }
 
         Reward reward = form.get().getReward();
