@@ -1,5 +1,6 @@
-@(user: User)
-@main("Uživatel"){
+@import views.data.MenuDto
+@(user: User, submenu:List[MenuDto])
+@main("Uživatel", "profile", submenu){
     <h1>Osobní profil - editace</h1>
 <form class="form-horizontal" action="@routes.UserController.edit()" method="POST">
 	<div class="form-group">

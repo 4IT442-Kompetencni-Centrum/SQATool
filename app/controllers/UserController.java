@@ -1,17 +1,12 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-
-import models.Activity;
 import models.LevelOfKnowledge;
-import models.TypeKnowledge;
-import models.TypeRoleOnActivity;
-import forms.RewardForm;
 import models.Project;
+import models.TypeKnowledge;
 import models.User;
-import models.UserLoggedOnActivity;
 import models.UsersKnowledge;
 import play.Logger;
 import play.data.Form;
@@ -19,20 +14,19 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.user.*;
-import views.html.activity.add;
+import service.ActionsEnum;
+import service.SecurityService;
+import views.data.MenuDto;
 import views.html.knowledge.knowledgeForm;
 import views.html.knowledge.knowledgeList;
-import service.ActionsEnum;
-import service.EnumerationWithKeys;
-import service.SecurityService;
-import service.AuthorizedAction.Authorize;
+import views.html.user.detail;
+import views.html.user.edit;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import daos.impl.DAOs;
-import forms.ActivityForm;
+import forms.RewardForm;
 import forms.UsersForm;
 
 public class UserController extends Controller {
@@ -71,7 +65,14 @@ public class UserController extends Controller {
     //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
     public static Result showEditForm(Long userId) {
 		User _user = DAOs.getUserDao().findById(userId);
-		return ok(edit.render(_user));
+		List<MenuDto> menu  = new ArrayList<MenuDto>();
+		MenuDto item = new MenuDto();
+		item.setGlyphicon("ok");
+		item.setLabel("test");
+		item.setUrl("http://google.com");
+		item.setSelected(true);
+		menu.add(item);
+		return ok(edit.render(_user, menu));
 	}
 	
 	@Transactional(readOnly = false)
