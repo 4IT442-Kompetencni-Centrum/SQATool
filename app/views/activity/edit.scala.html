@@ -10,13 +10,27 @@
         @b3.textarea(form("description"), '_label -> "Popis")
 
         <div class="form-group" id="time_field">
-            <label class="control-label col-md-3 " for="timeFrom">Datum, čas Od</label>
-            <div class="col-md-4">
-                <input type="text" class="form-control datetimepicker" id="timeFrom" name="@form("timeFrom").name" value="@form("timeFrom").value"/>
+            <div class="@if(form("timeFrom").hasErrors){ has-error }">
+                <label class="control-label col-md-3 " for="timeFrom">Začátek</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control datetimepicker" id="timeFrom" name="@form("timeFrom").name" value="@form("timeFrom").value"/>
+                    @if(form("timeFrom").hasErrors){
+                        @for(error <- form("timeFrom").errors) {
+                            <span class="help-block">@Messages(error.message)</span>
+                        }
+                    }
+                </div>
             </div>
-            <label class="control-label col-md-1" style="text-align: center" for="timeTo">Do</label>
-            <div class="col-md-4">
-                <input type="text" class="form-control datetimepicker" id="timeTo" name="@form("timeTo").name" value="@form("timeTo").value" data-minDate="#timeFrom"/>
+            <div class="@if(form("timeTo").hasErrors){ has-error }">
+                <label class="control-label col-md-1" style="text-align: center" for="timeTo">Konec</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control datetimepicker" id="timeTo" name="@form("timeTo").name" value="@form("timeTo").value" data-minDate="#timeFrom"/>
+                    @if(form("timeTo").hasErrors){
+                        @for(error <- form("timeTo").errors) {
+                            <span class="help-block">@Messages(error.message)</span>
+                        }
+                    }
+                </div>
             </div>
             <script type="text/javascript">
             $(document).ready(function(){
