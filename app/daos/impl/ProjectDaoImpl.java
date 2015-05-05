@@ -87,14 +87,13 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 										 + " UNION "
 										 + " SELECT p.* , 0.0 as numOfHours FROM SQA_PROJECT p "
 										 + " WHERE p.projectid IN (SELECT uop.project_projectid FROM SQA_USER_ON_PROJECT uop "
-										 + " LEFT OUTER JOIN SQA_HOURS_WORKED hw ON hw.project_projectid = uop.project_projectid AND (hw.user_id = :userid2 OR uop.typeUserOnProject_typeUserOnProjectId = :projectManager3) "
+										 + " LEFT OUTER JOIN SQA_HOURS_WORKED hw ON hw.project_projectid = uop.project_projectid AND (hw.user_id = :userid2 OR uop.typeUserOnProject_typeUserOnProjectId = :projectManager2) "
 										 + " WHERE uop.user_id = :userid2 AND hw IS NULL "
 										 + " ) "
 										 + " ", Project.PROJECT_WORKED_HOURS_MAPPING)
 										 .setMaxResults(limit).setFirstResult(start);
 		query.setParameter("userid", user.getId());
 		query.setParameter("userid2", user.getId());
-		query.setParameter("userid3", user.getId());
 		Long pmId = DAOs.getTypeUserOnProject().findByKey(EnumerationWithKeys.PROJECT_MANAGER_KEY).getTypeUserOnProjectId();
 		query.setParameter("projectManager", pmId);
 		query.setParameter("projectManager2", pmId);
