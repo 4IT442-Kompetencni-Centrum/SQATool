@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 
@@ -23,8 +26,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="SQA_PROJECT")
+@SqlResultSetMapping(name=Project.PROJECT_WORKED_HOURS_MAPPING, entities = {@EntityResult(entityClass = Project.class)}, columns = {@ColumnResult(name="numOfHours")})
 public class Project extends AbstractVersionedEntity {
 
+	public static final String PROJECT_WORKED_HOURS_MAPPING = "PROJECT_WORKED_HOURS_MAPPING";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectId;
@@ -36,7 +42,7 @@ public class Project extends AbstractVersionedEntity {
 	//column can not have unique constraint because of visible flag
 	private String shortcut;
 	private Integer laboriousnessGues;
-	private Integer laboriousnessReal;
+	private Double laboriousnessReal;
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="project")
 	private List<HoursWorked> hoursWorked;
 	@ManyToMany(fetch=FetchType.LAZY)
@@ -96,10 +102,10 @@ public class Project extends AbstractVersionedEntity {
 	public void setLaboriousnessGues(Integer laboriousnessGues) {
 		this.laboriousnessGues = laboriousnessGues;
 	}
-	public Integer getLaboriousnessReal() {
+	public Double getLaboriousnessReal() {
 		return laboriousnessReal;
 	}
-	public void setLaboriousnessReal(Integer laboriousnessReal) {
+	public void setLaboriousnessReal(Double laboriousnessReal) {
 		this.laboriousnessReal = laboriousnessReal;
 	}
 	public List<HoursWorked> getHoursWorked() {

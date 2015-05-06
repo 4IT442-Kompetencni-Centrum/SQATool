@@ -1,9 +1,9 @@
 @import views.data.MenuDto
-@(editForm: Form[views.data.ProjectDto], submenu: List[MenuDto], forceNext: Boolean)
+@(editForm: Form[views.data.ProjectDto], submenu: List[MenuDto], title: String, action: String, forceNext: Boolean)
 @main("Projekty", "projects", submenu){
 <script src="@routes.Assets.at("javascripts/projects/newProject.js")" type="text/javascript"></script>
-<h1>Upravit projekt</h1>
-<form class="form-horizontal" action="@routes.ProjectController.updateProject(forceNext)" method="POST">
+<h1>@Html(title)</h1>
+<form class="form-horizontal" action="@action" method="POST">
 	@if(forceNext) {
 	<div class="alert alert-danger" role="alert">
   		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -71,16 +71,30 @@
 	<div class="form-group memberRow">
 		<label class="col-sm-2 control-label">Člen</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control memberElem"
-				placeholder="Člen projektu" name="memberNames[@index]" value="@editForm.get().getMemberNames()(index)">
+			<div class="row">
+				<div class="col-sm-10">
+					<input type="text" class="form-control memberElem"
+						placeholder="Člen projektu" name="memberNames[@index]" value="@editForm.get().getMemberNames()(index)">
+				</div><div class="col-sm-2 text-right">
+				<div class="btn btn-default deleteMember">
+					<span class="glyphicon glyphicon-trash"></span>
+				</div></div>
+			</div>
 		</div>
 	</div>
 	}
 	<div class="form-group memberRow">
 		<label class="col-sm-2 control-label">Člen</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control memberElem"
+			<div class="row">
+				<div class="col-sm-10">
+					<input type="text" class="form-control memberElem"
 				placeholder="Člen projektu" name="memberNames[@editForm.get().getMemberNames().size()]">
+				</div><div class="col-sm-2 text-right">
+				<div class="btn btn-default deleteMember">
+					<span class="glyphicon glyphicon-trash"></span>
+				</div></div>
+			</div>
 		</div>
 	</div>
 	<div class="newMemberPlace hidden"></div>
@@ -88,8 +102,17 @@
 		<div class="form-group defaultMemberRow">
 			<label for="projectMember" class="col-sm-2 control-label">Člen</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control memberElem"
-					placeholder="Člen projektu" name="memberNames[]">
+				<div class="row">
+					<div class="col-sm-10">
+						<input type="text" class="form-control memberElem"
+							placeholder="Člen projektu" name="memberNames[]">
+					</div><div class="col-sm-2 text-right">
+					<div class="btn btn-default deleteMember">
+						<span class="glyphicon glyphicon-trash"></span>
+					</div></div>
+				</div>
+			
+				
 			</div>
 		</div>
 
@@ -99,16 +122,30 @@
 	<div class="form-group partnerRow">
 		<label for="projectPartner" class="col-sm-2 control-label">Partner</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control partnerElem"
-				placeholder="Partner projektu" name="partnerNames[@index]" value="@editForm.get().getPartnerNames()(index)">
+			<div class="row">
+				<div class="col-sm-10">
+				<input type="text" class="form-control partnerElem"
+					placeholder="Partner projektu" name="partnerNames[@index]" value="@editForm.get().getPartnerNames()(index)">
+				</div><div class="col-sm-2 text-right">
+				<div class="btn btn-default deletePartner">
+					<span class="glyphicon glyphicon-trash"></span>
+				</div></div>
+			</div>
 		</div>
 	</div>
 	}
 	<div class="form-group partnerRow">
 		<label for="projectPartner" class="col-sm-2 control-label">Partner</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control partnerElem"
-				placeholder="Partner projektu" name="partnerNames[@editForm.get().getPartnerNames().size()]">
+			<div class="row">
+				<div class="col-sm-10">
+				<input type="text" class="form-control partnerElem"
+					placeholder="Partner projektu" name="partnerNames[@editForm.get().getPartnerNames().size()]">
+				</div><div class="col-sm-2 text-right">
+				<div class="btn btn-default deletePartner">
+					<span class="glyphicon glyphicon-trash"></span>
+				</div></div>
+			</div>
 		</div>
 	</div>
 	<div class="newPartnerPlace hidden"></div>
@@ -116,8 +153,15 @@
 		<div class="form-group defaultPartnerRow">
 			<label for="projectPartner" class="col-sm-2 control-label">Partner</label>
 			<div class="col-sm-10">
+			<div class="row">
+				<div class="col-sm-10">
 				<input type="text" class="form-control partnerElem"
 					placeholder="Partner projektu" name="partnerNames[]">
+				</div><div class="col-sm-2 text-right">
+				<div class="btn btn-default deletePartner">
+					<span class="glyphicon glyphicon-trash"></span>
+				</div></div>
+			</div>	
 			</div>
 		</div>
 
@@ -132,13 +176,13 @@
 					
 				}
 				@for(index <- 0 until editForm.get().getPartnerIds().size) {
-					<input type='hidden' name='partnerIds[@index]' value="@editForm.get().getPartnerIds()(index)">
+					<input type='hidden' name='partnerIds[@index]' value="@editForm.get().getPartnerIds()(index)" class="partnerId">
 					
 				}
 			</div>
 			<input type="hidden" name="version" value="@editForm.get().getVersion()">
 			<input type="hidden" name="projectId" value="@editForm.get().getProjectId()">
-			<button type="submit" class="btn btn-success">Uložit</button>
+			<button type="submit" class="btn btn-success" id="submitProject">Uložit</button>
 		</div>
 	</div>
 </form>

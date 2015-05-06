@@ -6,45 +6,61 @@
 @main("Projekty", "projects", submenu){
 	<script src="@routes.Assets.at("javascripts/projects/projectDetail.js")" type="text/javascript"></script>
 	<h1>Detail projektu</h1>
-	<h2><strong>@Html(project.getShortcut()):</strong> @Html(project.getName())</h2>
-	<hr class="divider">
+	<table class="table table-stripped table-hover">
+		<tr>
+			<td><strong>@Html(project.getShortcut()):</strong> @Html(project.getName())</td>
+			<td class="text-right">
+			@if(project.isCanBeModified()) {
+			<a href="@routes.ProjectController.edit(project.getProjectId())" class="btn btn-link btn-xs">
+  				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
+			</a>
+			}
+			@if(project.isCanBeDeleted()) {
+			<button data-projectName="@Html(project.getName())" data-projectId="@project.getProjectId()" data-projectDeleteUrl="@routes.ProjectController.delete(project.getProjectId())" class="btn btn-link btn-xs deleteButton">
+  				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+			</button>
+			}
+			</td>
+		</tr>
+	</table>
+	
 	<p>@Html(project.getDescription())</p>
 	<div class="row">
-		<div class="col-sm-6 col-md-offset-3">
-			<table class="table table-striped">
-				<tr>
-					<td>Termín zahájení:</td>
-					<td>@if(project.getDateStart() != null) { @project.getDateStart().format("dd.MM.yyyy") }</td>
-				</tr>
-				<tr>
-					<td>Termín ukončení:</td>
-					<td>@if(project.getDateEnd() != null){ @project.getDateEnd().format("dd.MM.yyyy") }</td>
-				</tr>
-				<tr>
-					<td>Vedoucí projektu:</td>
-					<td>@if(project.getManagerName() != null) { <a href="@routes.UserController.show(project.getManagerId())">@Html(project.getManagerName()) </a> } </td>
-				</tr>
-				<tr>
-					<td>Členové projektu:</td>
-					<td>@for(index <- 0 until project.getMemberIds().size) {
+		<div class="col-sm-12">
+			<ul class="list-unstyled project-detail">
+				<li>
+					<strong>Termín zahájení:</strong>
+					@if(project.getDateStart() != null) { @project.getDateStart().format("dd.MM.yyyy") }
+				</li>
+				<li>
+					<strong>Termín ukončení:</strong>
+					@if(project.getDateEnd() != null){ @project.getDateEnd().format("dd.MM.yyyy") }
+				</li>
+				<li>
+					<strong>Vedoucí projektu:</strong>
+					@if(project.getManagerName() != null) { <a href="@routes.UserController.show(project.getManagerId())">@Html(project.getManagerName()) </a> } 
+				</li>
+				<li>
+					<strong>Členové projektu:</strong>
+					@for(index <- 0 until project.getMemberIds().size) {
 						<a href="@routes.UserController.show(project.getMemberIds()(index))">@Html(project.getMemberNames()(index))</a>@if(index < project.getMemberIds().size-1) {, } 
-					}</td>
-				</tr>
-				<tr>
-					<td>Partner projektu:</td>
-					<td>@for(index <- 0 until project.getPartners().size) {
+					}
+				</li>
+				<li>
+					<strong>Partner projektu:</strong>
+					@for(index <- 0 until project.getPartners().size) {
 						<a href="@routes.PartnerController.detail(project.getPartners()(index).getPartnerId())">@Html(project.getPartners()(index).getName())</a>@if(index < project.getPartners().size-1) {, } 
-					}</td>
-				</tr>
-				<tr>
-					<td>Odhadovaná pracnost:</td>
-					<td>@project.getLaboriousnessGues()</td>
-				</tr>
-				<tr>
-					<td>Reálná pracnost:</td>
-					<td></td>
-				</tr>
-			</table>
+					}
+				</li>
+				<li>
+					<strong>Odhadovaná pracnost:</strong>
+					@project.getLaboriousnessGues() h
+				</li>
+				<li>
+					<strong>Reálná pracnost:</strong>
+					@project.getLaboriousnessReal() h
+				</li>
+			</ul>
 		</div>
 	</div>
 	@if(isApprover != null) {

@@ -40,34 +40,34 @@ public class ProjectConverter {
 			res.setPartners(partners);
 		}
 		res.setUserOnProject(new ArrayList<UserOnProject>());
+		List<UserOnProject> users =  res.getProjectId() != null ? DAOs.getUserOnProjectDao().getByProject(res.getProjectId()) : new ArrayList<UserOnProject>();
 		if (orig.getManagerId() != null) {
-			UserOnProject userOnProject = DAOs.getUserOnProjectDao().getByProjectAndUser(orig.getManagerId(), res.getProjectId());
+			UserOnProject userOnProject = getUserRecord(users, orig.getManagerId());
 			if (userOnProject == null) {
 				userOnProject = new UserOnProject();
 				userOnProject.setProject(res);
 				userOnProject.setUser(DAOs.getUserDao().findById(orig.getManagerId()));
 				userOnProject.setVisible(true);
-				userOnProject.setTypeUserOnProject(DAOs.getTypeUserOnProject().findByKey(EnumerationWithKeys.PROJECT_MANAGER_KEY));
-			}
+			} 
+			userOnProject.setTypeUserOnProject(DAOs.getTypeUserOnProject().findByKey(EnumerationWithKeys.PROJECT_MANAGER_KEY));
 			res.getUserOnProject().add(userOnProject);
 		}
 		if (orig.getMemberIds() != null) {
-			TypeUserOnProject memberEnum = DAOs.getTypeUserOnProject().findByKey(EnumerationWithKeys.PROJECT_MEMBER_KEY);
-			for (Long userId : orig.getMemberIds()) {
+			TypeUserOnProject memberEnum = DAOs.getTypeUserOnProject().findByKey(EnumerationWithKeys.PROJECT_MEMBER_KEY);						for (Long userId : orig.getMemberIds()) {
 				if (userId == null) continue;
-				UserOnProject userOnProject = null;
-					if (res.getProjectId() != null) {
-						userOnProject = DAOs.getUserOnProjectDao().getByProjectAndUser(userId, res.getProjectId());
-						Logger.debug("Searching UserOnProject for userId {} and projectId {} ", userId, res.getProjectId());
-					}
+				UserOnProject userOnProject = getUserRecord(users, userId);
 				if (userOnProject == null) {
 					userOnProject = new UserOnProject();
 					userOnProject.setProject(res);
 					userOnProject.setUser(DAOs.getUserDao().findById(userId));
 					userOnProject.setVisible(true);
-					userOnProject.setTypeUserOnProject(memberEnum);
 				}
+				userOnProject.setTypeUserOnProject(memberEnum);
 				res.getUserOnProject().add(userOnProject);
+			}
+			//remaining members were deleted from project
+			for (UserOnProject uop : users) {
+				DAOs.getUserOnProjectDao().delete(uop);
 			}
 		}
 		return res;
@@ -88,6 +88,7 @@ public class ProjectConverter {
 		List<Long> pIds = new ArrayList<Long>();
 		List<PartnerDto> partners = new ArrayList<PartnerDto>();
 		for (Partner p : orig.getPartners()) {
+			if (!p.getVisible()) continue;
 			pNames.add(p.getName());
 			pIds.add(p.getPartnerId());
 			partners.add(PartnerConverter.convertToDto(p));
@@ -103,6 +104,7 @@ public class ProjectConverter {
 			res.setMemberIds(new ArrayList<Long>());
 			res.setMemberNames(new ArrayList<String>());
 			for (UserOnProject uop : orig.getUserOnProject()) {
+				if (!uop.getVisible()) continue;
 				User u = uop.getUser();
 				if (EnumerationWithKeys.PROJECT_MANAGER_KEY.equals(uop.getTypeUserOnProject().getKey())) {
 					if (u != null) {
@@ -136,11 +138,23 @@ public class ProjectConverter {
 		for (Object[] p : orig) {
 			Project tmp = (Project) p[0];
 			ProjectDto dto = convertToDto(tmp, user);
-			dto.setTotalHoursWorked(p[1] == null ? 0.0 : (Double)p[1]);
+			Float totalHours = p[1] == null ? new Float(0) : (Float)p[1];
+			dto.setTotalHoursWorked(totalHours.doubleValue());
 			res.add(dto);
 			
 		}
 		
 		return res;
+	}
+	
+	private static UserOnProject getUserRecord(List<UserOnProject> records, Long userId) {
+		if (userId == null) return null;
+		for (UserOnProject uop : records) {
+			if (userId.equals(uop.getUser().getId())) {
+				records.remove(uop);
+				return uop;
+			}
+		}
+		return null;
 	}
 }

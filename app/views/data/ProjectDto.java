@@ -1,5 +1,6 @@
 package views.data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ProjectDto {
 	@Required
 	private String shortcut;
 	private Integer laboriousnessGues;
-	private Integer laboriousnessReal;
+	private Double laboriousnessReal;
 	private Integer version;
 	private List<Long> partnerIds;
 	private List<String> partnerNames;
@@ -31,6 +32,14 @@ public class ProjectDto {
 	private boolean canBeModified = false;
 	private boolean canBeDeleted = false;
 	private Double totalHoursWorked = null;
+	
+	public ProjectDto() {
+		partnerIds = new ArrayList<Long>();
+		memberIds = new ArrayList<Long>();
+		partners = new ArrayList<PartnerDto>();
+		memberNames = new ArrayList<String>();
+		partnerNames = new ArrayList<String>();
+	}
 	
 	public Long getProjectId() {
 		return projectId;
@@ -68,10 +77,10 @@ public class ProjectDto {
 	public void setLaboriousnessGues(Integer laboriousnessGues) {
 		this.laboriousnessGues = laboriousnessGues;
 	}
-	public Integer getLaboriousnessReal() {
+	public Double getLaboriousnessReal() {
 		return laboriousnessReal;
 	}
-	public void setLaboriousnessReal(Integer laboriousnessReal) {
+	public void setLaboriousnessReal(Double laboriousnessReal) {
 		this.laboriousnessReal = laboriousnessReal;
 	}
 	public List<Long> getPartnerIds() {

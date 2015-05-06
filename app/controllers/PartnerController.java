@@ -79,9 +79,9 @@ public class PartnerController extends Controller {
 		if (!SecurityService.hasAccess(user, ActionsEnum.PARTNER_CREATE)) {
 			return redirect(routes.Application.accessDenied());
 		}		
-		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class);
+		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).fill(new PartnerDto());
 		Logger.debug("Page with form for creating new partner is shown.");
-		return ok(partnersCreate.render(partnerForm, getBackToListMenu(user)));
+		return ok();//partnersEdit.render(partnerForm, getBackToListMenu(user), false, "Přidat partnera", routes.PartnerController.saveNewPartner().absoluteURL(request())));
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class PartnerController extends Controller {
 		}
 		Form<PartnerDto> partnerForm = Form.form(PartnerDto.class).fill(dto);
 		Logger.debug("Page with form for editing partner is shown. Edited partner has id {} and name {}.", dto.getPartnerId(), dto.getName());
-		return ok(partnersEdit.render(partnerForm, getBackToListMenu(user), false));
+		return ok();//partnersEdit.render(partnerForm, getBackToListMenu(user), false, "Editovat partnera", routes.PartnerController.updatePartner(false).absoluteURL(request())));
 	}
 	
 	/**
@@ -124,22 +124,37 @@ public class PartnerController extends Controller {
 			Logger.debug("Force rewrite partner data is set. Previous modifications will be deleted.");
 		}
 		try {
+			List<ContactPerson> cp = DAOs.getContactPersonDao().getContactPersonForPartner(partner);
 			for (ContactPerson person : partner.getContactPersons()) {
 				person.setPartner(partner);
 				if (person.getContactPersonId() == null) {
 					DAOs.getContactPersonDao().create(person);
 				} else {
+					removeCPFromList(cp, person.getContactPersonId());
 					DAOs.getContactPersonDao().update(person);
 				}
+			}
+			for (ContactPerson conPerson : cp) {
+				DAOs.getContactPersonDao().delete(conPerson);
 			}
 			partner.setVisible(true);
 			DAOs.getPartnerDao().update(partner);
 		} catch (OptimisticLockException e) {
 			Logger.info("Partner {} was edited by another user. ", partnerForm.get());
-			return ok(partnersEdit.render(partnerForm, getBackToListMenu(user), true));
+			return ok();//partnersEdit.render(partnerForm, getBackToListMenu(user), true, "Editovat partnera", routes.PartnerController.updatePartner(true).absoluteURL(request())));
 		}
 		Logger.debug("Partner update operation was called.");
 		return redirect(routes.PartnerController.showAll(0));
+	}
+	
+	private static void removeCPFromList(List<ContactPerson> cp, Long contactPersonId) {
+		if (contactPersonId == null) return;
+		for (ContactPerson conPerson : cp) {
+			if (contactPersonId == conPerson.getContactPersonId()) {
+				cp.remove(conPerson);
+				return;
+			}
+		}
 	}
 	
 	/**
@@ -207,7 +222,7 @@ public class PartnerController extends Controller {
 			return redirect(routes.PartnerController.partnerNotFound(partnerId));
 		}
 		Logger.debug("Partner detail page is shown.");
-		return ok(partnerDetail.render(partner, getBackToListMenu(user)));
+		return ok();//partnerDetail.render(PartnerConverter.convertToDto(partner), getBackToListMenu(user)));
 	}
 	/**
 	 * Action shows page partner not found.

@@ -1,0 +1,11 @@
+@(works: List[AcademicWork])
+@main("Akademické práce"){
+
+    <h1>Akademické Práce</h1>
+    
+    @for(work <- works) {
+    	@work.getTitle()
+    }
+    
+    
+}

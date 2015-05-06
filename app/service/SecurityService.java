@@ -99,6 +99,7 @@ public class SecurityService {
 		}
 		for (UserOnProject role : project.getUserOnProject()) {
 			if (user.getId().equals(role.getUser().getId())) {
+				if (!role.getVisible()) continue;
 				return EnumerationWithKeys.PROJECT_MANAGER_KEY.equals(role.getTypeUserOnProject().getKey());
 			}
 		}

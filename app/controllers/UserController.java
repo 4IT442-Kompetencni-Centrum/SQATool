@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.AcademicWork;
 import models.LevelOfKnowledge;
 import models.Project;
 import models.TypeKnowledge;
@@ -21,6 +22,7 @@ import views.html.knowledge.knowledgeForm;
 import views.html.knowledge.knowledgeList;
 import views.html.user.detail;
 import views.html.user.edit;
+import views.html.academicWorks.list;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -123,5 +125,12 @@ public class UserController extends Controller {
 		}
 		Logger.debug("Response {} is sending to client.", result);
 		return ok(result);
+	}
+	
+	@Transactional(readOnly=true)
+	public static Result getUsersAcademicWorks(Long userId){
+		List<AcademicWork> works = DAOs.getAcademicWorkDao().getUsersAcademicWork(userId);
+		User user = DAOs.getUserDao().findById(userId);
+		return ok(list.render(works));
 	}
 }

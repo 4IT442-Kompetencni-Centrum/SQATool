@@ -1,6 +1,9 @@
 package daos;
 
+import java.util.List;
+
 import models.ContactPerson;
+import models.Partner;
 
 /**
  * DAO for DB operations for ContactPerson objects.
@@ -8,5 +11,10 @@ import models.ContactPerson;
  *
  */
 public interface ContactPersonDao extends AbstractVersionedDao<ContactPerson>{
-
+	/**
+	 * Method returns list of ContactPerson for given partner
+	 * @param partner
+	 * @return
+	 */
+	public List<ContactPerson> getContactPersonForPartner(Partner partner);
 }

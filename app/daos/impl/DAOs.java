@@ -1,5 +1,6 @@
 package daos.impl;
 
+import daos.AcademicWorkDao;
 import daos.ActivityDao;
 import daos.ContactPersonDao;
 import daos.HoursWorkedDao;
@@ -45,6 +46,14 @@ public class DAOs {
     private static UsersKnowledgeDao usersKnowledgeDao;
     private static TypeKnowledgeDao typeKnowledgeDao;
     private static LevelOfKnowledgeDao levelOfKnowledgeDao;
+    private static AcademicWorkDao academicWorkDao;
+    
+    public static AcademicWorkDao getAcademicWorkDao() {
+		if (academicWorkDao == null) {
+			academicWorkDao = new AcademicWorkDaoImpl();
+		}
+		return academicWorkDao;
+	}
     
     public static ProjectDao getProjectDao() {
 		if (projectDao == null) {

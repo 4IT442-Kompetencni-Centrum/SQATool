@@ -44,6 +44,7 @@ public class ContactPersonConverter {
 		List<ContactPersonDto> res = new ArrayList<ContactPersonDto>();
 		if (orig != null) {
 			for (ContactPerson person : orig) {
+				if (!person.getVisible()) continue;
 				res.add(convertertToDto(person));
 			}
 		}

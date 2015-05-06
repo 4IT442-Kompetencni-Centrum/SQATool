@@ -1,25 +1,44 @@
 @import views.data.MenuDto
-@(partner: Partner, submenu: List[MenuDto])
-@main("Projekty", "projects", submenu){
+@import views.data.PartnerDto
+@import service.SecurityService
+@import service.ActionsEnum
+@(partner: PartnerDto, submenu: List[MenuDto])
+@user = @{SecurityService.fetchUser(session.get("authid"))}
+@main("Partneři", "partners", submenu){
 	<h1>Detail partnera</h1>
-	<h2>@Html(partner.getName())</h2>
+	<table class="table table-striped table-hover">
+		<tr>
+			<td>@Html(partner.getName())</td>
+			<td class="text-right">
+			@if(SecurityService.hasAccess(user, ActionsEnum.PARTNER_EDIT)) {
+			<a href="@routes.PartnerController.edit(partner.getPartnerId())" class="btn btn-link btn-xs">
+  				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
+			</a>
+			}
+			@if(SecurityService.hasAccess(user, ActionsEnum.PARTNER_DELETE)) {
+			<button data-partnerName="@Html(partner.getName())" data-partnerId="@partner.getPartnerId()" data-partnerDeleteUrl="@routes.PartnerController.delete(partner.getPartnerId())" class="btn btn-link btn-xs deleteButton">
+  				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+			</button>
+			}
+			</td>
+		</tr>
+	</table>
 	<div class="row">
-		<div class="col-sm-6 col-md-offset-3">
-			<table class="table table-striped">
-				<tr>
-					<td>Název:</td>
-					<td>@partner.getName()</td>
-				</tr>
-				<tr>
-					<td>IČO:</td>
-					<td>@partner.getIc()</td>
-				</tr>
-				<tr>
-					<td>Adresa:</td>
-					<td><p>@partner.getStreet() @partner.getHouseNumber()</p>
-						<p>@partner.getCity()</td>
-				</tr>
-			</table>
+		<div class="col-sm-12">
+			<ul class="list-unstyled partner-detail">
+				<li>
+					<strong>Název:</strong>
+					@partner.getName()
+				</li>
+				<li>
+					<strong>IČO:</strong>
+					@partner.getIc()
+				</li>
+				<li>
+					<strong>Adresa:</strong>
+					@partner.getStreet() @partner.getHouseNumber(), @partner.getCity()
+				</li>
+			</ul>
 		</div>
 	</div>
 	@if(partner.getContactPersons() != null && partner.getContactPersons().size() > 0) {

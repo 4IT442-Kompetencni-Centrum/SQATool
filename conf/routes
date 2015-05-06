@@ -7,8 +7,6 @@ GET         /                                     controllers.Application.index(
 # Login page
 GET         /login                                controllers.Login.showLoginPage()
 POST        /login                                controllers.Login.authenticate()
-GET         /initRoles                            controllers.Init.initRolesInBusiness()
-GET         /initRolesOnProject                   controllers.Init.initRolesOnProject()
 GET         /logout                               controllers.Login.logout()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                         controllers.Assets.at(path="/public", file)
@@ -62,10 +60,8 @@ GET         /uzivatel/json/:query                 controllers.UserController.get
 
 
 #tests 
-GET         /initRoles                            controllers.Init.initRolesInBusiness()
 GET         /initPartners                         controllers.Init.initPartners()
 GET         /initStateUser                        controllers.Init.initStateUser()
-GET         /initStateHoursWorked                 controllers.Init.initStateHoursWorked()
 
 #activities
 GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)
@@ -88,6 +84,7 @@ POST			/uzivatel/edit						  controllers.UserController.edit()
 GET			/uzivatel/:id/upravit				  controllers.UserController.showEditForm(id:Long)
 GET			/uzivatel/:id/znalosti/upravit		  controllers.UserController.editUsersKnowledge(id:Long)
 GET			/uzivatel/:id/znalosti				  controllers.UserController.listUsersKnowledge(id:Long)
+GET			/uzivatel/:id/prace					  controllers.UserController.getUsersAcademicWorks(id:Long)
 
 
 #dashboard
