@@ -49,6 +49,7 @@ function doDeleteMember(event) {
 			$("input[name='memberIds["+(i)+"]']").remove();
 		}
 	}
+	updateDisabledDelete();
 }
 
 function doDeletePartner(event) {
@@ -68,6 +69,7 @@ function doDeletePartner(event) {
 			$("input[name='partnerIds["+(i)+"]']").remove();
 		}
 	}
+	updateDisabledDelete();
 }
 
 $(document).ready(function(){
@@ -142,7 +144,7 @@ $(document).ready(function(){
 					addedElem = true;
 				}
 				storageInput.val(id);
-				if (addedElem) {
+				if (addedElem || hiddenArea.find("input[name='partnerIds["+(parseInt(order)+1)+"]']").length == 0) {
 					var defaultPartnerRow = $(".defaultPartnerRowWrap");
 					var newPartnerRow = defaultPartnerRow.clone();
 					newPartnerRow.find(".partnerElem").val("");
@@ -156,6 +158,7 @@ $(document).ready(function(){
 					});
 					bindSelectedAction();
 				}
+				updateDisabledDelete();
 			});
 		}
 /**************************init member dynamic fiels**********************************/
@@ -214,7 +217,7 @@ $(document).ready(function(){
 					addedElem = true;
 				}
 				storageInput.val(id);
-				if (addedElem) {
+				if (addedElem || hiddenArea.find("input[name='memberIds["+(parseInt(order)+1)+"]']").length == 0) {
 					var defaultMemberRow = $(".defaultMemberRowWrap");
 					var newMemberRow = defaultMemberRow.clone();
 					newMemberRow.find(".memberElem").val("");
@@ -227,7 +230,8 @@ $(document).ready(function(){
 						doDeleteMember(event)
 					});
 					bindSelectedActionUser();
-				}
+				} 
+				updateDisabledDelete();
 			});
 		}
 /********************************delete buttons***************************************/
@@ -238,4 +242,26 @@ $(document).ready(function(){
 		$(".deleteMember").click(function(event){
 			doDeleteMember(event);
 		});
+		updateDisabledDelete();
 });
+
+function updateDisabledDelete() {
+	var memberDelete = $(".deleteMember");
+	for (var i = 0; i < memberDelete.length; i++) {
+		$(memberDelete[i]).removeClass("disabled");
+	}
+	if (memberDelete.length == 2) {
+		for (var i = 0; i < memberDelete.length; i ++) {
+			$(memberDelete[i]).addClass("disabled");
+		}
+	}
+	var partnerDelete = $(".deletePartner");
+	for (var i = 0; i < partnerDelete.length; i++) {
+		$(partnerDelete[i]).removeClass("disabled");
+	}
+	if (partnerDelete.length == 2) {
+		for (var i = 0; i < partnerDelete.length; i ++) {
+			$(partnerDelete[i]).addClass("disabled");
+		}
+	}
+}
