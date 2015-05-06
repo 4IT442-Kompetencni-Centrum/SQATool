@@ -51,11 +51,11 @@
         </li>
         <li><strong>Místo konání:</strong> @activity.getPlace()</li>
         <li><strong>Kapacita:</strong> @if(activity.getCapacityMax() != null){@activity.getCapacity()/@activity.getCapacityMax()}else{Neomezená}</li>
-        <li><strong>Odpovědná osoba:</strong> @organizer.getFirstName() @organizer.getLastName()</li>
+        <li><strong>Odpovědná osoba:</strong> <a href="@routes.UserController.show(user.getId())">@organizer.getFirstName() @organizer.getLastName()</a></li>
         <li>
             <strong>Přihlášení účastníci: </strong>
             @for(user <- loggedUsers) {
-                <span class="user-logged-on-activity">@user.getFirstName() @user.getLastName()</span>
+                <span class="user-logged-on-activity"><a href="@routes.UserController.show(user.getId())">@user.getFirstName() @user.getLastName()</a></span>
             }
         </li>
     </ul>
