@@ -1,4 +1,11 @@
 $(document).ready(function(){
+	$("#timeFrom").on("dp.change", function (e) {
+        $('#timeTo').data("DateTimePicker").minDate(e.date);
+    });
+    $("#timeTo").on("dp.change", function (e) {
+        $('#timeFrom').data("DateTimePicker").maxDate(e.date);
+    });
+	
 	$(".actionButton").on("click", function(event){
 		var elem = $(event.target);
 		if (elem.attr("data-action") == undefined) {
