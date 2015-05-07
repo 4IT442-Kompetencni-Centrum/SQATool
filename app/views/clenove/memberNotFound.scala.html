@@ -1,0 +1,6 @@
+@import views.data.MenuDto
+@(memberId: Long, submenu: List[MenuDto])
+@main("Členové", "members", submenu) {
+    <h1>Člen centra nenalezen!</h1>
+    <p>Člen centra s id @memberId nebyl nalezen.</p>
+}

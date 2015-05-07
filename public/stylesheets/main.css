@@ -203,6 +203,16 @@ nav.navbar.main-navbar ul.navbar-nav li.logged-as {
     nav.navbar.main-navbar ul.navbar-nav li.xs-only {
         display: none;
     }
+
+    .border-down{
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+        margin-left: 30px;
+    }
+
+    #memberDetail p, #memberDetail table, #memberDetail ul{
+        margin-left: 30px;
+    }
 }
 
 @media (max-width: 450px) {

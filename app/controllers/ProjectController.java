@@ -44,7 +44,6 @@ import daos.impl.DAOs;
  */
 @Security.Authenticated(Secured.class)
 public class ProjectController extends Controller{
-
 	
 	/**
 	 * Action shows all projects where user participates

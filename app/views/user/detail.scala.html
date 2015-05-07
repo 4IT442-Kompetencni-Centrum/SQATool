@@ -1,23 +1,55 @@
-@(user: User, projects: List[Project], form: Form[forms.RewardForm])
-@main("Uživatel"){
-    <h1>Osobní profil</h1>
+@(user: User, projects: List[Project], form: Form[forms.RewardForm], submenu : List[views.data.MenuDto])
+@main("Uživatel", "detail", submenu){
+   <div id="memberDetail">
+       <h1>Detail člena</h1>
+       <table>
+           <tr>
+               <td><strong>Role:</strong></td>
+               <td>
+               @for(role <- user.getRoleInBusiness()){
+                   @role.getTypeRoleInBusiness().getKey()
+               }
+               </td>
+           </tr>
+           <tr>
+               <td><strong>Status:</strong></td>
+               <td>aktivni</td>
+           </tr>
+           <tr>
+               <td><strong>Email:</strong></td>
+               <td>@user.getEmail()</td>
+           </tr>
+           <tr>
+               <td><strong>Telefon:</strong></td>
+               <td>@user.getPhoneNumber()</td>
+           </tr>
+       </table>
 
-	<p>
-		<strong>@user.getDegree(). @user.getFirstName() @user.getLastName()</strong>
-	</p>
-    <p>
-    	<strong>Role: </strong>
-    	<span> - </span>
-    </p>
-    <p>
-    	<strong>Email:</strong>
-    	<span>@user.getEmail()</span>
-    </p>
-    <p>
-    	<strong>Telefon: </strong>
-    	<span>@user.getPhoneNumber</span>
-    </p>       
-        
+       <h3>Znalosti a dovednosti:</h3>
 
-	@reward.addRewardForm(form,user,projects)
+       <p>Some text blablabla, long time ago in a galaxy far far away...</p>
+       <ul>
+           <li>JAVA (pokrocily)</li>
+           <li>C++ (zacatecnik)</li>
+           <li>CSS (expert)</li>
+       </ul>
+
+       <h3>Akademické práce:</h3>
+
+       <p><a href="#">Diplomova prace na tema BlaBlaBla</a></p>
+       <p>
+           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus malesuada finibus. Nam leo diam, dictum quis venenatis accumsan, molestie faucibus massa. Suspendisse porttitor, enim at ullamcorper porttitor, lectus arcu viverra odio, eget vulputate mi metus vitae nulla. Vestibulum sit amet rhoncus massa.
+       </p>
+
+       <h3>Přiřazené projekty:</h3>
+       <p class="border-down">
+           <a href="#">Projekt 1</a> / odpracovano 28h
+       </p>
+       <p class="border-down">
+           <a href="#">Projekt 2</a> / odpracovano 30h
+       </p>
+
+       <h3>Zadání odměny</h3>
+       @reward.addRewardForm(form,user,projects)
+   </div>
 }

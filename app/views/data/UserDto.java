@@ -4,7 +4,7 @@ public class UserDto {
 	private Long id;
 	private String firstName;
 	private String lastName;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -23,6 +23,11 @@ public class UserDto {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+    @Override
+    public String toString(){
+        return firstName + " " + lastName;
+    }
 	
 	
 }

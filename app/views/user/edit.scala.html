@@ -1,40 +1,70 @@
-@(user: User)
-@main("Uživatel"){
-    <h1>Osobní profil - editace</h1>
+@(user: User, submenu: List[views.data.MenuDto], title: String)
+@main(title,"edit", submenu){
+<h1>Osobní profil - editace</h1>
 <form class="form-horizontal" action="@routes.UserController.edit()" method="POST">
 	<div class="form-group">
 		<label for="partnerName" class="col-sm-2 control-label">Jméno</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="firstName"
-				placeholder="Jméno" name="firstName" required>
+				placeholder="Jméno" name="firstName" required value="@user.firstName">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="partnerIc" class="col-sm-2 control-label">Příjmení</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="lastName"
-				placeholder="Příjmení" name="lastName">
+				placeholder="Příjmení" name="lastName" value="@user.lastName">
 		</div>
 	</div>
-	<div class="form-group">
-		<label for="partnerStreet" class="col-sm-2 control-label">Titul</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" id="degree"
-				placeholder="Titul" name="degree">
-		</div>
-	</div>
+    <div class="form-group">
+        <label for="xname" class="col-sm-2 control-label">Xname</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="xname"
+            placeholder="Xname" name="xname" value="@user.xname">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="degree" class="col-sm-2 control-label">Titul</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="degree">
+                <option value=""></option>
+                <option value="Bc.">Bc.</option>
+                <option value="Ing.">Ing.</option>
+                <option value="Mgr.">Mgr.</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="roleInBusiness" class="col-sm-2 control-label">Role</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="roleInBusiness">
+                <option>Clen</option>
+                <option>Vedouci</option>
+                <option>Uchzec</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="isAdmin" class="col-sm-2 control-label">Administrátor</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="isAdmin">
+                <option>Ano</option>
+                <option>Ne</option>
+            </select>
+        </div>
+    </div>
 	<div class="form-group">
 		<label for="partnerHouseNumber" class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="email"
-				placeholder="Mail" name="email"></textarea>
+				placeholder="Email" name="email" value="@user.email"></textarea>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="partnerCity" class="col-sm-2 control-label">Tel. číslo</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="phoneNumber"
-				placeholder="Telefonní číslo" name="phoneNumber">
+				placeholder="Telefonní číslo" name="phoneNumber" value="@user.phoneNumber">
 		</div>
 	</div>
 	

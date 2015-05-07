@@ -33,11 +33,11 @@
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <div class="logged-user-informations">
-                        Logged in as: <strong><a href="#">@session.get("user")</a></strong><a href="/logout" class="btn btn-link">Log out</a>
+                        Logged in as: <strong><a href="">@session.get("user")</a></strong><a href="/logout" class="btn btn-link">Log out</a>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li @if(selectedMenuItem == "profile") { class="active" }><a class="btn" href="@routes.DashboardController.activities(0)">Moje sekce</a></li>
-                        <li @if(selectedMenuItem == "members") { class="active" }><a class="btn" href="#">Členové</a></li>
+                        <li @if(selectedMenuItem == "members") { class="active" }><a class="btn" href="@routes.UserController.showAllUsers(0)">Členové</a></li>
                         <li @if(selectedMenuItem == "projects") { class="active" }><a class="btn" href="@routes.ProjectController.showAll(0)">Projekty</a></li>
                         <li @if(selectedMenuItem == "activities") { class="active" }><a class="btn" href="@routes.ActivityController.showAll(0)">Aktivity</a></li>
                         <li @if(selectedMenuItem == "partners") { class="active" }><a class="btn" href="@routes.PartnerController.showAll(0)">Partneři</a></li>
