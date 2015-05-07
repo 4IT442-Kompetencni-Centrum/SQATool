@@ -78,15 +78,15 @@ public class DashboardController extends Controller {
         List<MenuDto> result = new ArrayList<MenuDto>();
         User user = SecurityService.fetchUser(session("authid"));
 
-        MenuDto newActivity = new MenuDto();
-        newActivity.setGlyphicon("tasks");
-        newActivity.setLabel("Dashboard");
-        newActivity.setUrl(routes.DashboardController.activities(0).absoluteURL(request()));
+        MenuDto dashboard = new MenuDto();
+        dashboard.setGlyphicon("tasks");
+        dashboard.setLabel("Dashboard");
+        dashboard.setUrl(routes.DashboardController.activities(0).absoluteURL(request()));
 
         if(selected.equals("dashboard")) {
-            newActivity.setSelected(true);
+            dashboard.setSelected(true);
         }
-        result.add(newActivity);
+        result.add(dashboard);
 
 
         if (SecurityService.hasAccess(user, ActionsEnum.REWARD_SHOW_ALL)) {
@@ -101,6 +101,17 @@ public class DashboardController extends Controller {
 
             result.add(rewards);
         }
+        
+        MenuDto userProfile = new MenuDto();
+        userProfile.setGlyphicon("user");
+        userProfile.setLabel("Osobní profil");
+        userProfile.setUrl(routes.ProfileController.userDetail().absoluteURL(request()));
+
+        if(selected.equals("userDetail")) {
+            userProfile.setSelected(true);
+        }
+
+        result.add(userProfile);
 
 
         return result;

@@ -1,0 +1,16 @@
+@import views.data.MenuDto
+@(form: Form[forms.UsersForm], submenu: List[MenuDto])
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+@profile("Uživatel",submenu){
+	@b3.form(action = routes.ProfileController.updateUserDetail()) {
+
+		@b3.text(form("firstName"), '_label -> "Jméno")
+		@b3.text(form("lastName"), '_label -> "Příjmení")
+		@b3.select(form("degree"),options = Seq("Žádný"->"Žádný","Bc"->"Bc","Ing"->"Ing","PhD"->"PhD"), '_label -> "Titul" )
+		@b3.email(form("email"), '_label -> "E-Mail")
+		@b3.tel(form("phoneNumber"), '_label -> "Tel. číslo")
+		@b3.hidden(form("userId").name, form("userId").value)
+		@b3.submit('class -> "btn btn-primary") { Uložit }
+	}
+}

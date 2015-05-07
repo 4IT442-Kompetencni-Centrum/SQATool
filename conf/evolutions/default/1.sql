@@ -13,24 +13,27 @@ INSERT INTO sqa_state_activity (stateactivityid, key, value) VALUES (1, 'plna', 
 INSERT INTO sqa_type_role_on_activity (typeroleonactivityid, key, value) VALUES (0 , 'zakladatel', 'Zakladatel');
 INSERT INTO sqa_type_role_on_activity (typeroleonactivityid, key, value) VALUES (1 , 'prihlaseny', 'Přihlášený');
 
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (1, 'admin', 'Administrátor');
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (2, 'manazerKC', 'Manažer KC');
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (3, 'vedouciKC', 'Vedoucí KC');
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (4, 'clen', 'Člen');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (1, 'admin', 'Administrátor');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (2, 'manazerKC', 'Manažer KC');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (3, 'vedouciKC', 'Vedoucí KC');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (4, 'clen', 'Člen');
 
-INSERT INTO SQA_TYPE_USER_ON_PROJECT (typeUserOnProjectId, key, value) VALUES (1, 'vedouci', 'Vedoucí');
-INSERT INTO SQA_TYPE_USER_ON_PROJECT (typeUserOnProjectId, key, value) VALUES (2, 'clen', 'Člen');
+INSERT INTO sqa_type_user_on_project (typeUserOnProjectId, key, value) VALUES (1, 'vedouci', 'Vedoucí');
+INSERT INTO sqa_type_user_on_project (typeUserOnProjectId, key, value) VALUES (2, 'clen', 'Člen');
 
-INSERT INTO SQA_STATE_HOURS_WORKED (stateHoursWorkedId, key, value) VALUES (1, 'zadana', 'Zadaná');
-INSERT INTO SQA_STATE_HOURS_WORKED (stateHoursWorkedId, key, value) VALUES (2, 'schvalena', 'Schválená');
-INSERT INTO SQA_STATE_HOURS_WORKED (stateHoursWorkedId, key, value) VALUES (3, 'zamitnuta', 'Zamítnutá');
+INSERT INTO sqa_state_hours_worked (stateHoursWorkedId, key, value) VALUES (1, 'zadana', 'Zadaná');
+INSERT INTO sqa_state_hours_worked (stateHoursWorkedId, key, value) VALUES (2, 'schvalena', 'Schválená');
+INSERT INTO sqa_state_hours_worked (stateHoursWorkedId, key, value) VALUES (3, 'zamitnuta', 'Zamítnutá');
+
+INSERT INTO sqa_state_user (stateUserId, key, value) VALUES (0,'neaktivni','Neaktivní');
+INSERT INTO sqa_state_user (stateUserId, key, value) VALUES (1,'aktivni','Aktivní');
+
 
 # --- !Downs
-DELETE FROM SQA_USER;
-DELETE FROM SQA_ROLE_IN_BUSINESS;
 DELETE FROM sqa_type_activity;
 DELETE FROM sqa_state_activity;
 DELETE FROM sqa_type_role_on_activity;
-DELETE FROM SQA_TYPE_ROLE_IN_BUSINESS;
-DELETE FROM SQA_TYPE_USER_ON_PROJECT;
-DELETE FROM SQA_STATE_HOURS_WORKED;
+DELETE FROM sqa_type_role_in_business;
+DELETE FROM sqa_type_user_on_project;
+DELETE FROM sqa_state_hours_worked;
+DELETE FROM sqa_state_user;

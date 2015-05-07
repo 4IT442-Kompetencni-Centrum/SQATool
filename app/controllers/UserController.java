@@ -18,18 +18,14 @@ import service.SecurityService;
 import views.html.knowledge.knowledgeForm;
 import views.html.knowledge.knowledgeList;
 import views.html.user.detail;
-import views.html.user.edit;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import daos.impl.DAOs;
 import forms.RewardForm;
-import forms.UsersForm;
 
 public class UserController extends Controller {
-    static Form<UsersForm> usersForm = Form.form(UsersForm.class);
-
 	
 	@Transactional()
 	public static Result show(Long id){
@@ -43,29 +39,8 @@ public class UserController extends Controller {
 
 		return ok(detail.render(_user,projects,rewardForm));
 	}
-		
-	@Transactional(readOnly = false)
-    //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
-    public static Result edit() {
-        Form<UsersForm> form = usersForm.bindFromRequest();
-        
-        if (form.hasErrors()) {
-        	Logger.debug(form.errors().toString());
-            return badRequest();
-        }
-        User user = form.get().getUser();
-        DAOs.getUserDao().update(user);
-        Long userId = user.getId();
-	    return redirect(routes.UserController.show(userId));
-    }
-	
-	@Transactional(readOnly = false)
-    //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
-    public static Result showEditForm(Long userId) {
-		User _user = DAOs.getUserDao().findById(userId);
-		return ok(edit.render(_user));
-	}
-	
+
+
 	@Transactional(readOnly = false)
 	public static Result create(){
 		return ok();
