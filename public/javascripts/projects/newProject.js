@@ -73,6 +73,14 @@ function doDeletePartner(event) {
 }
 
 $(document).ready(function(){
+	
+		$("#projectStartDate").on("dp.change", function (e) {
+	        $('#projectEndDate').data("DateTimePicker").minDate(e.date);
+	    });
+	    $("#projectEndDate").on("dp.change", function (e) {
+	        $('#projectStartDate').data("DateTimePicker").maxDate(e.date);
+	    });
+	
 		//init project shortcut check
 		$("#projectShortcut").on("keyup", function(event) {
 			var query = $("#projectShortcut").val();
