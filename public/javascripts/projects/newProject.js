@@ -115,10 +115,13 @@ $(document).ready(function(){
 			$('.partnerRow .partnerElem.tt-input').change( function(e){
 				selectedPartner = $(e.target);
 				//if unknown name is written -> alert warning
-				$("#unknowPartnerModal").modal({
-					backdrop: 'static',
-					keyboard: false
-				});
+				var inputValue = selectedMember.val();
+				if (actualItems[inputValue] == undefined) {
+					$("#unknowPartnerModal").modal({
+						backdrop: 'static',
+						keyboard: false
+					});
+				}
 			});
 			$("#unknowPartnerModalCancel").click(function(){
 				selectedPartner.val("");
@@ -127,7 +130,7 @@ $(document).ready(function(){
 			$('.partnerRow .partnerElem.tt-input').on('typeahead:selected', function(evt, item) {
 				var hiddenArea = $("#dbIds");
 				var id = actualItems[item.value].id;
-				var defaultElem = $(event.target).parents(".partnerRow");
+				var defaultElem = $(evt.target).parents(".partnerRow");
 				var order = 0;
 				var elems = $('.partnerRow');
 				for (var i = 0; i < elems.length; i++) {
@@ -173,12 +176,18 @@ $(document).ready(function(){
 		$('#projectManager.tt-input').change( function(e){
 			selectedMember = $(e.target);
 			//if unknown name is written -> alert warning
-			$("#unknowUserModal").modal({
-				backdrop: 'static',
-				keyboard: false
-			});
+			var inputValue = selectedMember.val();
+			if (actualItemsMembers[inputValue] == undefined) {
+				$("#unknowUserModal").modal({
+					backdrop: 'static',
+					keyboard: false
+				});
+			}
 		});
-		
+		$("#unknowUserModalCancel").click(function(){
+			selectedMember.val("");
+			$("#unknowUserModal").modal('hide');
+		});
 		//init first autocomplete for member
 		$(".memberRow .memberElem").typeahead(null, typeAheadUserParam);
 		bindSelectedActionUser();
@@ -188,10 +197,13 @@ $(document).ready(function(){
 			$('.memberRow .memberElem.tt-input').change( function(e){
 				selectedMember = $(e.target);
 				//if unknown name is written -> alert warning
-				$("#unknowUserModal").modal({
-					backdrop: 'static',
-					keyboard: false
-				});
+				var inputValue = selectedMember.val();
+				if (actualItemsMembers[inputValue] == undefined) {
+					$("#unknowUserModal").modal({
+						backdrop: 'static',
+						keyboard: false
+					});
+				}
 			});
 			$("#unknowMemberModalCancel").click(function(){
 				selectedMember.val("");
@@ -200,7 +212,7 @@ $(document).ready(function(){
 			$('.memberRow .memberElem.tt-input').on('typeahead:selected', function(evt, item) {
 				var hiddenArea = $("#dbIds");
 				var id = actualItemsMembers[item.value].id;
-				var defaultElem = $(event.target).parents(".memberRow");
+				var defaultElem = $(evt.target).parents(".memberRow");
 				var order = 0;
 				var elems = $('.memberRow');
 				for (var i = 0; i < elems.length; i++) {

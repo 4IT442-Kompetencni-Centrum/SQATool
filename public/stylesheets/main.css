@@ -12,6 +12,10 @@
     text-align: left;
 }
 
+.word-break {
+	word-break: break-word;
+}
+
 #sidebar-nav li{
     text-align: center;
 }

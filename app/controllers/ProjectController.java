@@ -133,7 +133,11 @@ public class ProjectController extends Controller{
 				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProjectAndUser(project, user));
 			}
 			ProjectDto dto = ProjectConverter.convertToDto(project, user);
-			dto.setLaboriousnessReal(DAOs.getProjectDao().getRealLaboriousness(project));
+			Double real = DAOs.getProjectDao().getRealLaboriousness(project);
+			if (real == null) {
+				real = 0d;
+			}
+			dto.setLaboriousnessReal(real);
 			return ok(projectDetail.render(dto, getBackToListMenu(user), hoursWorked, isProjectManager));
 		}
 	}

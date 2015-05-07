@@ -1,5 +1,6 @@
 @import views.data.MenuDto
 @(editForm: Form[views.data.PartnerDto], submenu: List[MenuDto], forceNext: Boolean, title: String, action: String)
+@mailPattern = @{"[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})"}
 @main("Partneři", "partners", submenu){
 <h1>@Html(title)</h1>
 <script src="@routes.Assets.at("javascripts/partners/newPartner.js")" type="text/javascript"></script>
@@ -17,14 +18,14 @@
 		<label for="partnerName" class="col-sm-2 control-label">Název<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerName"
-				placeholder="Název partnera" name="name" value='@editForm.get().getName()' required>
+				placeholder="Název partnera" name="name" value='@editForm.get().getName()' maxlength="100" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="partnerIc" class="col-sm-2 control-label">IČO<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="number" class="form-control" id="partnerIc"
-				placeholder="IČO" name="ic" value="@editForm.get().getIc()" required>
+				placeholder="IČO" name="ic" value="@editForm.get().getIc()" maxlength="99999999" required>
 		</div>
 	</div>
 	<h2>Adresa</h2>
@@ -32,21 +33,21 @@
 		<label for="partnerStreet" class="col-sm-2 control-label">Ulice<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerStreet"
-				placeholder="Název projektu" name="street" value="@editForm.get().getStreet()" required>
+				placeholder="Název projektu" name="street" value="@editForm.get().getStreet()" maxlength="50" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="partnerHouseNumber" class="col-sm-2 control-label">Číslo popisné<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerHouseNumber"
-				placeholder="Číslo popisné" name="houseNumber" value="@editForm.get().getHouseNumber()" required>
+				placeholder="Číslo popisné" name="houseNumber" value="@editForm.get().getHouseNumber()" maxlength="10" required>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="partnerCity" class="col-sm-2 control-label">Město<span class="mandatoryAttr"></span></label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="partnerCity"
-				placeholder="Město" name="city" value="@editForm.get().getCity()" required>
+				placeholder="Město" name="city" value="@editForm.get().getCity()" maxlength="50" required>
 		</div>
 	</div>
 	<h2>Kontaktní osoby</h2>
@@ -59,28 +60,28 @@
 			<label class="col-sm-2 control-label">Jméno<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control contactPersonName"
-					placeholder="Jméno" name="contactPersons[@index].firstName" value="@editForm.get().getContactPersons().get(index).getFirstName()" required>
+					placeholder="Jméno" name="contactPersons[@index].firstName" value="@editForm.get().getContactPersons().get(index).getFirstName()" maxlength="50" required>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Příjmení<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control contactPersonSurname"
-					placeholder="Příjmení" name="contactPersons[@index].lastName" value="@editForm.get().getContactPersons().get(index).getLastName()" required>
+					placeholder="Příjmení" name="contactPersons[@index].lastName" value="@editForm.get().getContactPersons().get(index).getLastName()" maxlength="50" required>
 			</div>
 		</div>
 			<div class="form-group">
 			<label class="col-sm-2 control-label">Telefon</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control"
-					placeholder="Telefon" name="contactPersons[@index].phoneNumber" value="@editForm.get().getContactPersons().get(index).getPhoneNumber()">
+					placeholder="Telefon" name="contactPersons[@index].phoneNumber" value="@editForm.get().getContactPersons().get(index).getPhoneNumber()" maxlength="15" pattern="[0-9]{9}[0-9]*">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Mail<span class="mandatoryAttr"></span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control"
-					placeholder="Mail" name="contactPersons[@index].email" value="@editForm.get().getContactPersons().get(index).getEmail()" required>
+					placeholder="Mail" name="contactPersons[@index].email" value="@editForm.get().getContactPersons().get(index).getEmail()" maxlength="100" pattern="@mailPattern" required>
 			</div>
 		</div>
 		<input type="hidden" value="@editForm.get().getContactPersons().get(index).getContactPersonId()" name="contactPersons[@index].contactPersonId">
@@ -92,31 +93,31 @@
 					<span class="glyphicon glyphicon-trash"></span>
 		</div> <span class="firstname">Kontaktní osoba</span> <span class="lastname"></span></h3>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">Jméno</label>
+				<label class="col-sm-2 control-label">Jméno<span class="mandatoryAttr"></span></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control contactPersonName"
-						placeholder="Jméno" name="contactPersons[@(editForm.get().getContactPersons().size())].firstName" value="">
+						placeholder="Jméno" name="contactPersons[@(editForm.get().getContactPersons().size())].firstName" maxlength="50" required>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">Příjmení</label>
+				<label class="col-sm-2 control-label">Příjmení<span class="mandatoryAttr"></span></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control contactPersonSurname"
-						placeholder="Příjmení" name="contactPersons[@(editForm.get().getContactPersons().size())].lastName">
+						placeholder="Příjmení" name="contactPersons[@(editForm.get().getContactPersons().size())].lastName" maxlength="50" required>
 				</div>
 			</div>
 				<div class="form-group">
 				<label class="col-sm-2 control-label">Telefon</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control"
-						placeholder="Telefon" name="contactPersons[@(editForm.get().getContactPersons().size())].phoneNumber">
+						placeholder="Telefon" name="contactPersons[@(editForm.get().getContactPersons().size())].phoneNumber" maxlength="15" pattern="[0-9]{9}[0-9]*">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">Mail</label>
+				<label class="col-sm-2 control-label">Mail<span class="mandatoryAttr"></span></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control"
-						placeholder="Mail" name="contactPersons[@(editForm.get().getContactPersons().size())].email">
+						placeholder="Mail" name="contactPersons[@(editForm.get().getContactPersons().size())].email" maxlength="100" pattern="@mailPattern" required>
 				</div>
 			</div>
 	</div>
@@ -130,28 +131,28 @@
 		<label class="col-sm-2 control-label">Jméno</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control contactPersonName"
-				placeholder="Jméno" name="generatedAttrfirstName">
+				placeholder="Jméno" name="generatedAttrfirstName" maxlength="50">
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Příjmení</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control contactPersonSurname"
-				placeholder="Příjmení" name="generatedAttrlastName">
+				placeholder="Příjmení" name="generatedAttrlastName" maxlength="50">
 		</div>
 	</div>
 		<div class="form-group">
 		<label class="col-sm-2 control-label">Telefon</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control"
-				placeholder="Telefon" name="generatedAttrphoneNumber">
+				placeholder="Telefon" name="generatedAttrphoneNumber" maxlength="15" pattern="[0-9]{9}[0-9]*">
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Mail</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control"
-				placeholder="Mail" name="generatedAttremail">
+				placeholder="Mail" name="generatedAttremail" maxlength="100" pattern="@mailPattern">
 		</div>
 	</div>
 	</div>
