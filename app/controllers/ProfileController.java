@@ -2,7 +2,11 @@ package controllers;
 
 
 import daos.impl.DAOs;
+import forms.KnowledgeForm;
 import forms.UsersForm;
+import models.Knowledge;
+import models.LevelOfKnowledge;
+import models.TypeKnowledge;
 import models.User;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -14,8 +18,11 @@ import views.html.profile.knowledge;
 import views.html.profile.userDetail;
 import views.html.profile.editUserDetail;
 
+import java.util.List;
+
 public class ProfileController extends Controller {
     static Form<UsersForm> usersForm = Form.form(UsersForm.class);
+    static Form<KnowledgeForm> knowledgeForm = Form.form(KnowledgeForm.class);
 
     @Transactional(readOnly = true)
     public static Result userDetail() {
@@ -48,4 +55,61 @@ public class ProfileController extends Controller {
 
         return redirect(routes.ProfileController.userDetail());
     }
+
+
+    @Transactional(readOnly = true)
+    public static Result knowledge() {
+        User user = SecurityService.fetchUser(session("authid"));
+
+        List<Knowledge> knowledges = user.getKnowledges();
+
+        return ok(knowledge.render(knowledges, DashboardController.getMainMenu("userDetail")));
+    }
+
+
+    @Transactional(readOnly = true)
+    public static Result editKnowledge() {
+        List<TypeKnowledge> knowledgeTypes = DAOs.getTypeKnowledgeDao().getAllKnowledge();
+        List<LevelOfKnowledge> knowledgeLevels = DAOs.getLevelOfKnowledgeDao().findAll();
+
+        User user = SecurityService.fetchUser(session("authid"));
+        List<Knowledge> knowledges = user.getKnowledges();
+
+        return ok(editKnowledge.render(knowledgeTypes, knowledgeLevels, knowledges, DashboardController.getMainMenu("userDetail")));
+    }
+
+
+
+    @Transactional(readOnly = false)
+    public static Result updateKnowledge() {
+        Form<KnowledgeForm> form = knowledgeForm.bindFromRequest();
+        
+        List<Knowledge> knowledges = form.get().getKnowledges();
+
+        User user = SecurityService.fetchUser(session("authid"));
+
+        List<Knowledge> currentKnowledges = user.getKnowledges();
+
+        for(Knowledge knowledge : knowledges) {
+            if(knowledge.getUserHasKnowledgeId() == null) {
+                DAOs.getKnowledgeDao().create(knowledge);
+            } else {
+                DAOs.getKnowledgeDao().update(knowledge);
+            }
+        }
+
+        for(Knowledge current : currentKnowledges) {
+            if(!knowledges.contains(current)) {
+                DAOs.getKnowledgeDao().delete(current);
+            }
+        }
+
+        user.setKnowledges(knowledges);
+        DAOs.getUserDao().update(user);
+
+
+        return redirect(routes.ProfileController.knowledge());
+    }
+
+
 }

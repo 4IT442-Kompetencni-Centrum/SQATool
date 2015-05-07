@@ -1,24 +1,6 @@
 package daos.impl;
 
-import daos.ActivityDao;
-import daos.ContactPersonDao;
-import daos.HoursWorkedDao;
-import daos.LevelOfKnowledgeDao;
-import daos.PartnerDao;
-import daos.ProjectDao;
-import daos.RewardDao;
-import daos.StateActivityDao;
-import daos.StateHoursWorkedDao;
-import daos.StateUserDao;
-import daos.TypeActivityDao;
-import daos.TypeRoleInBusinessDao;
-import daos.TypeRoleOnActivityDao;
-import daos.TypeUserOnProjectDao;
-import daos.UserDao;
-import daos.UserLoggedOnActivityDao;
-import daos.UserOnProjectDao;
-import daos.UsersKnowledgeDao;
-import daos.TypeKnowledgeDao;
+import daos.*;
 
 /**
  * Storage class for DAOs.
@@ -45,6 +27,7 @@ public class DAOs {
     private static UsersKnowledgeDao usersKnowledgeDao;
     private static TypeKnowledgeDao typeKnowledgeDao;
     private static LevelOfKnowledgeDao levelOfKnowledgeDao;
+	private static KnowledgeDao knowledgeDao;
     
     public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -178,4 +161,11 @@ public class DAOs {
         }
         return stateHoursWorkedDao;
     }
+
+	public static KnowledgeDao getKnowledgeDao() {
+		if(knowledgeDao == null) {
+			knowledgeDao = new KnowledgeDaoImpl();
+		}
+		return knowledgeDao;
+	}
 }

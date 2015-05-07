@@ -1,0 +1,58 @@
+@import views.data.MenuDto
+@(knowledgeTypes: List[TypeKnowledge],knowledgeLevels: List[LevelOfKnowledge], knowledges: List[Knowledge], submenu: List[MenuDto])
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+@profile("Znalosti",submenu){
+    @b3.form(action = routes.ProfileController.updateKnowledge()) {
+        <a href="#" class="btn btn-link add-button pull-right">
+            <span class="glyphicon glyphicon-plus" title="Přidat"></span>
+        </a>
+        <div class="knowledges">
+            @for((knowledge,i) <- knowledges.view.zipWithIndex) {
+                @knowledgeItem(
+                    knowledge.getTypeKnowledge().getKey(),
+                    knowledge.getLevelOfKnowledge().getKey(),
+                    knowledge.getUserHasKnowledgeId(),
+                    knowledgeTypes,
+                    knowledgeLevels,
+                    i.toString()
+                )
+            }
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3 col-md-offset-2">
+                <button type="submit" class="btn btn-primary">Uložit</button>
+            </div>
+        </div>
+    }
+
+    <div class="knowledge-prototype" style="display: none">
+        @knowledgeItem(
+            null,
+            null,
+            null,
+            knowledgeTypes,
+            knowledgeLevels,
+            "__i__"
+        )
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('body').on('click','.remove-button',function(){
+                $(this).closest('.form-group').remove();
+
+                $('.knowledge').each(function(i){
+                    $(this).html($(this).html().replace(/\[\d+\]/g,'[' + i + ']'));
+                });
+            });
+
+            $('body').on('click','.add-button',function(){
+                var clone = $('.knowledge-prototype').find('.knowledge').clone();
+                clone.html(clone.html().replace(/\[__i__\]/g,'[' + $('.knowledges').find('.knowledge').length + ']'));
+                $('.knowledges').append(clone);
+            });
+        });
+    </script>
+}

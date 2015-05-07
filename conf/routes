@@ -81,9 +81,12 @@ GET			/pristupOdepren						  controllers.Application.accessDenied()
 GET			/uzivatel/:id/detail				  controllers.UserController.show(id:Long)
 GET			/uzivatel/novy						  controllers.UserController.create()
 
-GET         /profil                                       controllers.ProfileController.userDetail()
-GET         /profil/upravit                               controllers.ProfileController.editUserDetail()
-GET         /profil/upravit/ulozit                        controllers.ProfileController.updateUserDetail()
+GET         /profil                               controllers.ProfileController.userDetail()
+GET         /profil/upravit                       controllers.ProfileController.editUserDetail()
+GET         /profil/upravit/ulozit                controllers.ProfileController.updateUserDetail()
+GET         /profil/znalosti                      controllers.ProfileController.knowledge()
+GET         /profil/znalosti/upravit              controllers.ProfileController.editKnowledge()
+POST        /profil/znalosti/upravit/ulozit       controllers.ProfileController.updateKnowledge()
 
 #dashboard
 GET         /dashboard/aktivity                   controllers.DashboardController.activities(page:Integer ?= 0)

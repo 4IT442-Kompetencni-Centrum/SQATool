@@ -2,6 +2,7 @@ package daos.impl;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.cfg.NotYetImplementedException;
 
@@ -31,6 +32,12 @@ public class TypeKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<TypeKnowle
 			Logger.debug("No result was found for Knowledge");
 			return null;
 		}
+	}
+
+	public TypeKnowledge findByKey(@NotNull String key) {
+		TypedQuery<TypeKnowledge> q = JPA.em().createQuery("SELECT k FROM TypeKnowledge k where k.key = :key", TypeKnowledge.class);
+		q.setParameter("key", key);
+		return q.getSingleResult();
 	}
 
 }

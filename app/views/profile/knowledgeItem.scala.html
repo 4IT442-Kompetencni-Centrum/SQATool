@@ -1,0 +1,27 @@
+
+@(name: String, level: String, id: Long, knowledgeTypes: List[TypeKnowledge], knowledgeLevels: List[LevelOfKnowledge], iterator: String)
+
+<div class="form-group knowledge">
+    <label class="control-label col-md-2 " for="knowledge">Dovednost</label>
+    <div class="col-md-3">
+        <select name="knowledge[@iterator][name]" class="form-control">
+            @for(typeKnowledge <- knowledgeTypes) {
+                <option value="@typeKnowledge.getKey()" @if(name == typeKnowledge.getKey()){selected="selected"}>@typeKnowledge.getValue()</option>
+            }
+        </select>
+        <input type="hidden" name="knowledge[@iterator][id]" value="">
+    </div>
+    <div class="col-md-3">
+        <select name="knowledge[@iterator][level]" class="form-control">
+        @for(levelKnowledge <- knowledgeLevels) {
+            <option value="@levelKnowledge.getKey()" @if(level == levelKnowledge.getKey()){selected="selected"}>@levelKnowledge.getValue()</option>
+        }
+        </select>
+    </div>
+    <div class="col-md-1">
+        <a href="#" class="btn btn-link remove-button">
+            <span class="glyphicon glyphicon-trash" title="Smazat"></span>
+        </a>
+    </div>
+
+</div>

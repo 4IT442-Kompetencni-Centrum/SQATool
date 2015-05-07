@@ -28,6 +28,11 @@ INSERT INTO sqa_state_hours_worked (stateHoursWorkedId, key, value) VALUES (3, '
 INSERT INTO sqa_state_user (stateUserId, key, value) VALUES (0,'neaktivni','Neaktivní');
 INSERT INTO sqa_state_user (stateUserId, key, value) VALUES (1,'aktivni','Aktivní');
 
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId,key,value) VALUES (0, 'zadna', 'Žádná');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId,key,value) VALUES (1, 'zakladni', 'Základní');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId,key,value) VALUES (2, 'stredni', 'Střední');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId,key,value) VALUES (3, 'pokrocila', 'Pokročilá');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId,key,value) VALUES (4, 'prezentovatelna', 'Prezentovatelná');
 
 # --- !Downs
 DELETE FROM sqa_type_activity;
@@ -37,3 +42,4 @@ DELETE FROM sqa_type_role_in_business;
 DELETE FROM sqa_type_user_on_project;
 DELETE FROM sqa_state_hours_worked;
 DELETE FROM sqa_state_user;
+DELETE FROM sqa_level_of_knowledge;

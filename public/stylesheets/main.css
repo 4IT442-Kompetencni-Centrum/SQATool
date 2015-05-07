@@ -214,3 +214,12 @@ nav.navbar.main-navbar ul.navbar-nav li.logged-as {
         padding: 10px 6px;
     }
 }
+
+ul.knowledge li {
+    line-height: 300%;
+}
+
+
+ul.knowledge li strong {
+    margin-right: 40px;
+}

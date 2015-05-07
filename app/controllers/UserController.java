@@ -15,8 +15,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import service.ActionsEnum;
 import service.SecurityService;
-import views.html.knowledge.knowledgeForm;
-import views.html.knowledge.knowledgeList;
 import views.html.user.detail;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -46,23 +44,6 @@ public class UserController extends Controller {
 		return ok();
 	}
 
-	
-	@Transactional
-	public static Result listUsersKnowledge(Long userId){
-		List<UsersKnowledge> usersKnowledge = DAOs.getUserKnowledgeDao().getUsersKnowledge(userId);
-		List<TypeKnowledge> otherKnowledge = DAOs.getTypeKnowledgeDao().getAllKnowledge();
-		List<LevelOfKnowledge> levels = DAOs.getLevelOfKnowledgeDao().getAllLevels();
-		User user = DAOs.getUserDao().findById(userId);
-		return ok(knowledgeList.render(usersKnowledge, otherKnowledge, levels, user));
-	}
-	
-	@Transactional
-	public static Result editUsersKnowledge(Long userId){
-		List<UsersKnowledge> usersKnowledge = DAOs.getUserKnowledgeDao().getUsersKnowledge(userId);
-		User user = DAOs.getUserDao().findById(userId);
-		return ok(knowledgeForm.render(usersKnowledge, user));
-	}	
-		
 	
 	/**
 	 * Action returns JSON array for ajax calls (autocomplete)
