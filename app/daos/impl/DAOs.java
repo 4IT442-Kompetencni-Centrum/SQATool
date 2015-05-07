@@ -28,6 +28,9 @@ public class DAOs {
     private static TypeKnowledgeDao typeKnowledgeDao;
     private static LevelOfKnowledgeDao levelOfKnowledgeDao;
 	private static KnowledgeDao knowledgeDao;
+	private static AcademicWorkDao academicWorkDao;
+	private static StateAcademicWorkDao stateAcademicWorkDao;
+	private static TypeAcademicWorkDao typeAcademicWorkDao;
     
     public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -167,5 +170,26 @@ public class DAOs {
 			knowledgeDao = new KnowledgeDaoImpl();
 		}
 		return knowledgeDao;
+	}
+
+	public static AcademicWorkDao getAcademicWorkDao() {
+		if(academicWorkDao == null) {
+			academicWorkDao = new AcademicWorkDaoImpl();
+		}
+		return academicWorkDao;
+	}
+
+	public static StateAcademicWorkDao getStateAcademicWorkDao() {
+		if(stateAcademicWorkDao == null) {
+			stateAcademicWorkDao = new StateAcademicWorkDaoImpl();
+		}
+		return stateAcademicWorkDao;
+	}
+
+	public static TypeAcademicWorkDao getTypeAcademicWorkDao() {
+		if(typeAcademicWorkDao == null) {
+			typeAcademicWorkDao = new TypeAcademicWorkDaoImpl();
+		}
+		return typeAcademicWorkDao;
 	}
 }

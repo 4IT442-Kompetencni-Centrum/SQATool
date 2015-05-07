@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "SQA_USER")
@@ -27,6 +28,9 @@ public class User extends AbstractVersionedEntity {
 
 	@ManyToMany(fetch=FetchType.EAGER)
 	public List<Knowledge> knowledges;
+
+	@OneToMany(fetch=FetchType.EAGER)
+	public Set<AcademicWork> academicWorks;
 
     public User(){}
 
@@ -145,6 +149,24 @@ public class User extends AbstractVersionedEntity {
 		return this.knowledges;
 	}
 
+	public Set<AcademicWork> getAcademicWorks() {
+		return academicWorks;
+	}
+
+	public User setAcademicWorks(Set<AcademicWork> academicWorks) {
+		this.academicWorks = academicWorks;
+		return this;
+	}
+
+	public User addAcademicWork(AcademicWork academicWork) {
+		this.academicWorks.add(academicWork);
+		return this;
+	}
+
+	public User removeAcademicWork(AcademicWork academicWork) {
+		this.academicWorks.remove(academicWork);
+		return this;
+	}
 
 	public static class Page{
 

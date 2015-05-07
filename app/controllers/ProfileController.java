@@ -4,21 +4,16 @@ package controllers;
 import daos.impl.DAOs;
 import forms.KnowledgeForm;
 import forms.UsersForm;
-import models.Knowledge;
-import models.LevelOfKnowledge;
-import models.TypeKnowledge;
-import models.User;
+import models.*;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.SecurityService;
-import views.html.profile.editKnowledge;
-import views.html.profile.knowledge;
-import views.html.profile.userDetail;
-import views.html.profile.editUserDetail;
+import views.html.profile.*;
 
 import java.util.List;
+import java.util.Set;
 
 public class ProfileController extends Controller {
     static Form<UsersForm> usersForm = Form.form(UsersForm.class);
@@ -109,6 +104,15 @@ public class ProfileController extends Controller {
 
 
         return redirect(routes.ProfileController.knowledge());
+    }
+
+    @Transactional(readOnly = true)
+    public static Result academicWorks() {
+        User user = SecurityService.fetchUser(session("authid"));
+
+        Set<AcademicWork> worksList = user.getAcademicWorks();
+
+        return ok(academicWorks.render(worksList,DashboardController.getMainMenu("userDetail")));
     }
 
 
