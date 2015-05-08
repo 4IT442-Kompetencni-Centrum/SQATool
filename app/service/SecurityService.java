@@ -105,6 +105,24 @@ public class SecurityService {
 		}
 		return false;
 	}
+	/**
+	 * Method checks if given user has given role
+	 * @param roleKey
+	 * @param user
+	 * @return
+	 */
+	public static boolean hasRole(String roleKey, User user) {
+		if (user.getRoleInBusiness() == null) {
+			Logger.error("Invalid state. User has no role in business");
+			return false;
+		}
+		for (RoleInBusiness rib : user.getRoleInBusiness()) {
+			if (roleKey.equals(rib.getTypeRoleInBusiness().getKey())) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Method initializes map with access rights

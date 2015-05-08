@@ -119,6 +119,8 @@
 	  		</div>
 	  	</form>
 	</div>
+	}
+	@if(hoursWorkedList != null) {
 	<table class="table table-hover table-striped">
 	<tr>
 		<th>Činnost</th>
@@ -134,7 +136,7 @@
 			<td>@if(work.getTimeFrom() != null && work.getTimeTo() != null){ @work.getTimeFrom().format("dd.MM.yyyy") - @work.getTimeTo().format("dd.MM.yyyy") }</td>
 			<td><a href="@routes.UserController.show(work.getUser().getId())">@Html(work.getUser().getFirstName()) @Html(work.getUser().getLastName())</a></td>
 			<td>
-			@if(isApprover) {
+			@if(isApprover == true) {
 				@if(work.getStateHoursWorkedKey() == EnumerationWithKeys.STATE_HOURS_WORKED_CREATED) { 
 					<button class="btn-xs btn-default approve actionButton" data-action="@routes.ProjectController.approveHoursWorked(work.getHoursWorkedId())">
 						<span class="glyphicon glyphicon-ok"></span>
@@ -180,7 +182,7 @@
 		</tr>
 	}
 	</table>
-	}
+}
 	
 	<div id="deleteWarning" class="modal fade" tabindex="-1"
 	role="dialog" aria-hidden="true">
