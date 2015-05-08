@@ -2,35 +2,35 @@ package models;
 
 import javax.persistence.*;
 
+
 @Entity
-@Table(name="SQA_LEVEL_OF_KNOWLEDGE")
-public class LevelOfKnowledge extends AbstractEnumWithoutKey {
+@Table(name = "SQA_LEVEL_OF_KNOWLEDGE")
+public class LevelOfKnowledge extends AbstractEnumWithoutKey{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long typeLevelKnowledgeId;
-	
-	@Column(nullable = false)
-	private Integer numericLevel;
-	
 
-	public Integer getNumericLevel() {
-		return numericLevel;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long levelOfKnowledgeId;
 
-	public void setNumericLevel(Integer numericLevel) {
-		this.numericLevel = numericLevel;
-	}
+    /**
+     * Get Level Of Knowledge Id
+     *
+     * @return Long
+     */
+    public Long getLevelOfKnowledgeId() {
+        return levelOfKnowledgeId;
+    }
 
-	public LevelOfKnowledge() {
-		super();
-	}
 
-	public Long getTypeLevelKnowledgeId() {
-		return typeLevelKnowledgeId;
-	}
+    /**
+     * Set Type Activity Id
+     *
+     * @param Long levelOfKnowledgeId
+     * @return LevelOfKnowledge
+     */
+    public LevelOfKnowledge setLevelOfKnowledgeId(Long levelOfKnowledgeId) {
+        this.levelOfKnowledgeId = levelOfKnowledgeId;
 
-	public void setTypeLevelKnowledgeId(Long typeLevelKnowledgeId) {
-		this.typeLevelKnowledgeId = typeLevelKnowledgeId;
-	}
+        return this;
+    }
 }

@@ -57,7 +57,7 @@
                     <nav id="sidebar-nav" class="sidebar">
                             @if(submenu != null) {
                                 @for(item <- submenu) {
-                                    <a class="btn menuItem @if(item.isSelected()) { btn-primary disabled } else {btn-default }" href="@item.getUrl()">@item.getLabel() <span class="glyphicon glyphicon-@item.getGlyphicon"></span></a>
+                                    <a class="btn menuItem @if(item.isSelected()) { btn-primary disabled } else {btn-default }" href="@item.getUrl()"><span class="glyphicon glyphicon-@item.getGlyphicon"></span>@item.getLabel()</a>
                                 }
                             }
                     </nav>

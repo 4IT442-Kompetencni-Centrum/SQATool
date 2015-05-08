@@ -2,6 +2,7 @@ package daos.impl;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.cfg.NotYetImplementedException;
 
@@ -16,14 +17,8 @@ import java.util.List;
 public class TypeKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<TypeKnowledge>
 		implements TypeKnowledgeDao {
 
-
 	@Override
-	public List<TypeKnowledge> getUsersNotFiledRequiredKnowledge(Long userId) {
-		throw new NotYetImplementedException();
-	}
-
-	@Override
-	public List<TypeKnowledge> getAllKnowledge() {
+	public List<TypeKnowledge> findAll() {
 		TypedQuery<TypeKnowledge> query = JPA.em().createQuery("SELECT kn FROM TypeKnowledge as kn", TypeKnowledge.class) ;
 		try {
 			return query.getResultList();
@@ -32,5 +27,4 @@ public class TypeKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<TypeKnowle
 			return null;
 		}
 	}
-
 }

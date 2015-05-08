@@ -46,7 +46,7 @@ public class ActivityForm {
     public ActivityForm(Activity activity) {
         this.activityId = activity.getActivityId();
         this.name = activity.getName();
-        this.typeActivity = activity.getTypeActivity().getKey();
+        this.typeActivity = activity.getTypeActivity().getTypeActivityId().toString();
         this.capacityMax = activity.getCapacityMax();
         this.timeFrom = activity.getTimeFrom();
         this.timeTo = activity.getTimeTo();
@@ -254,7 +254,7 @@ public class ActivityForm {
         activity.setPlace(this.getPlace());
         activity.setTimeFrom(this.getTimeFrom());
         activity.setTimeTo(this.getTimeTo());
-        activity.setTypeActivity(DAOs.getTypeActivityDao().findByKey(this.getTypeActivity()));
+        activity.setTypeActivity(DAOs.getTypeActivityDao().findById(Long.parseLong(this.getTypeActivity())));
 
         if (activity.getActivityId() == null)
             activity.setStateActivity(DAOs.getStateActivityDao().findByKey(EnumerationWithKeys.ACTIVITY_STATE_EMPTY));

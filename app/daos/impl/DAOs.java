@@ -1,24 +1,6 @@
 package daos.impl;
 
-import daos.ActivityDao;
-import daos.ContactPersonDao;
-import daos.HoursWorkedDao;
-import daos.LevelOfKnowledgeDao;
-import daos.PartnerDao;
-import daos.ProjectDao;
-import daos.RewardDao;
-import daos.StateActivityDao;
-import daos.StateHoursWorkedDao;
-import daos.StateUserDao;
-import daos.TypeActivityDao;
-import daos.TypeRoleInBusinessDao;
-import daos.TypeRoleOnActivityDao;
-import daos.TypeUserOnProjectDao;
-import daos.UserDao;
-import daos.UserLoggedOnActivityDao;
-import daos.UserOnProjectDao;
-import daos.UsersKnowledgeDao;
-import daos.TypeKnowledgeDao;
+import daos.*;
 
 /**
  * Storage class for DAOs.
@@ -45,6 +27,10 @@ public class DAOs {
     private static UsersKnowledgeDao usersKnowledgeDao;
     private static TypeKnowledgeDao typeKnowledgeDao;
     private static LevelOfKnowledgeDao levelOfKnowledgeDao;
+	private static KnowledgeDao knowledgeDao;
+	private static AcademicWorkDao academicWorkDao;
+	private static StateAcademicWorkDao stateAcademicWorkDao;
+	private static TypeAcademicWorkDao typeAcademicWorkDao;
     
     public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -178,4 +164,32 @@ public class DAOs {
         }
         return stateHoursWorkedDao;
     }
+
+	public static KnowledgeDao getKnowledgeDao() {
+		if(knowledgeDao == null) {
+			knowledgeDao = new KnowledgeDaoImpl();
+		}
+		return knowledgeDao;
+	}
+
+	public static AcademicWorkDao getAcademicWorkDao() {
+		if(academicWorkDao == null) {
+			academicWorkDao = new AcademicWorkDaoImpl();
+		}
+		return academicWorkDao;
+	}
+
+	public static StateAcademicWorkDao getStateAcademicWorkDao() {
+		if(stateAcademicWorkDao == null) {
+			stateAcademicWorkDao = new StateAcademicWorkDaoImpl();
+		}
+		return stateAcademicWorkDao;
+	}
+
+	public static TypeAcademicWorkDao getTypeAcademicWorkDao() {
+		if(typeAcademicWorkDao == null) {
+			typeAcademicWorkDao = new TypeAcademicWorkDaoImpl();
+		}
+		return typeAcademicWorkDao;
+	}
 }

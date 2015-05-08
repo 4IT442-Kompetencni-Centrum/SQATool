@@ -1,7 +1,9 @@
 package daos.impl;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.cfg.NotYetImplementedException;
 
@@ -18,15 +20,9 @@ import java.util.List;
 public class LevelOfKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<LevelOfKnowledge>
 		implements LevelOfKnowledgeDao {
 
-	@Override
-	public List<LevelOfKnowledge> getAllLevels() {
-		TypedQuery<LevelOfKnowledge> query = JPA.em().createQuery("SELECT lk FROM LevelOfKnowledge as lk", LevelOfKnowledge.class) ;
-		try {
-			return query.getResultList();
-		} catch (NoResultException ex) {
-			Logger.debug("No result was found for Knowledge");
-			return null;
-		}
+	public List<LevelOfKnowledge> findAll() {
+		Query query = JPA.em().createQuery("SELECT l FROM LevelOfKnowledge l ORDER BY l.levelOfKnowledgeId");
+		return query.getResultList();
 	}
 
 }

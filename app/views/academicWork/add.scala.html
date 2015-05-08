@@ -1,0 +1,14 @@
+@import views.data.MenuDto
+@(form: Form[forms.AcademicWorkForm], types: Map[String,String], states: Map[String,String], submenu: List[MenuDto])
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+@profile.profile("Akademické práce",submenu){
+    @b3.form(action = routes.AcademicWorkController.create()) {
+        @b3.text(form("name"), '_label -> "Název")
+        @b3.select(form("typeAcademicWork"), options = types.toSeq.sorted, '_label -> "Typ")
+        @b3.text(form("supervisor"), '_label -> "Vedoucí")
+        @b3.select(form("stateAcademicWork"), options = states.toSeq.sorted, '_label -> "Stav")
+        @b3.textarea(form("description"), '_label -> "Popis")
+        @b3.submit('class -> "btn btn-primary"){ Uložit }
+    }
+}

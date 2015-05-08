@@ -12,6 +12,10 @@
     text-align: left;
 }
 
+.word-break {
+	word-break: break-word;
+}
+
 #sidebar-nav li{
     text-align: center;
 }
@@ -219,4 +223,13 @@ nav.navbar.main-navbar ul.navbar-nav li.logged-as {
     ul.dashboard-tabs li a {
         padding: 10px 6px;
     }
+}
+
+ul.knowledge li {
+    line-height: 300%;
+}
+
+
+ul.knowledge li strong {
+    margin-right: 40px;
 }

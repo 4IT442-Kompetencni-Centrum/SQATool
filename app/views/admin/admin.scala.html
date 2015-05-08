@@ -1,0 +1,18 @@
+@import views.data.MenuDto
+@(selectedTabItem: String = null, submenu: List[MenuDto])(tab: Html)
+
+@main("Administrace", "profile", submenu) {
+
+    <h1>Administrace</h1>
+
+    <ul class="nav nav-tabs dashboard-tabs">
+        <li role="presentation" @if(selectedTabItem == "enumerations") { class="active" }><a href="@routes.AdminController.enumerations()">Správa číselníků</a></li>
+        <li role="presentation" @if(selectedTabItem == "members") { class="active" }><a href="#">Správa členů</a></li>
+    </ul>
+
+    <div class="tab-content" id="dashboard">
+        <div role="tabpanel" class="tab-pane active">
+        @tab
+        </div>
+    </div>
+}

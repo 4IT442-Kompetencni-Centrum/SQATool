@@ -15,5 +15,5 @@ $(document).ready(function(){
 	});
 	$("#deleteCancel").on("click", function(){
 		$("#deleteWarning").modal("hide");
-	})
+	});
 });

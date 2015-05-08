@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "SQA_USER")
@@ -19,37 +20,23 @@ public class User extends AbstractVersionedEntity {
     public String firstName;
     public String lastName;
     public String phoneNumber;
-    public String xname;
     @Column(length = 500)
     public String bio;
     
 	@ManyToOne(fetch=FetchType.EAGER)
     public StateUser stateUser;
 
+	@ManyToMany(fetch=FetchType.EAGER)
+	public List<Knowledge> knowledges;
+
+	@OneToMany(fetch=FetchType.EAGER)
+	public Set<AcademicWork> academicWorks;
+
     public User(){}
 
     public User(String userName, String password){
         this.username = userName;
         this.password = password;
-    }
-
-    public User(String firstname, String lastname, String xname, String degree, String email, String phoneNumber){
-        this.firstName = firstname;
-        this.lastName = lastname;
-        this.xname = xname;
-        this.degree = degree;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public User(String login, String password, String firstName, String lastName, String xname, String email, String phone){
-        this.username = login;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.xname = xname;
-        this.email = email;
-        this.phoneNumber = phone;
     }
 
     public String getBio() {
@@ -73,6 +60,7 @@ public class User extends AbstractVersionedEntity {
         return firstName + " " + lastName;
     }
 
+    
     public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -144,4 +132,78 @@ public class User extends AbstractVersionedEntity {
 	public void setStateUser(StateUser stateUser) {
 		this.stateUser = stateUser;
 	}
+
+	public void setKnowledges(List<Knowledge> knowledges) {
+		this.knowledges = knowledges;
+	}
+
+	public void addKnowledge(Knowledge knowledge) {
+		this.knowledges.add(knowledge);
+	}
+
+	public void removeKnowledge(Knowledge knowledge) {
+		this.knowledges.remove(knowledge);
+	}
+
+	public List<Knowledge> getKnowledges() {
+		return this.knowledges;
+	}
+
+	public Set<AcademicWork> getAcademicWorks() {
+		return academicWorks;
+	}
+
+	public User setAcademicWorks(Set<AcademicWork> academicWorks) {
+		this.academicWorks = academicWorks;
+		return this;
+	}
+
+	public User addAcademicWork(AcademicWork academicWork) {
+		this.academicWorks.add(academicWork);
+		return this;
+	}
+
+	public User removeAcademicWork(AcademicWork academicWork) {
+		this.academicWorks.remove(academicWork);
+		return this;
+	}
+
+	public static class Page{
+
+        private final int pageSize;
+        private final long totalRowCount;
+        private final int pageIndex;
+        private final List<User> userList;
+
+        public Page(int pageSize, long totalRowCount, int pageIndex, List<User> userList){
+            this.totalRowCount = totalRowCount;
+            this.pageSize = pageSize;
+            this.pageIndex = pageIndex;
+            this.userList = userList;
+        }
+
+        public boolean hasPrev(){
+            return pageIndex > 1;
+        }
+
+        public boolean hasNext(){
+            return (totalRowCount / pageSize) >= pageIndex;
+        }
+
+        public int getPageSize(){
+            return pageSize;
+        }
+
+        public long getTotalRowCount() {
+            return totalRowCount;
+        }
+
+        public int getPageIndex() {
+            return pageIndex;
+        }
+
+        public List<User> getUserList() {
+            return userList;
+        }
+    }
 }

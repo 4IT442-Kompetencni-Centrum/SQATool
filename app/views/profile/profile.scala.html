@@ -1,0 +1,19 @@
+@import views.data.MenuDto
+@(selectedTabItem: String = null, submenu: List[MenuDto])(tab: Html)
+
+@main("Moje sekce", "profile", submenu) {
+
+    <h1>Dashboard</h1>
+
+    <ul class="nav nav-tabs dashboard-tabs">
+        <li role="presentation" @if(selectedTabItem == "Uživatel") { class="active" }><a href="@routes.ProfileController.userDetail()">Osobní údaje</a></li>
+        <li role="presentation" @if(selectedTabItem == "Znalosti") { class="active" }><a href="@routes.ProfileController.knowledge()">Znalosti</a></li>
+        <li role="presentation" @if(selectedTabItem == "Akademické práce") { class="active" }><a href="@routes.ProfileController.academicWorks()">Akademické práce</a></li>
+    </ul>
+
+    <div class="tab-content" id="dashboard">
+        <div role="tabpanel" class="tab-pane active">
+            @tab
+        </div>
+    </div>
+}

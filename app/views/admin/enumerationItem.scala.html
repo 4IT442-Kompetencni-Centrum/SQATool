@@ -1,0 +1,19 @@
+@(id: String, value: String, enumType: String, index: Integer)
+
+<div class="form-group enumeration-item" id="@id">
+    <label class="col-md-2 control-label">@index: </label>
+    <div class="col-md-4">
+        <input type="hidden" name="@(enumType+"["+id+"][id]")" value="@id">
+        <input type="text" name="@(enumType+"["+id+"][value]")" value="@value" class="form-control" readonly="readonly">
+    </div>
+    <div class="col-md-1">
+        <button href="#" class="btn btn-link edit-button" type="button">
+            <span class="glyphicon glyphicon-cog" title="Upravit"></span>
+        </button>
+    </div>
+    <div class="col-md-1">
+        <button href="#" class="btn btn-link remove-button" type="submit">
+            <span class="glyphicon glyphicon-trash" title="Smazat"></span>
+        </button>
+    </div>
+</div>

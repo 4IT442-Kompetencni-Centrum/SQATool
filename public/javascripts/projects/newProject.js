@@ -49,6 +49,7 @@ function doDeleteMember(event) {
 			$("input[name='memberIds["+(i)+"]']").remove();
 		}
 	}
+	updateDisabledDelete();
 }
 
 function doDeletePartner(event) {
@@ -68,9 +69,18 @@ function doDeletePartner(event) {
 			$("input[name='partnerIds["+(i)+"]']").remove();
 		}
 	}
+	updateDisabledDelete();
 }
 
 $(document).ready(function(){
+	
+		$("#projectStartDate").on("dp.change", function (e) {
+	        $('#projectEndDate').data("DateTimePicker").minDate(e.date);
+	    });
+	    $("#projectEndDate").on("dp.change", function (e) {
+	        $('#projectStartDate').data("DateTimePicker").maxDate(e.date);
+	    });
+	
 		//init project shortcut check
 		$("#projectShortcut").on("keyup", function(event) {
 			var query = $("#projectShortcut").val();
@@ -113,10 +123,13 @@ $(document).ready(function(){
 			$('.partnerRow .partnerElem.tt-input').change( function(e){
 				selectedPartner = $(e.target);
 				//if unknown name is written -> alert warning
-				$("#unknowPartnerModal").modal({
-					backdrop: 'static',
-					keyboard: false
-				});
+				var inputValue = selectedMember.val();
+				if (actualItems[inputValue] == undefined) {
+					$("#unknowPartnerModal").modal({
+						backdrop: 'static',
+						keyboard: false
+					});
+				}
 			});
 			$("#unknowPartnerModalCancel").click(function(){
 				selectedPartner.val("");
@@ -125,7 +138,7 @@ $(document).ready(function(){
 			$('.partnerRow .partnerElem.tt-input').on('typeahead:selected', function(evt, item) {
 				var hiddenArea = $("#dbIds");
 				var id = actualItems[item.value].id;
-				var defaultElem = $(event.target).parents(".partnerRow");
+				var defaultElem = $(evt.target).parents(".partnerRow");
 				var order = 0;
 				var elems = $('.partnerRow');
 				for (var i = 0; i < elems.length; i++) {
@@ -142,7 +155,7 @@ $(document).ready(function(){
 					addedElem = true;
 				}
 				storageInput.val(id);
-				if (addedElem) {
+				if (addedElem || hiddenArea.find("input[name='partnerIds["+(parseInt(order)+1)+"]']").length == 0) {
 					var defaultPartnerRow = $(".defaultPartnerRowWrap");
 					var newPartnerRow = defaultPartnerRow.clone();
 					newPartnerRow.find(".partnerElem").val("");
@@ -156,6 +169,7 @@ $(document).ready(function(){
 					});
 					bindSelectedAction();
 				}
+				updateDisabledDelete();
 			});
 		}
 /**************************init member dynamic fiels**********************************/
@@ -170,12 +184,18 @@ $(document).ready(function(){
 		$('#projectManager.tt-input').change( function(e){
 			selectedMember = $(e.target);
 			//if unknown name is written -> alert warning
-			$("#unknowUserModal").modal({
-				backdrop: 'static',
-				keyboard: false
-			});
+			var inputValue = selectedMember.val();
+			if (actualItemsMembers[inputValue] == undefined) {
+				$("#unknowUserModal").modal({
+					backdrop: 'static',
+					keyboard: false
+				});
+			}
 		});
-		
+		$("#unknowUserModalCancel").click(function(){
+			selectedMember.val("");
+			$("#unknowUserModal").modal('hide');
+		});
 		//init first autocomplete for member
 		$(".memberRow .memberElem").typeahead(null, typeAheadUserParam);
 		bindSelectedActionUser();
@@ -185,10 +205,13 @@ $(document).ready(function(){
 			$('.memberRow .memberElem.tt-input').change( function(e){
 				selectedMember = $(e.target);
 				//if unknown name is written -> alert warning
-				$("#unknowUserModal").modal({
-					backdrop: 'static',
-					keyboard: false
-				});
+				var inputValue = selectedMember.val();
+				if (actualItemsMembers[inputValue] == undefined) {
+					$("#unknowUserModal").modal({
+						backdrop: 'static',
+						keyboard: false
+					});
+				}
 			});
 			$("#unknowMemberModalCancel").click(function(){
 				selectedMember.val("");
@@ -197,7 +220,7 @@ $(document).ready(function(){
 			$('.memberRow .memberElem.tt-input').on('typeahead:selected', function(evt, item) {
 				var hiddenArea = $("#dbIds");
 				var id = actualItemsMembers[item.value].id;
-				var defaultElem = $(event.target).parents(".memberRow");
+				var defaultElem = $(evt.target).parents(".memberRow");
 				var order = 0;
 				var elems = $('.memberRow');
 				for (var i = 0; i < elems.length; i++) {
@@ -214,7 +237,7 @@ $(document).ready(function(){
 					addedElem = true;
 				}
 				storageInput.val(id);
-				if (addedElem) {
+				if (addedElem || hiddenArea.find("input[name='memberIds["+(parseInt(order)+1)+"]']").length == 0) {
 					var defaultMemberRow = $(".defaultMemberRowWrap");
 					var newMemberRow = defaultMemberRow.clone();
 					newMemberRow.find(".memberElem").val("");
@@ -227,7 +250,8 @@ $(document).ready(function(){
 						doDeleteMember(event)
 					});
 					bindSelectedActionUser();
-				}
+				} 
+				updateDisabledDelete();
 			});
 		}
 /********************************delete buttons***************************************/
@@ -238,4 +262,26 @@ $(document).ready(function(){
 		$(".deleteMember").click(function(event){
 			doDeleteMember(event);
 		});
+		updateDisabledDelete();
 });
+
+function updateDisabledDelete() {
+	var memberDelete = $(".deleteMember");
+	for (var i = 0; i < memberDelete.length; i++) {
+		$(memberDelete[i]).removeClass("disabled");
+	}
+	if (memberDelete.length == 2) {
+		for (var i = 0; i < memberDelete.length; i ++) {
+			$(memberDelete[i]).addClass("disabled");
+		}
+	}
+	var partnerDelete = $(".deletePartner");
+	for (var i = 0; i < partnerDelete.length; i++) {
+		$(partnerDelete[i]).removeClass("disabled");
+	}
+	if (partnerDelete.length == 2) {
+		for (var i = 0; i < partnerDelete.length; i ++) {
+			$(partnerDelete[i]).addClass("disabled");
+		}
+	}
+}

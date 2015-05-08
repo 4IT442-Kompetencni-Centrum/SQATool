@@ -41,6 +41,11 @@ public enum ActionsEnum {
     MEMBER_DELETE,
 
 	USER_EDIT_PROFILE,
-	//TODO mcech
 	//TODO pkadlec
+
+
+	//enumeration actions
+	ENUMERATION_SHOW_ALL,
+	ENUMERATION_EDIT
+
 }

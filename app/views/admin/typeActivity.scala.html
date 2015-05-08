@@ -1,0 +1,40 @@
+@import views.data.MenuDto
+@(activityTypes: List[TypeActivity], submenu: List[MenuDto])
+@implicitFieldConstructor = @{
+    b3.horizontal.fieldConstructor("col-md-2", "col-md-10")
+}
+
+@admin("enumerations", submenu) {
+    <a href="@routes.AdminController.enumerations()" class="btn btn-default btn-sm pull-left" style="margin-right: 20px">Zpět</a>
+    <h3>Typy aktivit</h3>
+    @b3.form(action = routes.AdminController.updateActivityTypes()) {
+        <div class="enumeration-items">
+        @for((activityType,i) <- activityTypes.view.zipWithIndex) {
+            @enumerationItem(
+                activityType.getTypeActivityId().toString(),
+                activityType.getValue(),
+                "activityTypes",
+                i
+            )
+        }
+        </div>
+
+    }
+
+    <div class="form-group">
+        <div class="col-md-4 col-md-offset-2">
+            <button class="btn btn-primary btn-sm add-button" type="button">Přidat</button>
+        </div>
+    </div>
+
+    <div class="enumeration-item-prototype" style="display : none">
+    @enumerationItem(
+        "__i__",
+        "",
+        "activityTypes",
+        null
+    )
+    </div>
+
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/enumerations.js")"></script>
+}

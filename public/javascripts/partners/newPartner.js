@@ -36,9 +36,14 @@ function deleteContactPerson(event) {
 		updateContactPersonIndex(parseInt(i)+1, i, "version", r);
 		updateContactPersonIndex(parseInt(i)+1, i, "contactPersonId", r);
 	}
+	bindActions();
 }
 
 function bindActions() {
+	var delButtons = $(".deleteContactPerson");
+	for (var i = 0; i < delButtons.length; i++) {
+		$(delButtons[i]).removeClass("disabled");
+	}
 	$(".contactPersonRow").find("input").off("keypress");
 	$(".contactPersonName").off("keyup");
 	$(".deleteContactPerson").off("click");
@@ -61,6 +66,13 @@ function bindActions() {
 	$(".deleteContactPerson").on("click", function(event) {
 		deleteContactPerson(event);
 	});
+	var deleteButtons = $(".deleteContactPerson");
+	if (deleteButtons.length == 2) {
+		//only one remove button
+		$(deleteButtons[0]).addClass("disabled");
+	} else {
+		console.log(deleteButtons.length);
+	}
 
 }
 

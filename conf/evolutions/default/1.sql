@@ -1,11 +1,11 @@
 # --- !Ups
 
-INSERT INTO sqa_type_activity (typeactivityid, key, value) VALUES (0, 'interniSkoleni', 'Interní školení');
-INSERT INTO sqa_type_activity (typeactivityid, key, value) VALUES (1, 'prezentaceZakaznikum', 'Prezentace zákazníkům');
-INSERT INTO sqa_type_activity (typeactivityid, key, value) VALUES (2, 'schuzkaKc', 'Schůzka KC');
-INSERT INTO sqa_type_activity (typeactivityid, key, value) VALUES (3, 'schuzkaManazeru', 'Schůzka Manažerů');
-INSERT INTO sqa_type_activity (typeactivityid, key, value) VALUES (4, 'schuzkaProjektu', 'Schůzka Projektu');
-INSERT INTO sqa_type_activity (typeactivityid, key, value) VALUES (5, 'ostatni', 'Ostatní');
+INSERT INTO sqa_type_activity (typeactivityid, value) VALUES (0, 'Interní školení');
+INSERT INTO sqa_type_activity (typeactivityid, value) VALUES (1, 'Prezentace zákazníkům');
+INSERT INTO sqa_type_activity (typeactivityid, value) VALUES (2, 'Schůzka KC');
+INSERT INTO sqa_type_activity (typeactivityid, value) VALUES (3, 'Schůzka Manažerů');
+INSERT INTO sqa_type_activity (typeactivityid, value) VALUES (4, 'Schůzka Projektu');
+INSERT INTO sqa_type_activity (typeactivityid, value) VALUES (5, 'Ostatní');
 
 INSERT INTO sqa_state_activity (stateactivityid, key, value) VALUES (0, 'volna', 'Volná');
 INSERT INTO sqa_state_activity (stateactivityid, key, value) VALUES (1, 'plna', 'Plná');
@@ -13,24 +13,43 @@ INSERT INTO sqa_state_activity (stateactivityid, key, value) VALUES (1, 'plna', 
 INSERT INTO sqa_type_role_on_activity (typeroleonactivityid, key, value) VALUES (0 , 'zakladatel', 'Zakladatel');
 INSERT INTO sqa_type_role_on_activity (typeroleonactivityid, key, value) VALUES (1 , 'prihlaseny', 'Přihlášený');
 
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (1, 'admin', 'Administrátor');
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (2, 'manazerKC', 'Manažer KC');
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (3, 'vedouciKC', 'Vedoucí KC');
-INSERT INTO SQA_TYPE_ROLE_IN_BUSINESS (id, key, value) VALUES (4, 'clen', 'Člen');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (1, 'admin', 'Administrátor');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (2, 'manazerKC', 'Manažer KC');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (3, 'vedouciKC', 'Vedoucí KC');
+INSERT INTO sqa_type_role_in_business (id, key, value) VALUES (4, 'clen', 'Člen');
 
-INSERT INTO SQA_TYPE_USER_ON_PROJECT (typeUserOnProjectId, key, value) VALUES (1, 'vedouci', 'Vedoucí');
-INSERT INTO SQA_TYPE_USER_ON_PROJECT (typeUserOnProjectId, key, value) VALUES (2, 'clen', 'Člen');
+INSERT INTO sqa_type_user_on_project (typeUserOnProjectId, key, value) VALUES (1, 'vedouci', 'Vedoucí');
+INSERT INTO sqa_type_user_on_project (typeUserOnProjectId, key, value) VALUES (2, 'clen', 'Člen');
 
-INSERT INTO SQA_STATE_HOURS_WORKED (stateHoursWorkedId, key, value) VALUES (1, 'zadana', 'Zadaná');
-INSERT INTO SQA_STATE_HOURS_WORKED (stateHoursWorkedId, key, value) VALUES (2, 'schvalena', 'Schválená');
-INSERT INTO SQA_STATE_HOURS_WORKED (stateHoursWorkedId, key, value) VALUES (3, 'zamitnuta', 'Zamítnutá');
+INSERT INTO sqa_state_hours_worked (stateHoursWorkedId, key, value) VALUES (1, 'zadana', 'Zadaná');
+INSERT INTO sqa_state_hours_worked (stateHoursWorkedId, key, value) VALUES (2, 'schvalena', 'Schválená');
+INSERT INTO sqa_state_hours_worked (stateHoursWorkedId, key, value) VALUES (3, 'zamitnuta', 'Zamítnutá');
+
+INSERT INTO sqa_state_user (stateUserId, key, value) VALUES (0,'neaktivni','Neaktivní');
+INSERT INTO sqa_state_user (stateUserId, key, value) VALUES (1,'aktivni','Aktivní');
+
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId, value) VALUES (0, 'Žádná');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId, value) VALUES (1, 'Základní');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId, value) VALUES (2, 'Střední');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId, value) VALUES (3, 'Pokročilá');
+INSERT INTO sqa_level_of_knowledge(levelOfKnowledgeId, value) VALUES (4, 'Prezentovatelná');
+
+INSERT INTO sqa_state_academic_work(stateAcademicWorkId,key,value) VALUES (0,'aktivni', 'Aktivní');
+INSERT INTO sqa_state_academic_work(stateAcademicWorkId,key,value) VALUES (1,'ukoncena', 'Ukončená');
+
+INSERT INTO sqa_type_academic_work(typeAcademicWorkId,key,value) VALUES (0, 'bakalarskaPrace', 'Bakalářská práce');
+INSERT INTO sqa_type_academic_work(typeAcademicWorkId,key,value) VALUES (1, 'diplomovaPrace', 'Diplomová práce');
+INSERT INTO sqa_type_academic_work(typeAcademicWorkId,key,value) VALUES (2, 'disertacniPrace', 'Disertační práce');
+
 
 # --- !Downs
-DELETE FROM SQA_USER;
-DELETE FROM SQA_ROLE_IN_BUSINESS;
 DELETE FROM sqa_type_activity;
 DELETE FROM sqa_state_activity;
 DELETE FROM sqa_type_role_on_activity;
-DELETE FROM SQA_TYPE_ROLE_IN_BUSINESS;
-DELETE FROM SQA_TYPE_USER_ON_PROJECT;
-DELETE FROM SQA_STATE_HOURS_WORKED;
+DELETE FROM sqa_type_role_in_business;
+DELETE FROM sqa_type_user_on_project;
+DELETE FROM sqa_state_hours_worked;
+DELETE FROM sqa_state_user;
+DELETE FROM sqa_level_of_knowledge;
+DELETE FROM sqa_state_academic_work;
+DELETE FROM sqa_type_academic_work;

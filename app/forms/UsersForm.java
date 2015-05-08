@@ -22,9 +22,11 @@ public class UsersForm {
     protected String degree;
     
     @Constraints.Required
+	@Constraints.Pattern(message = "Neplatné telefonní číslo", value = "^(\\+420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$")
     protected String phoneNumber;
  
     @Constraints.Required
+	@Constraints.Email(message= "Neplatný e-mail")
     protected String email;
 
     public UsersForm() {

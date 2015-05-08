@@ -120,6 +120,7 @@ public class SecurityService {
 		initActivityAccessMap();
 		initRewardAccessMap();
 		initMemberAccessMap();
+		initEnumerationsAccessMap();
 	}
 
 	private static void initProjectAccessMap() {
@@ -292,5 +293,21 @@ public class SecurityService {
         delete.put(EnumerationWithKeys.HEAD_KC_KEY, false);
         delete.put(EnumerationWithKeys.ADMIN_KEY, true);
         accessMap.put(ActionsEnum.MEMBER_DELETE, delete);
+	}
+
+	private static void initEnumerationsAccessMap() {
+		HashMap<String, Boolean> showAll = new HashMap<>();
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, false);
+		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, false);
+		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.ENUMERATION_SHOW_ALL, showAll);
+
+		HashMap<String, Boolean> edit = new HashMap<>();
+		edit.put(EnumerationWithKeys.MEMBER_KEY, false);
+		edit.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+		edit.put(EnumerationWithKeys.HEAD_KC_KEY, false);
+		edit.put(EnumerationWithKeys.ADMIN_KEY, true);
+		accessMap.put(ActionsEnum.ENUMERATION_EDIT, edit);
 	}
 }

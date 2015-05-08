@@ -1,0 +1,13 @@
+@import views.data.MenuDto
+@(knowledges: List[Knowledge], submenu: List[MenuDto])
+@profile("Znalosti",submenu){
+    <a href="@routes.ProfileController.editKnowledge()" class="btn btn-link pull-right">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+    </a>
+
+    <ul class="list-unstyled knowledge">
+    @for((knowledge,i) <- knowledges.view.zipWithIndex) {
+        <li><strong>Dovednost @(i+1): </strong>@knowledge.getTypeKnowledge().getValue() - @knowledge.getLevelOfKnowledge().getValue()</li>
+    }
+    </ul>
+}
