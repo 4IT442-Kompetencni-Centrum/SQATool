@@ -296,7 +296,21 @@ public class SecurityService {
 		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
-		accessMap.put(ActionsEnum.MEMBER_SHOW_ALL, showAll);		
+		accessMap.put(ActionsEnum.MEMBER_SHOW_ALL, showAll);
+
+        HashMap<String, Boolean> add = new HashMap<>();
+        add.put(EnumerationWithKeys.MEMBER_KEY, true);
+        add.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+        add.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+        add.put(EnumerationWithKeys.ADMIN_KEY, true);
+        accessMap.put(ActionsEnum.MEMBER_ADD, add);
+
+        HashMap<String, Boolean> delete = new HashMap<>();
+        delete.put(EnumerationWithKeys.MEMBER_KEY, false);
+        delete.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+        delete.put(EnumerationWithKeys.HEAD_KC_KEY, false);
+        delete.put(EnumerationWithKeys.ADMIN_KEY, true);
+        accessMap.put(ActionsEnum.MEMBER_DELETE, delete);
 	}
 
 	private static void initEnumerationsAccessMap() {

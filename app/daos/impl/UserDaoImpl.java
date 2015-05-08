@@ -38,4 +38,13 @@ public class UserDaoImpl extends AbstractVersionedDaoImpl<User> implements UserD
 		query.setParameter("queryString", "%"+queryString+"%");
 		return query.getResultList();
 	}
+
+    @Override
+    public List<User> getAllMembers(Integer offset, Integer limit){
+        Query query = JPA.em().createQuery("SELECT u from User u where u.visible = TRUE");
+        if(offset != 0) query.setFirstResult(offset);
+        if(limit != 0) query.setMaxResults(limit);
+        return query.getResultList();
+    }
+
 }

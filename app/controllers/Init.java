@@ -2,6 +2,7 @@ package controllers;
 
 import models.Partner;
 import models.StateUser;
+import models.User;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -64,6 +65,17 @@ public class Init extends Controller {
         inactive.setValue("Neaktivní");
         DAOs.getStateUserDao().create(inactive);
 
+        return ok(index.render("4IT442 - Software Quality Assurance Tool"));
+    }
+
+    @Transactional(readOnly = false)
+    public static Result initUsers(){
+        User user = new User("jenda","heslo", "Jan", "Novak", "bakalar", "email@gmail.com", "123454354");
+        DAOs.getUserDao().create(user);
+        User user1 = new User("fanda","heslo", "Frantisek", "Omacka", "magistr", "email@gmail.com", "123454354");
+        DAOs.getUserDao().create(user1);
+        User user2 = new User("zdenda","heslo", "Zdenek", "Skocdopole", "bakalar", "email@gmail.com", "123454354");
+        DAOs.getUserDao().create(user2);
         return ok(index.render("4IT442 - Software Quality Assurance Tool"));
     }
     

@@ -90,7 +90,7 @@ public class RewardController extends Controller {
             User user = DAOs.getUserDao().findById(Long.parseLong(form.field("userId").value()));
             List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(user.getId());
 
-            return badRequest(detail.render(user, projects, form));
+            return badRequest(detail.render(user, projects, form, getBackToListMenu()));
         }
 
         Reward reward = form.get().getReward();
