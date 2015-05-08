@@ -6,7 +6,7 @@
     <table class="table table-striped table-hover">
     @for(member <- userList) {
         <tr>
-            <td><a href="@routes.UserController.show(member.id)"><strong>@member.toString()</strong></a>: aktivni</td>
+            <td><a href="@routes.UserController.show(member.id)"><strong>@member.toString()</strong></a>: @member.stateUser</td>
             <td class="text-right">
                 <a href="@routes.UserController.showEditForm(member.getId())" class="btn btn-link btn-xs">
                     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>

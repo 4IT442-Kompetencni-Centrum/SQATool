@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class User extends AbstractVersionedEntity {
     public String username;
     public String password;
     @OneToMany(mappedBy="user")
-    private List<RoleInBusiness> roleInBusiness;
+    private List<RoleInBusiness> roleInBusiness = new ArrayList<>();
     public String degree;
     public String email;
     public String firstName;
@@ -33,11 +34,12 @@ public class User extends AbstractVersionedEntity {
         this.password = password;
     }
 
-    public User(String firstname, String lastname, String xname, String degree, String email, String phoneNumber){
+    public User(String firstname, String lastname, String xname, String degree, StateUser stateUser, String email, String phoneNumber){
         this.firstName = firstname;
         this.lastName = lastname;
         this.xname = xname;
         this.degree = degree;
+        this.stateUser = stateUser;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }

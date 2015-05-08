@@ -135,11 +135,7 @@ public class ActivityController extends Controller {
         if (form.hasErrors()) {
             return badRequest(edit.render(form, activityTypes, getBackToListMenu()));
         }
-
-        Activity activity = form.get().getActivity();
-        DAOs.getActivityDao().update(activity);
-
-        return redirect(controllers.routes.ActivityController.showAll(0));
+            return redirect(controllers.routes.ActivityController.showAll(0));
     }
 
 

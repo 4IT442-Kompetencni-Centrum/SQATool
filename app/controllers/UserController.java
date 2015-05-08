@@ -3,14 +3,12 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import controllers.routes;
 import daos.UserDao;
-import models.LevelOfKnowledge;
-import models.Project;
-import models.TypeKnowledge;
-import models.User;
-import models.UsersKnowledge;
+import models.*;
 import play.Logger;
 import play.data.Form;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -33,8 +31,11 @@ import forms.RewardForm;
 import forms.UsersForm;
 
 public class UserController extends Controller {
+
     static Form<UsersForm> usersForm = Form.form(UsersForm.class);
 
+    private static List<StateUser> userStates = DAOs.getStateUserDao().findAll();
+    private static List<TypeRoleInBusiness> userRoles = DAOs.getTypeRoleInBusinessDao().findAll();
 	
 	@Transactional()
 	public static Result show(Long id){
@@ -49,32 +50,28 @@ public class UserController extends Controller {
 		return ok(detail.render(_user,projects,rewardForm, getBackToListMenu(_user)));
 	}
 		
-	@Transactional(readOnly = false)
-    //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
-    public static Result edit() {
-        Form<UsersForm> form = usersForm.bindFromRequest();
-        
-        if (form.hasErrors()) {
-        	Logger.debug(form.errors().toString());
-            return badRequest();
+    @Transactional(readOnly = false)
+    public static Result edit(Long id){
+        Form<NewMemberForm> bindForm = Form.form(NewMemberForm.class).bindFromRequest();
+        if(bindForm.hasErrors()){
+            return redirect(routes.UserController.showEditForm(id));
         }
-        User user = form.get().getUser();
+        User user = bindForm.get().getMember(id);
         DAOs.getUserDao().update(user);
-        Long userId = user.getId();
-	    return redirect(routes.UserController.show(userId));
+        return redirect(routes.UserController.showAllUsers(0));
     }
 	
 	@Transactional(readOnly = false)
     //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
     public static Result showEditForm(Long userId) {
 		User _user = DAOs.getUserDao().findById(userId);
-		return ok(edit.render(_user, getBackToListMenu(_user), "Upravit člena"));
+		return ok(edit.render(_user, getBackToListMenu(_user), "Upravit člena", userStates, userRoles));
 	}
 
     @Transactional(readOnly = false)
     public static Result showCreateForm(){
         User user = SecurityService.fetchUser(session("authid"));
-        return ok(views.html.user.addMember.render(user, getBackToListMenu(user), "Přidat člena"));
+        return ok(views.html.user.addMember.render(user, getBackToListMenu(user), "Přidat člena", userStates, userRoles));
     }
 	
 	@Transactional(readOnly = false)
@@ -84,7 +81,11 @@ public class UserController extends Controller {
             return redirect(routes.UserController.showCreateForm());
         }
         NewMemberForm filledForm = bindForm.get();
-        User user = new User(filledForm.firstname, filledForm.lastname, filledForm.xname, filledForm.degree, filledForm.email, filledForm.phonenumber);
+        StateUser stateUser = DAOs.getStateUserDao().findByKey(filledForm.status);
+        TypeRoleInBusiness userRoleType = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(filledForm.role));
+        RoleInBusiness userRole = new RoleInBusiness(userRoleType);
+        User user = new User(filledForm.firstname, filledForm.lastname, filledForm.xname, filledForm.degree, stateUser ,filledForm.email, filledForm.phonenumber);
+        user.getRoleInBusiness().add(userRole);
         DAOs.getUserDao().create(user);
         return redirect(routes.UserController.showAllUsers(0));
 	}

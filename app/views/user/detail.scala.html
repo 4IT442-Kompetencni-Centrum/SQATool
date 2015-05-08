@@ -7,13 +7,13 @@
                <td><strong>Role:</strong></td>
                <td>
                @for(role <- user.getRoleInBusiness()){
-                   @role.getTypeRoleInBusiness().getKey()
+                   @role.getTypeRoleInBusiness().getValue
                }
                </td>
            </tr>
            <tr>
                <td><strong>Status:</strong></td>
-               <td>aktivni</td>
+               <td>@user.getStateUser().getValue</td>
            </tr>
            <tr>
                <td><strong>Email:</strong></td>

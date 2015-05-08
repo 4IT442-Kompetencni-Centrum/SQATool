@@ -1,4 +1,8 @@
 package service;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * EnumerationWithKeys contains all keys for classes which extends AbstractEnumWithoutKey
  * @author Tomas Michalicka (<a href='mailto:tomas@michalicka.com'>tomas@michalicka.com</a>)
@@ -16,7 +20,6 @@ public class EnumerationWithKeys {
 
 	public static final String TYPE_ROLE_ON_ACTIVITY_ORGANIZER = "zakladatel";
 	public static final String TYPE_ROLE_ON_ACTIVITY_LOGGED = "prihlaseny";
-
 
     public static final String STATE_USER_ACTIVE = "aktivni";
     public static final String STATE_USER_APPLICANT = "zadatel";
