@@ -9,6 +9,7 @@ import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.SecurityService;
 import views.html.academicWork.add;
 import views.html.academicWork.edit;
@@ -16,6 +17,7 @@ import views.html.notFound;
 
 import java.util.Map;
 
+@Security.Authenticated(Secured.class)
 public class AcademicWorkController extends Controller{
 
     static Form<AcademicWorkForm> academicWorkForm = Form.form(AcademicWorkForm.class);

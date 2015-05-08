@@ -64,7 +64,7 @@ public class ProfileController extends Controller {
 
     @Transactional(readOnly = true)
     public static Result editKnowledge() {
-        List<TypeKnowledge> knowledgeTypes = DAOs.getTypeKnowledgeDao().getAllKnowledge();
+        List<TypeKnowledge> knowledgeTypes = DAOs.getTypeKnowledgeDao().findAll();
         List<LevelOfKnowledge> knowledgeLevels = DAOs.getLevelOfKnowledgeDao().findAll();
 
         User user = SecurityService.fetchUser(session("authid"));

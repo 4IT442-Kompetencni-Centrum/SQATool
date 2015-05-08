@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "SQA_LEVEL_OF_KNOWLEDGE")
-public class LevelOfKnowledge extends AbstractEnumWithKey{
+public class LevelOfKnowledge extends AbstractEnumWithoutKey{
 
 
     @Id

@@ -20,12 +20,6 @@ import java.util.List;
 public class LevelOfKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<LevelOfKnowledge>
 		implements LevelOfKnowledgeDao {
 
-	public LevelOfKnowledge findByKey(@NotNull String key) {
-		TypedQuery<LevelOfKnowledge> q = JPA.em().createQuery("SELECT l FROM LevelOfKnowledge l where l.key = :key", LevelOfKnowledge.class);
-		q.setParameter("key", key);
-		return q.getSingleResult();
-	}
-
 	public List<LevelOfKnowledge> findAll() {
 		Query query = JPA.em().createQuery("SELECT l FROM LevelOfKnowledge l ORDER BY l.levelOfKnowledgeId");
 		return query.getResultList();

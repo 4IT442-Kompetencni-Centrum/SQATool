@@ -13,15 +13,6 @@ import java.util.HashMap;
 public interface TypeActivityDao extends AbstractNonVersionedDao<TypeActivity> {
 
     /**
-     * Returns activity type with given key
-     *
-     * @param String key
-     * @return TypeActivity
-     */
-    public TypeActivity findByKey(@NotNull String key);
-
-
-    /**
      * Returns hash map for select box
      *
      * @return HashMap<String,String>

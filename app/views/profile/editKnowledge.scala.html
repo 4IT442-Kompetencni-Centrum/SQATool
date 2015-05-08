@@ -9,8 +9,8 @@
         <div class="knowledges">
             @for((knowledge,i) <- knowledges.view.zipWithIndex) {
                 @knowledgeItem(
-                    knowledge.getTypeKnowledge().getKey(),
-                    knowledge.getLevelOfKnowledge().getKey(),
+                    knowledge.getTypeKnowledge().getTypeKnowledgeId().toString(),
+                    knowledge.getLevelOfKnowledge().getLevelOfKnowledgeId().toString(),
                     knowledge.getUserHasKnowledgeId(),
                     knowledgeTypes,
                     knowledgeLevels,

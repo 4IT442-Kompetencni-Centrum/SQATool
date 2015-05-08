@@ -19,13 +19,6 @@ import java.util.List;
 public class TypeActivityDaoImpl extends AbstractNonVersionedDaoImpl<TypeActivity>
         implements TypeActivityDao {
 
-    public TypeActivity findByKey(@NotNull String key) {
-        TypedQuery<TypeActivity> q = JPA.em().createQuery("SELECT ta FROM TypeActivity ta where ta.key = :key", TypeActivity.class);
-        q.setParameter("key", key);
-        return q.getSingleResult();
-    }
-
-
     @Override
     public HashMap<String, String> getOptions() {
         HashMap<String,String> options = new HashMap<>();
@@ -34,7 +27,7 @@ public class TypeActivityDaoImpl extends AbstractNonVersionedDaoImpl<TypeActivit
         List<TypeActivity> types = query.getResultList();
 
         for(TypeActivity typeActivity : types) {
-            options.put(typeActivity.getKey(),typeActivity.getValue());
+            options.put(typeActivity.getTypeActivityId().toString(),typeActivity.getValue());
         }
 
         return options;

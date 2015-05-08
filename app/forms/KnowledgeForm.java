@@ -38,8 +38,8 @@ public class KnowledgeForm {
             }
 
             Knowledge knowledge = new Knowledge();
-            LevelOfKnowledge levelOfKnowledge = DAOs.getLevelOfKnowledgeDao().findByKey(map.get("level"));
-            TypeKnowledge typeKnowledge = DAOs.getTypeKnowledgeDao().findByKey(map.get("name"));
+            LevelOfKnowledge levelOfKnowledge = DAOs.getLevelOfKnowledgeDao().findById(Long.parseLong(map.get("level")));
+            TypeKnowledge typeKnowledge = DAOs.getTypeKnowledgeDao().findById(Long.parseLong(map.get("type")));
             knowledge.setLevelOfKnowledge(levelOfKnowledge);
             knowledge.setTypeKnowledge(typeKnowledge);
             knowledges.add(knowledge);

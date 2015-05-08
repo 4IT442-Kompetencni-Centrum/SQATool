@@ -98,3 +98,7 @@ GET         /profil/akademickePrace/smazat/:id            controllers.AcademicWo
 GET         /dashboard/aktivity                           controllers.DashboardController.activities(page:Integer ?= 0)
 GET         /dashboard/odmeny                             controllers.DashboardController.rewards(page:Integer ?= 0)
 GET         /dashboard/projekty                           controllers.DashboardController.projects(page:Integer ?= 0)
+#administrace
+GET         /administrace/ciselniky                            controllers.AdminController.enumerations()
+GET         /administrace/ciselniky/typyZnalosti               controllers.AdminController.editKnowledgeTypes()
+POST        /administrace/ciselniky/typyZnalosti/ulozit        controllers.AdminController.updateKnowledgeTypes()

@@ -1,12 +1,12 @@
 
-@(name: String, level: String, id: Long, knowledgeTypes: List[TypeKnowledge], knowledgeLevels: List[LevelOfKnowledge], iterator: String)
+@(knowledgeType: String, level: String, id: Long, knowledgeTypes: List[TypeKnowledge], knowledgeLevels: List[LevelOfKnowledge], iterator: String)
 
 <div class="form-group knowledge">
     <label class="control-label col-md-2 " for="knowledge">Dovednost</label>
     <div class="col-md-3">
-        <select name="knowledge[@iterator][name]" class="form-control">
+        <select name="knowledge[@iterator][type]" class="form-control">
             @for(typeKnowledge <- knowledgeTypes) {
-                <option value="@typeKnowledge.getKey()" @if(name == typeKnowledge.getKey()){selected="selected"}>@typeKnowledge.getValue()</option>
+                <option value="@typeKnowledge.getTypeKnowledgeId()" @if(knowledgeType == typeKnowledge.getTypeKnowledgeId()){selected="selected"}>@typeKnowledge.getValue()</option>
             }
         </select>
         <input type="hidden" name="knowledge[@iterator][id]" value="">
@@ -14,7 +14,7 @@
     <div class="col-md-3">
         <select name="knowledge[@iterator][level]" class="form-control">
         @for(levelKnowledge <- knowledgeLevels) {
-            <option value="@levelKnowledge.getKey()" @if(level == levelKnowledge.getKey()){selected="selected"}>@levelKnowledge.getValue()</option>
+            <option value="@levelKnowledge.getLevelOfKnowledgeId()" @if(level == levelKnowledge.getLevelOfKnowledgeId()){selected="selected"}>@levelKnowledge.getValue()</option>
         }
         </select>
     </div>

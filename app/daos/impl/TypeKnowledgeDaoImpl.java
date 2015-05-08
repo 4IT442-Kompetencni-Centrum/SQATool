@@ -17,14 +17,8 @@ import java.util.List;
 public class TypeKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<TypeKnowledge>
 		implements TypeKnowledgeDao {
 
-
 	@Override
-	public List<TypeKnowledge> getUsersNotFiledRequiredKnowledge(Long userId) {
-		throw new NotYetImplementedException();
-	}
-
-	@Override
-	public List<TypeKnowledge> getAllKnowledge() {
+	public List<TypeKnowledge> findAll() {
 		TypedQuery<TypeKnowledge> query = JPA.em().createQuery("SELECT kn FROM TypeKnowledge as kn", TypeKnowledge.class) ;
 		try {
 			return query.getResultList();
@@ -33,11 +27,4 @@ public class TypeKnowledgeDaoImpl extends AbstractNonVersionedDaoImpl<TypeKnowle
 			return null;
 		}
 	}
-
-	public TypeKnowledge findByKey(@NotNull String key) {
-		TypedQuery<TypeKnowledge> q = JPA.em().createQuery("SELECT k FROM TypeKnowledge k where k.key = :key", TypeKnowledge.class);
-		q.setParameter("key", key);
-		return q.getSingleResult();
-	}
-
 }

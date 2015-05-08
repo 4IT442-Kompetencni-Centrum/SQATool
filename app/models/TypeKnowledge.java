@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="SQA_TYPE_KNOWLEDGE")
-public class TypeKnowledge extends AbstractEnumWithKey{
+public class TypeKnowledge extends AbstractEnumWithoutKey{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected Long typeKnowledgeId;
