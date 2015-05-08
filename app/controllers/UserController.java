@@ -58,7 +58,7 @@ public class UserController extends Controller {
         }
         User user = bindForm.get().getMember(id);
         DAOs.getUserDao().update(user);
-        return redirect(routes.UserController.showAllUsers(0));
+        return redirect(routes.UserController.show(user.id));
     }
 	
 	@Transactional(readOnly = false)
