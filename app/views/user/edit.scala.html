@@ -1,6 +1,6 @@
 @(user : User, submenu: List[views.data.MenuDto], title: String, userStates : List[models.StateUser], userRoles : List[models.TypeRoleInBusiness])
 @main(title,"edit", submenu){
-    <h1>Přidat uživatele</h1>
+    <h1>Upravit uživatele</h1>
     <form class="form-horizontal" action="@routes.UserController.edit(user.getId)" method="POST">
         <div class="form-group">
             <label for="partnerName" class="col-sm-2 control-label">Jméno</label>
