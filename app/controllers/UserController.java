@@ -3,12 +3,9 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import controllers.routes;
-import daos.UserDao;
 import models.*;
 import play.Logger;
 import play.data.Form;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -18,8 +15,6 @@ import service.Configuration;
 import service.SecurityService;
 import views.data.MenuDto;
 import views.formData.NewMemberForm;
-import views.html.knowledge.knowledgeForm;
-import views.html.knowledge.knowledgeList;
 import views.html.user.detail;
 import views.html.user.edit;
 
@@ -90,23 +85,6 @@ public class UserController extends Controller {
         return redirect(routes.UserController.showAllUsers(0));
 	}
 
-	
-	@Transactional
-	public static Result listUsersKnowledge(Long userId){
-		List<UsersKnowledge> usersKnowledge = DAOs.getUserKnowledgeDao().getUsersKnowledge(userId);
-		List<TypeKnowledge> otherKnowledge = DAOs.getTypeKnowledgeDao().getAllKnowledge();
-		List<LevelOfKnowledge> levels = DAOs.getLevelOfKnowledgeDao().getAllLevels();
-		User user = DAOs.getUserDao().findById(userId);
-		return ok(knowledgeList.render(usersKnowledge, otherKnowledge, levels, user));
-	}
-	
-	@Transactional
-	public static Result editUsersKnowledge(Long userId){
-		List<UsersKnowledge> usersKnowledge = DAOs.getUserKnowledgeDao().getUsersKnowledge(userId);
-		User user = DAOs.getUserDao().findById(userId);
-		return ok(knowledgeForm.render(usersKnowledge, user));
-	}	
-		
 	
 	/**
 	 * Action returns JSON array for ajax calls (autocomplete)
