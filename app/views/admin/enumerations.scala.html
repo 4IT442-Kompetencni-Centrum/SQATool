@@ -44,6 +44,24 @@
                     }
                 </td>
             </tr>
+            <tr>
+                <td>
+                @if(SecurityService.hasAccess(user, ActionsEnum.ENUMERATION_EDIT)) {
+                    <a href="@routes.AdminController.editActivityTypes()" class="btn btn-link btn-xs">
+                        Typ aktivit
+                    </a>
+                }else {
+                    Typ aktivit
+                }
+                </td>
+                <td class="text-right">
+                @if(SecurityService.hasAccess(user, ActionsEnum.ENUMERATION_EDIT)) {
+                    <a href="@routes.AdminController.editActivityTypes()" class="btn btn-link btn-xs">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                    </a>
+                }
+                </td>
+            </tr>
         </tbody>
     </table>
 }

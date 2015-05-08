@@ -2,8 +2,8 @@ package daos;
 
 import models.TypeActivity;
 
-import javax.validation.constraints.NotNull;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * DAO for DB operations for TypeActivity objects.
@@ -18,5 +18,8 @@ public interface TypeActivityDao extends AbstractNonVersionedDao<TypeActivity> {
      * @return HashMap<String,String>
      */
     public HashMap<String,String> getOptions();
+
+    public List<TypeActivity> findAll();
+
 
 }
