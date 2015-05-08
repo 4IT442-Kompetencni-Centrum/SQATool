@@ -26,6 +26,24 @@
                     }
                 </td>
             </tr>
+            <tr>
+                <td>
+                    @if(SecurityService.hasAccess(user, ActionsEnum.ENUMERATION_EDIT)) {
+                        <a href="@routes.AdminController.editKnowledgeLevels()" class="btn btn-link btn-xs">
+                            Úrovně znalostí
+                        </a>
+                    }else {
+                        Úrovně znalostí
+                    }
+                </td>
+                <td class="text-right">
+                    @if(SecurityService.hasAccess(user, ActionsEnum.ENUMERATION_EDIT)) {
+                        <a href="@routes.AdminController.editKnowledgeLevels()" class="btn btn-link btn-xs">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
+                        </a>
+                    }
+                </td>
+            </tr>
         </tbody>
     </table>
 }

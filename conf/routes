@@ -102,3 +102,5 @@ GET         /dashboard/projekty                           controllers.DashboardC
 GET         /administrace/ciselniky                            controllers.AdminController.enumerations()
 GET         /administrace/ciselniky/typyZnalosti               controllers.AdminController.editKnowledgeTypes()
 POST        /administrace/ciselniky/typyZnalosti/ulozit        controllers.AdminController.updateKnowledgeTypes()
+GET         /administrace/ciselniky/urovneZnalosti             controllers.AdminController.editKnowledgeLevels()
+POST        /administrace/ciselniky/urovneZnalosti/ulozit      controllers.AdminController.updateKnowledgeLevels()
