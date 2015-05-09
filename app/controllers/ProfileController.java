@@ -9,12 +9,14 @@ import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.SecurityService;
 import views.html.profile.*;
 
 import java.util.List;
 import java.util.Set;
 
+@Security.Authenticated(Secured.class)
 public class ProfileController extends Controller {
     static Form<UsersForm> usersForm = Form.form(UsersForm.class);
     static Form<KnowledgeForm> knowledgeForm = Form.form(KnowledgeForm.class);
