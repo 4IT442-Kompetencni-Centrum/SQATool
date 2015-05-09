@@ -113,12 +113,14 @@ public class DashboardController extends Controller {
 
         result.add(userProfile);
 
-        MenuDto administration = new MenuDto();
-        administration.setGlyphicon("cog");
-        administration.setLabel("Administrace");
-        administration.setUrl(routes.AdminController.enumerations().absoluteURL(request()));
+        if (SecurityService.hasAccess(user, ActionsEnum.ENUMERATION_SHOW_ALL)) {
+            MenuDto administration = new MenuDto();
+            administration.setGlyphicon("cog");
+            administration.setLabel("Administrace");
+            administration.setUrl(routes.AdminController.enumerations().absoluteURL(request()));
 
-        result.add(administration);
+            result.add(administration);
+        }
 
         return result;
     }

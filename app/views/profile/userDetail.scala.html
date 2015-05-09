@@ -5,7 +5,7 @@
 		<span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>
 	</a>
 
-	<h3>@user.getDegree(). @user.getFirstName() @user.getLastName()</h3>
+	<h3>@user.getDegree()@if(user.getDegree() != null){. }@user.getFirstName() @user.getLastName()</h3>
 	<ul class="list-unstyled user-detail">
 		<li><strong>Role:</strong> @for(role <- user.getRoleInBusiness()){<span class="user-role">@role.getTypeRoleInBusiness().getValue()</span>}</li>
 		<li><strong>Status:</strong @user.getStateUser().getValue()></li>

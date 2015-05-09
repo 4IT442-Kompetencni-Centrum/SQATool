@@ -27,24 +27,24 @@ public class Login extends Controller {
     public static Result authenticate(){
         Form<LoginForm> bindForm = Form.form(LoginForm.class).bindFromRequest();
         if(bindForm.hasErrors()){
-            flash("error", "Login credentials required.");
+            flash("error", "Chybné přihlašovací údaje.");
             return redirect(routes.Login.showLoginPage());
         }
         LoginForm filledForm = bindForm.get();
         User candidate = userDao.getValidUser(filledForm.username, filledForm.password);
         if(candidate == null){
-            flash("error", "Wrong username or password");
+            flash("error", "Chybné přihlašovací údaje");
             return redirect(routes.Login.showLoginPage());
         }
         session().clear();
         session("user",candidate.toString()); // CREATE THE VERY SECRET TOKEN
         session("authid", candidate.id.toString());
-        return ok(index.render("SQA"));
+        return redirect(controllers.routes.DashboardController.activities(0));
     }
 
     public static Result logout(){
         session().clear();
-        flash("logout", "You have been successfully logout");
+        flash("logout", "Odhlášení proběhlo úspěšně.");
         return redirect(routes.Login.showLoginPage());
     }
 }
