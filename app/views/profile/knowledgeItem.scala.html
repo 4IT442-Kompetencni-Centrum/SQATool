@@ -9,7 +9,7 @@
                 <option value="@typeKnowledge.getTypeKnowledgeId()" @if(knowledgeType == typeKnowledge.getTypeKnowledgeId().toString()){selected="selected"} class="@knowledgeType">@typeKnowledge.getValue()</option>
             }
         </select>
-        <input type="hidden" name="knowledge[@iterator][id]" value="">
+        <input type="hidden" name="knowledge[@iterator][id]" value="@id">
     </div>
     <div class="col-md-3">
         <select name="knowledge[@iterator][level]" class="form-control">
