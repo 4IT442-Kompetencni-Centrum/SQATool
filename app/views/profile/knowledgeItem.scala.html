@@ -6,7 +6,7 @@
     <div class="col-md-3">
         <select name="knowledge[@iterator][type]" class="form-control">
             @for(typeKnowledge <- knowledgeTypes) {
-                <option value="@typeKnowledge.getTypeKnowledgeId()" @if(knowledgeType == typeKnowledge.getTypeKnowledgeId()){selected="selected"}>@typeKnowledge.getValue()</option>
+                <option value="@typeKnowledge.getTypeKnowledgeId()" @if(knowledgeType == typeKnowledge.getTypeKnowledgeId().toString()){selected="selected"} class="@knowledgeType">@typeKnowledge.getValue()</option>
             }
         </select>
         <input type="hidden" name="knowledge[@iterator][id]" value="">
@@ -14,7 +14,7 @@
     <div class="col-md-3">
         <select name="knowledge[@iterator][level]" class="form-control">
         @for(levelKnowledge <- knowledgeLevels) {
-            <option value="@levelKnowledge.getLevelOfKnowledgeId()" @if(level == levelKnowledge.getLevelOfKnowledgeId()){selected="selected"}>@levelKnowledge.getValue()</option>
+            <option value="@levelKnowledge.getLevelOfKnowledgeId()" @if(level == levelKnowledge.getLevelOfKnowledgeId().toString()){selected="selected"} class="@level">@levelKnowledge.getValue()</option>
         }
         </select>
     </div>
