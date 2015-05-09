@@ -27,7 +27,6 @@ public class ProfileController extends Controller {
 
 
     @Transactional(readOnly = true)
-    //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
     public static Result editUserDetail() {
         User user = SecurityService.fetchUser(session("authid"));
         Form<UsersForm> form = usersForm.fill(new UsersForm(user));
@@ -37,7 +36,6 @@ public class ProfileController extends Controller {
 
 
     @Transactional(readOnly = false)
-    //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
     public static Result updateUserDetail() {
         Form<UsersForm> form = usersForm.bindFromRequest();
 

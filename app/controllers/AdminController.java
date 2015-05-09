@@ -14,6 +14,8 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.ActionsEnum;
+import service.AuthorizedAction;
 import views.html.admin.enumerations;
 import views.html.admin.levelKnowledge;
 import views.html.admin.typeActivity;
@@ -28,12 +30,14 @@ public class AdminController extends Controller {
     static Form<TypeActivityForm> typeActivityForm = Form.form(TypeActivityForm.class);
 
     @Transactional(readOnly = true)
+    @AuthorizedAction.Authorize(action = ActionsEnum.ENUMERATION_SHOW_ALL)
     public static Result enumerations() {
         return ok(enumerations.render(DashboardController.getMainMenu()));
     }
 
 
     @Transactional(readOnly = true)
+    @AuthorizedAction.Authorize(action = ActionsEnum.ENUMERATION_EDIT)
     public static Result editKnowledgeTypes() {
         List<TypeKnowledge> types = DAOs.getTypeKnowledgeDao().findAll();
 
@@ -42,6 +46,7 @@ public class AdminController extends Controller {
 
 
     @Transactional(readOnly = false)
+    @AuthorizedAction.Authorize(action = ActionsEnum.ENUMERATION_EDIT)
     public static Result updateKnowledgeTypes() {
         Form<TypeKnowledgeForm> form = typeKnowledgeForm.bindFromRequest();
 
@@ -72,6 +77,7 @@ public class AdminController extends Controller {
     }
 
     @Transactional(readOnly = true)
+    @AuthorizedAction.Authorize(action = ActionsEnum.ENUMERATION_EDIT)
     public static Result editKnowledgeLevels() {
         List<LevelOfKnowledge> levels = DAOs.getLevelOfKnowledgeDao().findAll();
 
@@ -80,6 +86,7 @@ public class AdminController extends Controller {
 
 
     @Transactional(readOnly = false)
+    @AuthorizedAction.Authorize(action = ActionsEnum.ENUMERATION_EDIT)
     public static Result updateKnowledgeLevels() {
         Form<LevelOfKnowledgeForm> form = levelOfKnowledgeForm.bindFromRequest();
 
@@ -111,6 +118,7 @@ public class AdminController extends Controller {
 
 
     @Transactional(readOnly = true)
+    @AuthorizedAction.Authorize(action = ActionsEnum.ENUMERATION_EDIT)
     public static Result editActivityTypes() {
         List<TypeActivity> types = DAOs.getTypeActivityDao().findAll();
 
@@ -119,6 +127,7 @@ public class AdminController extends Controller {
 
 
     @Transactional(readOnly = false)
+    @AuthorizedAction.Authorize(action = ActionsEnum.ENUMERATION_EDIT)
     public static Result updateActivityTypes() {
         Form<TypeActivityForm> form = typeActivityForm.bindFromRequest();
 
