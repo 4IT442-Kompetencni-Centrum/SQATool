@@ -1,5 +1,5 @@
 @import views.data.MenuDto
-@(knowledges: List[Knowledge], submenu: List[MenuDto])
+@(knowledges: Set[Knowledge], submenu: List[MenuDto])
 @profile("Znalosti",submenu){
     <a href="@routes.ProfileController.editKnowledge()" class="btn btn-link pull-right">
         <span class="glyphicon glyphicon-cog" aria-hidden="true" title="Upravit"></span>

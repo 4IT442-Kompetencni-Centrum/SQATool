@@ -28,8 +28,8 @@ public class User extends AbstractVersionedEntity {
 	@ManyToOne(fetch=FetchType.EAGER)
     public StateUser stateUser;
 
-	@ManyToMany(fetch=FetchType.EAGER)
-	public List<Knowledge> knowledges;
+	@OneToMany(fetch=FetchType.EAGER)
+	public Set<Knowledge> knowledges;
 
 	@OneToMany(fetch=FetchType.EAGER)
 	public Set<AcademicWork> academicWorks;
@@ -154,7 +154,7 @@ public class User extends AbstractVersionedEntity {
 		this.stateUser = stateUser;
 	}
 
-	public void setKnowledges(List<Knowledge> knowledges) {
+	public void setKnowledges(Set<Knowledge> knowledges) {
 		this.knowledges = knowledges;
 	}
 
@@ -166,7 +166,7 @@ public class User extends AbstractVersionedEntity {
 		this.knowledges.remove(knowledge);
 	}
 
-	public List<Knowledge> getKnowledges() {
+	public Set<Knowledge> getKnowledges() {
 		return this.knowledges;
 	}
 

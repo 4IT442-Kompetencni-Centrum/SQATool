@@ -56,7 +56,7 @@ public class ProfileController extends Controller {
     public static Result knowledge() {
         User user = SecurityService.fetchUser(session("authid"));
 
-        List<Knowledge> knowledges = user.getKnowledges();
+        Set<Knowledge> knowledges = user.getKnowledges();
 
         return ok(knowledge.render(knowledges, DashboardController.getMainMenu("userDetail")));
     }
@@ -68,7 +68,7 @@ public class ProfileController extends Controller {
         List<LevelOfKnowledge> knowledgeLevels = DAOs.getLevelOfKnowledgeDao().findAll();
 
         User user = SecurityService.fetchUser(session("authid"));
-        List<Knowledge> knowledges = user.getKnowledges();
+        Set<Knowledge> knowledges = user.getKnowledges();
 
         return ok(editKnowledge.render(knowledgeTypes, knowledgeLevels, knowledges, DashboardController.getMainMenu("userDetail")));
     }
@@ -79,11 +79,11 @@ public class ProfileController extends Controller {
     public static Result updateKnowledge() {
         Form<KnowledgeForm> form = knowledgeForm.bindFromRequest();
         
-        List<Knowledge> knowledges = form.get().getKnowledges();
+        Set<Knowledge> knowledges = form.get().getKnowledges();
 
         User user = SecurityService.fetchUser(session("authid"));
 
-        List<Knowledge> currentKnowledges = user.getKnowledges();
+        Set<Knowledge> currentKnowledges = user.getKnowledges();
 
         for(Knowledge knowledge : knowledges) {
             if(knowledge.getUserHasKnowledgeId() == null) {
