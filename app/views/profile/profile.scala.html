@@ -3,7 +3,7 @@
 
 @main("Moje sekce", "profile", submenu) {
 
-    <h1>Dashboard</h1>
+    <h1>Osobní profil</h1>
 
     <ul class="nav nav-tabs dashboard-tabs">
         <li role="presentation" @if(selectedTabItem == "Uživatel") { class="active" }><a href="@routes.ProfileController.userDetail()">Osobní údaje</a></li>
