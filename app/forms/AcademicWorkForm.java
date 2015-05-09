@@ -22,6 +22,7 @@ public class AcademicWorkForm {
     protected String stateAcademicWork;
 
     @Constraints.Required
+    @Constraints.MaxLength(value= 200, message="Zadaný název je příliš dlouhý")
     protected String name;
 
     @Constraints.Required

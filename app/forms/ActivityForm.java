@@ -21,6 +21,7 @@ public class ActivityForm {
     protected Long activityId;
 
     @Constraints.Required
+    @Constraints.MaxLength(value= 200, message="Zadaný název je příliš dlouhý")
     protected String name;
 
     @Constraints.Required

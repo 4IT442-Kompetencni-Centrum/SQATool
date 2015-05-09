@@ -38,6 +38,7 @@ public class Activity extends AbstractVersionedEntity {
 
     protected String place;
 
+    @Column(columnDefinition="TEXT")
     protected String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
