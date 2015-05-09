@@ -5,7 +5,7 @@
 @b3.form(action = routes.RewardController.create()) {
     <div class="form-group">
         <div @if(form("amount").hasErrors){class="has-error"}>
-            <label class="control-label col-md-2 " for="@form("amount").name">Výše odměny</label>
+            <label class="control-label col-md-2 " for="@form("amount").name">Výše odměny<span class="mandatoryAttr"></span></label>
             <div class="col-md-3">
                 <div class="input-group">
                     <input type="text" class="form-control" name="@form("amount").name" value="@form("amount").value" />
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div @if(form("projectId").hasErrors){class="has-error"}>
-            <label class="control-label col-md-1" style="text-align : center" for="@form("project").name">Projekt</label>
+            <label class="control-label col-md-1" style="text-align : center" for="@form("project").name">Projekt<span class="mandatoryAttr"></span></label>
             <div class="col-md-3">
                 <select name="@form("projectId").name" class="form-control">
                 @for(project <- projects) {
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div @if(form("date").hasErrors){class="has-error"}>
-            <label class="control-label col-md-1" style="text-align : center" for="@form("date").name">Datum</label>
+            <label class="control-label col-md-1" style="text-align : center" for="@form("date").name">Datum<span class="mandatoryAttr"></span></label>
             <div class="col-md-2">
                 <input type="text" class="form-control datepicker" name="@form("date").name" value="@if(form("date").value != null){@form("date").value.format("dd.MM.yyyy")}" />
                 @if(form("date").hasErrors){
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    @b3.text(form("description"), '_label -> "Popis")
+    @b3.text(form("description"), '_label -> "Poznámka")
     @b3.hidden(form("userId").name, user.getId())
     @b3.submit('class -> "btn btn-primary") { Zadat }
 }
