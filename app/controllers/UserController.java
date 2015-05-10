@@ -31,20 +31,30 @@ public class UserController extends Controller {
 
     private static List<StateUser> userStates = DAOs.getStateUserDao().findAll();
     private static List<TypeRoleInBusiness> userRoles = DAOs.getTypeRoleInBusinessDao().findAll();
-	
+
+    /**
+     * Method shows the detail page of selected member. Projects, knowledges and personal information can be found inside
+     * this detail page.
+     * @param id
+     * @return
+     */
 	@Transactional()
 	public static Result show(Long id){
 		Logger.debug(id + "");
 		User _user = DAOs.getUserDao().findById(id);
+        User loggedUser = SecurityService.fetchUser(session("authid"));
 		Logger.debug(_user+"");
-
-
 		List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(_user.getId());
 		Form<RewardForm> rewardForm = Form.form(RewardForm.class);
-
-		return ok(detail.render(_user,projects,rewardForm, getBackToListMenu(_user)));
+		return ok(detail.render(_user,projects,rewardForm, getBackToListMenu(loggedUser)));
 	}
-		
+
+    /**
+     * Methods purpouse is to enable editing of selected user. It collects data and stores them inside a NewMemberForm
+     * instance. If inserted data are correct, updates user with given id.
+     * @param id
+     * @return
+     */
     @Transactional(readOnly = false)
     public static Result edit(Long id){
         Form<NewMemberForm> bindForm = Form.form(NewMemberForm.class).bindFromRequest();
@@ -55,20 +65,35 @@ public class UserController extends Controller {
         DAOs.getUserDao().update(user);
         return redirect(routes.UserController.show(user.id));
     }
-	
+
+    /**
+     * Method shows the edit form page.
+     * @param userId
+     * @return
+     */
 	@Transactional(readOnly = false)
     //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
     public static Result showEditForm(Long userId) {
-		User _user = DAOs.getUserDao().findById(userId);
-		return ok(edit.render(_user, getBackToListMenu(_user), "Upravit člena", userStates, userRoles));
+		User memberToEdit = DAOs.getUserDao().findById(userId);
+        User user = SecurityService.fetchUser(session("authid"));
+		return ok(edit.render(memberToEdit, getBackToListMenu(user), "Upravit člena", userStates, userRoles));
 	}
 
+    /**
+     * Method show the create form page.
+     * @return
+     */
     @Transactional(readOnly = false)
     public static Result showCreateForm(){
         User user = SecurityService.fetchUser(session("authid"));
         return ok(views.html.user.addMember.render(user, getBackToListMenu(user), "Přidat člena", userStates, userRoles));
     }
-	
+
+    /**
+     * Method performs creation of a new member. It gets the data and stores it inside a NewMemberInstance. Then validates
+     * the data and if they are correct, creates a new member.
+     * @return
+     */
 	@Transactional(readOnly = false)
 	public static Result create(){
 		Form<NewMemberForm> bindForm = Form.form(NewMemberForm.class).bindFromRequest();
@@ -113,14 +138,27 @@ public class UserController extends Controller {
 		return ok(result);
 	}
 
-    // Petr
+    /**
+     * Method gets the list of all members in db and sends this list to the views.html.clenove.members view.
+     * @param page
+     * @return
+     */
     @Transactional
     public static Result showAllUsers(Integer page){
+        User user = SecurityService.fetchUser(session("authid"));
+        boolean canEdit = SecurityService.canEditMember(user);
+        boolean canDelete = SecurityService.canDeleteMember(user);
         page = page != null ? page : 0;
         List<User> membersList = DAOs.getUserDao().getAllMembers(page* Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
-        return ok(views.html.clenove.members.render(membersList, getMainMenu(), 1, 1));
+        return ok(views.html.clenove.members.render(membersList, getMainMenu(), 1, 1, canEdit, canDelete));
     }
 
+    /**
+     * Method for deleting member with given id. Checks if currently logged in user has permission to delete
+     * members and if so, sets deleted member visibility to false so it cant be seen in the member list.
+     * @param id
+     * @return
+     */
     @Transactional
     public static Result deleteMember(Long id){
         User user = SecurityService.fetchUser(session().get("authid"));
@@ -137,12 +175,22 @@ public class UserController extends Controller {
         return redirect(routes.UserController.memberNotFound(id));
     }
 
+    /**
+     * Redirects to notFound page if user with given id is not found.
+     * @param id
+     * @return
+     */
     @Transactional
     public static Result memberNotFound(Long id){
         User user = SecurityService.fetchUser(session("authid"));
         return ok(views.html.clenove.memberNotFound.render(id, getBackToListMenu(user)));
     }
 
+    /**
+     * Method checks permissions of currently logged user to create and add new member.
+     * Then creates the button to do so and returns it as MenuDto.
+     * @return
+     */
     private static List<MenuDto> getMainMenu() {
         List<MenuDto> result = new ArrayList<MenuDto>();
         User user = SecurityService.fetchUser(session("authid"));
@@ -156,6 +204,12 @@ public class UserController extends Controller {
         return result;
     }
 
+    /**
+     * Method checks if currently logged in user has access to view the list of all members
+     * and if so returns the button which is show inside the left column menu.
+     * @param user
+     * @return
+     */
     private static List<MenuDto> getBackToListMenu(User user) {
         List<MenuDto> result = new ArrayList<MenuDto>();
         if (SecurityService.hasAccess(user, ActionsEnum.MEMBER_SHOW_ALL)) {

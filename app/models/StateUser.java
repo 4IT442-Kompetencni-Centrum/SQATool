@@ -3,7 +3,7 @@ package models;
 import javax.persistence.*;
 
 /**
- * Created by Petr Kadlec on 17.4.2015.
+ * Created by Petr Kadlec on 17.4.
  */
 @Entity
 @Table(name = "SQA_STATE_USER")
