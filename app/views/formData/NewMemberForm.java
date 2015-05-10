@@ -3,21 +3,29 @@ package views.formData;
 import daos.impl.DAOs;
 import models.RoleInBusiness;
 import models.User;
+import play.data.validation.Constraints;
 
 /**
  * Created by petr on 7.5.15.
  */
 public class NewMemberForm {
 
-
     public Long id;
+    @Constraints.Required
+    @Constraints.MaxLength(value= 200, message="Zadané jméno je příliš dlouhé")
     public String firstname;
+    @Constraints.Required
+    @Constraints.MaxLength(value= 200, message="Zadané příjmení je příliš dlouhé")
     public String lastname;
     public String xname;
     public String degree;
+    @Constraints.Required
     public String status;
     public String role;
+    @Constraints.Required
+    @Constraints.Email(message = "Neplatný email")
     public String email;
+    @Constraints.Pattern(message = "Neplatné telefonní číslo", value = "^(\\+420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$")
     public String phonenumber;
 
     public User getMember(Long id){
