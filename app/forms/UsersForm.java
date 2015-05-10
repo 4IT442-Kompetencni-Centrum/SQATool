@@ -2,10 +2,9 @@ package forms;
 
 import daos.impl.DAOs;
 import models.User;
+import play.Logger;
 import play.data.validation.Constraints;
 import service.EnumerationWithKeys;
-
-import javax.validation.Constraint;
 
 public class UsersForm {
 
@@ -30,6 +29,12 @@ public class UsersForm {
     @Constraints.Required
 	@Constraints.Email(message= "Neplatný e-mail")
     protected String email;
+
+	protected String currentPassword;
+	@Constraints.MinLength(value=5, message="Zadané heslo je příliš krátké")
+	protected String newPassword;
+	@Constraints.MinLength(value=5, message="Zadané heslo je příliš krátké")
+	protected String newPasswordRepeated;
 
     public UsersForm() {
     }
@@ -91,6 +96,33 @@ public class UsersForm {
 		this.email = email;
 	}
 
+	public String getCurrentPassword() {
+		return currentPassword;
+	}
+
+	public UsersForm setCurrentPassword(String currentPassword) {
+		this.currentPassword = currentPassword;
+		return this;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public UsersForm setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+		return this;
+	}
+
+	public String getNewPasswordRepeated() {
+		return newPasswordRepeated;
+	}
+
+	public UsersForm setNewPasswordRepeated(String newPasswordRepeated) {
+		this.newPasswordRepeated = newPasswordRepeated;
+		return this;
+	}
+
 	public User getUser() {
         User user = null;
 
@@ -111,4 +143,11 @@ public class UsersForm {
 
         return user;
     }
+
+	public boolean checkNewPassword() {
+		Logger.debug(this.getNewPassword());
+		Logger.debug(this.getNewPasswordRepeated());
+		Logger.debug(this.getNewPassword().equals(this.getNewPasswordRepeated())? "true" : "false");
+		return this.getNewPassword() != null && this.getNewPassword().equals(this.getNewPasswordRepeated());
+	}
 }

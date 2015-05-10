@@ -10,6 +10,10 @@
 		@b3.text(form("degree"), '_label -> "Titul", 'required -> true )
 		@b3.email(form("email"), '_label -> "E-Mail",'required -> true)
 		@b3.tel(form("phoneNumber"), '_label -> "Tel. číslo", 'required -> true)
+		<hr>
+		@b3.password(form("currentPassword"), '_label -> "Současné heslo")
+		@b3.password(form("newPassword"), '_label -> "Nové heslo")
+		@b3.password(form("newPasswordRepeated"), '_label -> "Nové heslo znovu")
 		@b3.hidden(form("userId").name, form("userId").value)
 		@b3.submit('class -> "btn btn-primary") { Uložit }
 	}
