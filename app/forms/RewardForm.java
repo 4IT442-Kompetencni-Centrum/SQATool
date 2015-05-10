@@ -26,8 +26,6 @@ public class RewardForm {
     @Constraints.Required
     private Long userId;
 
-    @Formats.DateTime(pattern="dd.MM.yyyy")
-    @Constraints.Required
     private Long projectId;
 
     public RewardForm() {

@@ -25,7 +25,7 @@
                             </a>
                         }
                         @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_DELETE)) {
-                            <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-link" onclick="return confirm('Opravdu chcete smazat odměnu ve výši @reward.getAmount() Kč zadanou @reward.getDate().format("dd.MM.yyyy") pro @reward.getUser().getFirstName() @reward.getUser().getLastName() za projekt @reward.getProject().getName()?');">
+                            <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-link" onclick="return confirm('Opravdu chcete smazat odměnu ve výši @reward.getAmount() Kč zadanou @reward.getDate().format("dd.MM.yyyy") pro @reward.getUser().getFirstName() @reward.getUser().getLastName()@if(reward.getProject() != null){ za projekt @reward.getProject().getName()}?');">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
                             </a>
                         }

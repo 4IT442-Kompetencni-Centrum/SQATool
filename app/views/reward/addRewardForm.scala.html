@@ -19,9 +19,10 @@
             </div>
         </div>
         <div @if(form("projectId").hasErrors){class="has-error"}>
-            <label class="control-label col-md-1" style="text-align : center" for="@form("project").name">Projekt<span class="mandatoryAttr"></span></label>
+            <label class="control-label col-md-1" style="text-align : center" for="@form("project").name">Projekt</label>
             <div class="col-md-3">
                 <select name="@form("projectId").name" class="form-control">
+                    <option class="blank" value>Vyberte projekt</option>
                 @for(project <- projects) {
                     <option value="@project.getProjectId()">@project.getName()</option>
                 }
