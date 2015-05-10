@@ -41,6 +41,9 @@ INSERT INTO sqa_type_academic_work(typeAcademicWorkId,key,value) VALUES (0, 'bak
 INSERT INTO sqa_type_academic_work(typeAcademicWorkId,key,value) VALUES (1, 'diplomovaPrace', 'Diplomová práce');
 INSERT INTO sqa_type_academic_work(typeAcademicWorkId,key,value) VALUES (2, 'disertacniPrace', 'Disertační práce');
 
+INSERT INTO sqa_type_knowledge(typeKnowledgeId,value) VALUES (0,'UML');
+INSERT INTO sqa_type_knowledge(typeKnowledgeId,value) VALUES (1,'Projektové řízení');
+INSERT INTO sqa_type_knowledge(typeKnowledgeId,value) VALUES (2,'Java');
 
 # --- !Downs
 DELETE FROM sqa_type_activity;
@@ -53,3 +56,4 @@ DELETE FROM sqa_state_user;
 DELETE FROM sqa_level_of_knowledge;
 DELETE FROM sqa_state_academic_work;
 DELETE FROM sqa_type_academic_work;
+DELETE FROM sqa_type_knowledge;

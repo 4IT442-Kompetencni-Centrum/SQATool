@@ -33,7 +33,7 @@
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <div class="logged-user-informations">
-                        Logged in as: <strong><a href="">@session.get("user")</a></strong><a href="/logout" class="btn btn-link">Log out</a>
+                        Přihlášen jako: <strong><a href="">@session.get("user")</a></strong><a href="/logout" class="btn btn-link">Odhlásit</a>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li @if(selectedMenuItem == "profile") { class="active" }><a class="btn" href="@routes.DashboardController.activities(0)">Moje sekce</a></li>
@@ -43,9 +43,9 @@
                         <li @if(selectedMenuItem == "partners") { class="active" }><a class="btn" href="@routes.PartnerController.showAll(0)">Partneři</a></li>
 
                         <li class="divider xs-only"></li>
-                        <li class="xs-only logged-as">Logged in as:</li>
+                        <li class="xs-only logged-as">Přihlášen jako:</li>
                         <li class="xs-only"><a href="#" class="btn">@session.get("user")</a></li>
-                        <li class="xs-only"><a href="/logout" class="btn">Log out</a></li>
+                        <li class="xs-only"><a href="/logout" class="btn">Odhlásit</a></li>
                     </ul>
                 </div>
             </div>

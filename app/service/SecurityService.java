@@ -1,5 +1,6 @@
 package service;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
@@ -101,6 +102,33 @@ public class SecurityService {
 			if (user.getId().equals(role.getUser().getId())) {
 				if (!role.getVisible()) continue;
 				return EnumerationWithKeys.PROJECT_MANAGER_KEY.equals(role.getTypeUserOnProject().getKey());
+			}
+		}
+		return false;
+	}
+
+    public static boolean canDeleteMember(User user) {
+        return hasAccess(user, ActionsEnum.PROJECT_DELETE);
+    }
+
+    public static boolean canEditMember(User user){
+        return hasAccess(user, ActionsEnum.MEMBER_EDIT);
+    }
+
+	/**
+	 * Method checks if given user has given role
+	 * @param roleKey
+	 * @param user
+	 * @return
+	 */
+	public static boolean hasRole(String roleKey, User user) {
+		if (user.getRoleInBusiness() == null) {
+			Logger.error("Invalid state. User has no role in business");
+			return false;
+		}
+		for (RoleInBusiness rib : user.getRoleInBusiness()) {
+			if (roleKey.equals(rib.getTypeRoleInBusiness().getKey())) {
+				return true;
 			}
 		}
 		return false;
@@ -274,16 +302,16 @@ public class SecurityService {
 	
 	private static void initMemberAccessMap() {
 		HashMap<String, Boolean> showAll = new HashMap<>();
-		showAll.put(EnumerationWithKeys.MEMBER_KEY, true);
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, false);
 		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.MEMBER_SHOW_ALL, showAll);
 
         HashMap<String, Boolean> add = new HashMap<>();
-        add.put(EnumerationWithKeys.MEMBER_KEY, true);
-        add.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
-        add.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+        add.put(EnumerationWithKeys.MEMBER_KEY, false);
+        add.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+        add.put(EnumerationWithKeys.HEAD_KC_KEY, false);
         add.put(EnumerationWithKeys.ADMIN_KEY, true);
         accessMap.put(ActionsEnum.MEMBER_ADD, add);
 
@@ -293,6 +321,13 @@ public class SecurityService {
         delete.put(EnumerationWithKeys.HEAD_KC_KEY, false);
         delete.put(EnumerationWithKeys.ADMIN_KEY, true);
         accessMap.put(ActionsEnum.MEMBER_DELETE, delete);
+
+        HashMap<String, Boolean> edit = new HashMap<>();
+        edit.put(EnumerationWithKeys.MEMBER_KEY, false);
+        edit.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
+        edit.put(EnumerationWithKeys.HEAD_KC_KEY, false);
+        edit.put(EnumerationWithKeys.ADMIN_KEY, true);
+        accessMap.put(ActionsEnum.MEMBER_EDIT, edit);
 	}
 
 	private static void initEnumerationsAccessMap() {

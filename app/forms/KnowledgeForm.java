@@ -6,9 +6,7 @@ import models.Knowledge;
 import models.LevelOfKnowledge;
 import models.TypeKnowledge;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class KnowledgeForm {
     List<Map<String, String>> knowledge;
@@ -23,21 +21,23 @@ public class KnowledgeForm {
     }
 
 
-    public List<Knowledge> getKnowledges() {
-        List<Knowledge> knowledges = new LinkedList<>();
+    public Set<Knowledge> getKnowledges() {
+        Set<Knowledge> knowledges = new LinkedHashSet<>();
 
         if (this.knowledge == null) {
             return knowledges;
         }
-        for (Map<String, String> map : this.knowledge) {
+        for (Map<String, String> map : this.getKnowledge()) {
+            Knowledge knowledge = null;
 
             if (map.get("id") != null && !map.get("id").equals("")) {
-                Knowledge knowledge = DAOs.getKnowledgeDao().findById(Long.parseLong(map.get("id")));
-                knowledges.add(knowledge);
-                continue;
+                knowledge = DAOs.getKnowledgeDao().findById(Long.parseLong(map.get("id")));
             }
 
-            Knowledge knowledge = new Knowledge();
+            if(knowledge == null){
+                knowledge = new Knowledge();
+            }
+
             LevelOfKnowledge levelOfKnowledge = DAOs.getLevelOfKnowledgeDao().findById(Long.parseLong(map.get("level")));
             TypeKnowledge typeKnowledge = DAOs.getTypeKnowledgeDao().findById(Long.parseLong(map.get("type")));
             knowledge.setLevelOfKnowledge(levelOfKnowledge);

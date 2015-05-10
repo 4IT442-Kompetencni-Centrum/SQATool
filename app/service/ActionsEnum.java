@@ -43,7 +43,6 @@ public enum ActionsEnum {
 	USER_EDIT_PROFILE,
 	//TODO pkadlec
 
-
 	//enumeration actions
 	ENUMERATION_SHOW_ALL,
 	ENUMERATION_EDIT

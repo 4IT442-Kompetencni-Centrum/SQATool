@@ -5,13 +5,13 @@
     <h1>Nová aktivita</h1>
 
     @b3.form(action = routes.ActivityController.update()){
-        @b3.text(form("name"), '_label -> "Název")
-        @b3.select(form("typeActivity"), options = activityTypes.toSeq, '_label -> "Typ Aktivity")
-        @b3.textarea(form("description"), '_label -> "Popis")
+        @b3.text(form("name"), '_label -> "Název", 'required -> true)
+        @b3.select(form("typeActivity"), options = activityTypes.toSeq, '_label -> "Typ Aktivity", 'required -> true)
+        @b3.textarea(form("description"), '_label -> "Popis", 'required -> true)
 
         <div class="form-group" id="time_field">
             <div class="@if(form("timeFrom").hasErrors){ has-error }">
-                <label class="control-label col-md-3 " for="timeFrom">Začátek</label>
+                <label class="control-label col-md-3 " for="timeFrom">Začátek<span class="mandatoryAttr"></span></label>
                 <div class="col-md-4">
                     <input type="text" class="form-control datetimepicker" id="timeFrom" name="@form("timeFrom").name" value="@form("timeFrom").value"/>
                     @if(form("timeFrom").hasErrors){
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="@if(form("timeTo").hasErrors){ has-error }">
-                <label class="control-label col-md-1" style="text-align: center" for="timeTo">Konec</label>
+                <label class="control-label col-md-1" style="text-align: center" for="timeTo">Konec<span class="mandatoryAttr"></span></label>
                 <div class="col-md-4">
                     <input type="text" class="form-control datetimepicker" id="timeTo" name="@form("timeTo").name" value="@form("timeTo").value" data-minDate="#timeFrom"/>
                     @if(form("timeTo").hasErrors){
@@ -48,8 +48,8 @@
         </script>
         </div>
 
-        @b3.text(form("place"), '_label -> "Místo konání")
-        @b3.number(form("capacityMax"), '_label -> "Kapacita")
+        @b3.text(form("place"), '_label -> "Místo konání", 'required -> true)
+        @b3.number(form("capacityMax"), '_label -> "Kapacita", 'required -> true)
         @b3.hidden(form("activityId").name, form("activityId").value)
         @b3.submit('class -> "btn btn-primary"){ Uložit }
     }

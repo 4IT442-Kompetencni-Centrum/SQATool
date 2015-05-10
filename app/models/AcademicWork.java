@@ -24,6 +24,7 @@ public class AcademicWork extends AbstractVersionedEntity {
 
     protected String name;
 
+    @Column(columnDefinition="TEXT")
     protected String description;
 
     protected String supervisor;

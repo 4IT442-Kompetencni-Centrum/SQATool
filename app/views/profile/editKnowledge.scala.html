@@ -1,5 +1,5 @@
 @import views.data.MenuDto
-@(knowledgeTypes: List[TypeKnowledge],knowledgeLevels: List[LevelOfKnowledge], knowledges: List[Knowledge], submenu: List[MenuDto])
+@(knowledgeTypes: List[TypeKnowledge],knowledgeLevels: List[LevelOfKnowledge], knowledges: Set[Knowledge], submenu: List[MenuDto])
 @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 @profile("Znalosti",submenu){
     @b3.form(action = routes.ProfileController.updateKnowledge()) {
@@ -7,7 +7,7 @@
             <span class="glyphicon glyphicon-plus" title="Přidat"></span>
         </a>
         <div class="knowledges">
-            @for((knowledge,i) <- knowledges.view.zipWithIndex) {
+            @for((knowledge,i) <- knowledges.toList.sortBy(_.getUserHasKnowledgeId).view.zipWithIndex) {
                 @knowledgeItem(
                     knowledge.getTypeKnowledge().getTypeKnowledgeId().toString(),
                     knowledge.getLevelOfKnowledge().getLevelOfKnowledgeId().toString(),

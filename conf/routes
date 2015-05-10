@@ -3,81 +3,87 @@
 # ~~~~
 
 # Home page
-GET         /                                             controllers.Application.index()
+GET         /                                     controllers.Application.index()
 # Login page
-GET         /login                                        controllers.Login.showLoginPage()
-POST        /login                                        controllers.Login.authenticate()
-GET         /logout                                       controllers.Login.logout()
+GET         /login                                controllers.Login.showLoginPage()
+POST        /login                                controllers.Login.authenticate()
+GET         /logout                               controllers.Login.logout()
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                                 controllers.Assets.at(path="/public", file)
+GET         /assets/*file                         controllers.Assets.at(path="/public", file)
 
 #projects pages
-GET         /projekty/novy                                controllers.ProjectController.create()
-GET         /projekty/volny/:shortcut                     controllers.ProjectController.isProjectShortcutFree(shortcut: String)
-POST        /projekty/novyUlozit                          controllers.ProjectController.saveNewProject()
-POST        /projekty/editaceUlozit                       controllers.ProjectController.updateProject(forceNext: Boolean ?= false)
-GET         /projekty/detail/:projectId                   controllers.ProjectController.detail(projectId: Long)
-GET         /projekty/upravit/:projectId                  controllers.ProjectController.edit(projectId: Long)
-GET         /projekty/smazat/:projectId                   controllers.ProjectController.delete(projectId: Long)
-GET         /projekty/nenalezen/:projectId                controllers.ProjectController.projectNotFound(projectId: Long)
-POST        /projekty/odpracovanaDoba/nova                controllers.ProjectController.hoursWorked()
-POST        /projekty/odpracovanaDoba/zamitnout/id        controllers.ProjectController.rejectHoursWorked(id: Long)
-POST        /projekty/odpracovanaDoba/schvalit/id         controllers.ProjectController.approveHoursWorked(id: Long)
-GET         /projekty/                                    controllers.ProjectController.showAll(page: Integer ?= 0)
-GET         /projekty/:page                               controllers.ProjectController.showAll(page: Integer)
-GET         /projekty                                     controllers.ProjectController.showAll(page: Integer ?= 0)
-POST        /projekty/                                    controllers.ProjectController.showAll(page: Integer ?= 0)
-POST        /projekty                                     controllers.ProjectController.showAll(page: Integer ?= 0)
+GET         /projekty/novy                        controllers.ProjectController.create()
+GET         /projekty/volny/:shortcut             controllers.ProjectController.isProjectShortcutFree(shortcut: String)
+POST        /projekty/novyUlozit                  controllers.ProjectController.saveNewProject()
+POST        /projekty/editaceUlozit               controllers.ProjectController.updateProject(forceNext: Boolean ?= false)
+GET         /projekty/detail/:projectId           controllers.ProjectController.detail(projectId: Long)
+GET         /projekty/upravit/:projectId          controllers.ProjectController.edit(projectId: Long)
+GET         /projekty/smazat/:projectId           controllers.ProjectController.delete(projectId: Long)
+GET         /projekty/nenalezen/:projectId        controllers.ProjectController.projectNotFound(projectId: Long)
+POST        /projekty/odpracovanaDoba/nova        controllers.ProjectController.hoursWorked()
+POST        /projekty/odpracovanaDoba/zamitnout/id controllers.ProjectController.rejectHoursWorked(id: Long)
+POST        /projekty/odpracovanaDoba/schvalit/id controllers.ProjectController.approveHoursWorked(id: Long)
+GET         /projekty/                            controllers.ProjectController.showAll(page: Integer ?= 0)
+GET         /projekty/:page                       controllers.ProjectController.showAll(page: Integer)
+GET	        /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
+POST        /projekty/                            controllers.ProjectController.showAll(page: Integer ?= 0)
+POST        /projekty                             controllers.ProjectController.showAll(page: Integer ?= 0)
 
 #partners pages
-GET         /partneri/novy                                controllers.PartnerController.create()
-POST        /partneri/novyUlozit                          controllers.PartnerController.saveNewPartner()
-POST        /partneri/editaceUlozit                       controllers.PartnerController.updatePartner(forceNext: Boolean ?= false)
-GET         /partneri/detail/:partnerId                   controllers.PartnerController.detail(partnerId: Long)
-GET         /partneri/upravit/:partnerId                  controllers.PartnerController.edit(partnerId: Long)
-GET         /partneri/smazat/:partnerId                   controllers.PartnerController.delete(partnerId: Long)
-GET         /partneri/nenalezen/:partnerId                controllers.PartnerController.partnerNotFound(partnerId: Long)
-GET         /partneri/                                    controllers.PartnerController.showAll(page: Integer ?= 0)
-GET         /partneri/:page                               controllers.PartnerController.showAll(page: Integer)
-GET         /partneri                                     controllers.PartnerController.showAll(page: Integer ?= 0)
-POST        /partneri/                                    controllers.PartnerController.showAll(page: Integer ?= 0)
-POST        /partneri                                     controllers.PartnerController.showAll(page: Integer ?= 0)
+GET         /partneri/novy                        controllers.PartnerController.create()
+POST        /partneri/novyUlozit                  controllers.PartnerController.saveNewPartner()
+POST        /partneri/editaceUlozit               controllers.PartnerController.updatePartner(forceNext: Boolean ?= false)
+GET         /partneri/detail/:partnerId           controllers.PartnerController.detail(partnerId: Long)
+GET         /partneri/upravit/:partnerId          controllers.PartnerController.edit(partnerId: Long)
+GET         /partneri/smazat/:partnerId           controllers.PartnerController.delete(partnerId: Long)
+GET         /partneri/nenalezen/:partnerId        controllers.PartnerController.partnerNotFound(partnerId: Long)
+GET         /partneri/                            controllers.PartnerController.showAll(page: Integer ?= 0)
+GET         /partneri/:page                       controllers.PartnerController.showAll(page: Integer)
+GET         /partneri                             controllers.PartnerController.showAll(page: Integer ?= 0)
+POST        /partneri/                            controllers.PartnerController.showAll(page: Integer ?= 0)
+POST        /partneri                             controllers.PartnerController.showAll(page: Integer ?= 0)
 
 # Rewards
-GET         /odmeny                                       controllers.RewardController.showAll(page: Integer ?= 0)
-GET         /odmeny/nova/:userId                          controllers.RewardController.add(userId: Long)
-POST        /odmeny/nova/vytvorit                         controllers.RewardController.create()
-POST        /odmeny/upravit/ulozit                        controllers.RewardController.update()
-GET         /odmeny/upravit/:rewardId                     controllers.RewardController.edit(rewardId: Long)
-GET         /odmeny/:rewardId                             controllers.RewardController.show(rewardId: Long)
-GET         /odmeny/smazat/:rewardId                      controllers.RewardController.delete(rewardId: Long)
+GET         /odmeny                               controllers.RewardController.showAll(page: Integer ?= 0)
+GET         /odmeny/nova/:userId                  controllers.RewardController.add(userId: Long)
+POST        /odmeny/nova/vytvorit                 controllers.RewardController.create()
+POST        /odmeny/upravit/ulozit                controllers.RewardController.update()
+GET         /odmeny/upravit/:rewardId             controllers.RewardController.edit(rewardId: Long)
+GET         /odmeny/:rewardId                     controllers.RewardController.show(rewardId: Long)
+GET         /odmeny/smazat/:rewardId              controllers.RewardController.delete(rewardId: Long)
 
 #partner actions for ajax calls
-GET         /partneri/json/:query                         controllers.PartnerController.getPartnersByPattern(query: String)
+GET         /partneri/json/:query                 controllers.PartnerController.getPartnersByPattern(query: String)
 
 #user actions for ajax calls
-GET         /uzivatel/json/:query                         controllers.UserController.getUserByNamePattern(query: String)
+GET         /uzivatel/json/:query                 controllers.UserController.getUserByNamePattern(query: String)
 
 
 #tests 
-GET         /initPartners                                 controllers.Init.initPartners()
-GET         /initStateUser                                controllers.Init.initStateUser()
+GET         /initPartners                         controllers.Init.initPartners()
+GET         /initStateUser                        controllers.Init.initStateUser()
 
 #activities
-GET         /aktivity                                     controllers.ActivityController.showAll(page:Integer ?= 0)
-GET         /aktivity/nova                                controllers.ActivityController.add()
-POST        /aktivity/nova/vytvorit                       controllers.ActivityController.create()
-POST        /aktivity/upravit/ulozit                      controllers.ActivityController.update()
-GET         /aktivity/upravit/:activityId                 controllers.ActivityController.edit(activityId: Long)
-GET         /aktivity/smazat/:activityId                  controllers.ActivityController.delete(activityId: Long)
-GET         /aktivity/prihlasit/:activityId               controllers.ActivityController.logIn(activityId: Long)
-GET         /aktivity/odhlasit/:activityId                controllers.ActivityController.logOut(activityId: Long)
-GET         /aktivity/:activityId                         controllers.ActivityController.show(activityId: Long)
+GET         /aktivity                             controllers.ActivityController.showAll(page:Integer ?= 0)
+GET         /aktivity/nova                        controllers.ActivityController.add()
+POST        /aktivity/nova/vytvorit               controllers.ActivityController.create()
+POST        /aktivity/upravit/ulozit              controllers.ActivityController.update()
+GET         /aktivity/upravit/:activityId         controllers.ActivityController.edit(activityId: Long)
+GET         /aktivity/smazat/:activityId          controllers.ActivityController.delete(activityId: Long)
+GET         /aktivity/prihlasit/:activityId       controllers.ActivityController.logIn(activityId: Long)
+GET         /aktivity/odhlasit/:activityId        controllers.ActivityController.logOut(activityId: Long)
+GET         /aktivity/:activityId                 controllers.ActivityController.show(activityId: Long)
 
 #access denied
-GET         /pristupOdepren                               controllers.Application.accessDenied()
+GET			/pristupOdepren						  controllers.Application.accessDenied()
 
 #users
+GET         /uzivatel/nenalezen/:id               controllers.UserController.memberNotFound(id : Long)
+POST        /uzivatel/novy                        controllers.UserController.create()
+GET			/uzivatel/:id/detail                  controllers.UserController.show(id:Long)
+GET			/uzivatel/novy					      controllers.UserController.showCreateForm()
+POST		/uzivatel/:id/upravit                 controllers.UserController.edit(id : Long)
+GET			/uzivatel/:id/upravit				  controllers.UserController.showEditForm(id:Long)
 GET         /uzivatel/:id/detail                          controllers.UserController.show(id:Long)
 GET         /uzivatel/novy                                controllers.UserController.create()
 
@@ -93,6 +99,10 @@ POST        /profil/akademickePrace/nova/vytvorit         controllers.AcademicWo
 GET         /profil/akademickePrace/upravit/:id           controllers.AcademicWorkController.edit(id: Long)
 POST        /profil/akademickePrace/upravit/ulozit        controllers.AcademicWorkController.update()
 GET         /profil/akademickePrace/smazat/:id            controllers.AcademicWorkController.delete(id: Long)
+#members
+GET         /clenove/smazat/:id                   controllers.UserController.deleteMember(id : Long)
+GET         /clenove                              controllers.UserController.showAllUsers(page : Integer ?= 0)
+GET         /clenove/:page                        controllers.UserController.showAllUsers(page : Integer)
 
 #dashboard
 GET         /dashboard/aktivity                           controllers.DashboardController.activities(page:Integer ?= 0)

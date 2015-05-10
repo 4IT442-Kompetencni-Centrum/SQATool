@@ -9,12 +9,14 @@ import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.SecurityService;
 import views.html.profile.*;
 
 import java.util.List;
 import java.util.Set;
 
+@Security.Authenticated(Secured.class)
 public class ProfileController extends Controller {
     static Form<UsersForm> usersForm = Form.form(UsersForm.class);
     static Form<KnowledgeForm> knowledgeForm = Form.form(KnowledgeForm.class);
@@ -27,7 +29,6 @@ public class ProfileController extends Controller {
 
 
     @Transactional(readOnly = true)
-    //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
     public static Result editUserDetail() {
         User user = SecurityService.fetchUser(session("authid"));
         Form<UsersForm> form = usersForm.fill(new UsersForm(user));
@@ -37,7 +38,6 @@ public class ProfileController extends Controller {
 
 
     @Transactional(readOnly = false)
-    //@Authorize(action = ActionsEnum.USER_EDIT_PROFILE)
     public static Result updateUserDetail() {
         Form<UsersForm> form = usersForm.bindFromRequest();
 
@@ -56,7 +56,7 @@ public class ProfileController extends Controller {
     public static Result knowledge() {
         User user = SecurityService.fetchUser(session("authid"));
 
-        List<Knowledge> knowledges = user.getKnowledges();
+        Set<Knowledge> knowledges = user.getKnowledges();
 
         return ok(knowledge.render(knowledges, DashboardController.getMainMenu("userDetail")));
     }
@@ -68,7 +68,7 @@ public class ProfileController extends Controller {
         List<LevelOfKnowledge> knowledgeLevels = DAOs.getLevelOfKnowledgeDao().findAll();
 
         User user = SecurityService.fetchUser(session("authid"));
-        List<Knowledge> knowledges = user.getKnowledges();
+        Set<Knowledge> knowledges = user.getKnowledges();
 
         return ok(editKnowledge.render(knowledgeTypes, knowledgeLevels, knowledges, DashboardController.getMainMenu("userDetail")));
     }
@@ -79,11 +79,11 @@ public class ProfileController extends Controller {
     public static Result updateKnowledge() {
         Form<KnowledgeForm> form = knowledgeForm.bindFromRequest();
         
-        List<Knowledge> knowledges = form.get().getKnowledges();
+        Set<Knowledge> knowledges = form.get().getKnowledges();
 
         User user = SecurityService.fetchUser(session("authid"));
 
-        List<Knowledge> currentKnowledges = user.getKnowledges();
+        Set<Knowledge> currentKnowledges = user.getKnowledges();
 
         for(Knowledge knowledge : knowledges) {
             if(knowledge.getUserHasKnowledgeId() == null) {

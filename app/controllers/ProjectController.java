@@ -128,8 +128,17 @@ public class ProjectController extends Controller{
 				Logger.debug("User is project manager. All timesheets are shown.");
 				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProject(project));
 			} else {
-				Logger.debug("User is not project manager. Only his timesheet is shown.");
-				hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProjectAndUser(project, user));
+				if (SecurityService.hasRole(EnumerationWithKeys.HEAD_KC_KEY, user)) {
+					Logger.debug("User is head of KC. All timesheets are shown.");
+					hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProject(project));
+				} else {
+					Logger.debug("User is not project manager. Only his timesheet is shown.");
+					hoursWorked = HoursWorkedConverter.convertListToDto(DAOs.getHoursWorkedDao().getAllForProjectAndUser(project, user));
+					if (isProjectManager == null && hoursWorked.size() == 0) {
+						//user is not on project, hours worked must be null
+						hoursWorked = null;
+					}
+				}
 			}
 			ProjectDto dto = ProjectConverter.convertToDto(project, user);
 			Double real = DAOs.getProjectDao().getRealLaboriousness(project);

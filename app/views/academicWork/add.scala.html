@@ -4,11 +4,11 @@
 
 @profile.profile("Akademické práce",submenu){
     @b3.form(action = routes.AcademicWorkController.create()) {
-        @b3.text(form("name"), '_label -> "Název")
-        @b3.select(form("typeAcademicWork"), options = types.toSeq.sorted, '_label -> "Typ")
-        @b3.text(form("supervisor"), '_label -> "Vedoucí")
-        @b3.select(form("stateAcademicWork"), options = states.toSeq.sorted, '_label -> "Stav")
-        @b3.textarea(form("description"), '_label -> "Popis")
+        @b3.text(form("name"), '_label -> "Název", 'required -> true)
+        @b3.select(form("typeAcademicWork"), options = types.toSeq.sorted, '_label -> "Typ", 'required -> true)
+        @b3.text(form("supervisor"), '_label -> "Vedoucí", 'required -> true)
+        @b3.select(form("stateAcademicWork"), options = states.toSeq.sorted, '_label -> "Stav", 'required -> true)
+        @b3.textarea(form("description"), '_label -> "Popis", 'required -> true)
         @b3.submit('class -> "btn btn-primary"){ Uložit }
     }
 }

@@ -13,10 +13,12 @@ public class UsersForm {
     protected Long userId;
 
     @Constraints.Required
-    protected String firstName;
+	@Constraints.MaxLength(value= 200, message="Zadané jméno je příliš dlouhé")
+	protected String firstName;
 
     @Constraints.Required
-    protected String lastName;
+	@Constraints.MaxLength(value= 200, message="Zadané příjmení je příliš dlouhé")
+	protected String lastName;
     
     @Constraints.Required
     protected String degree;

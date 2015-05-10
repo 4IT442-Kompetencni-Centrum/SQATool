@@ -24,6 +24,7 @@ public class Reward extends AbstractVersionedEntity {
 
     protected Date date;
 
+    @Column(columnDefinition="TEXT")
     protected String description;
 
     @ManyToOne(fetch=FetchType.EAGER)
