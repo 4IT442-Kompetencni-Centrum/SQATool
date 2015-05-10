@@ -7,7 +7,7 @@
             <span class="glyphicon glyphicon-plus" title="Přidat"></span>
         </a>
         <div class="knowledges">
-            @for((knowledge,i) <- knowledges.view.zipWithIndex) {
+            @for((knowledge,i) <- knowledges.toList.sortBy(_.getUserHasKnowledgeId).view.zipWithIndex) {
                 @knowledgeItem(
                     knowledge.getTypeKnowledge().getTypeKnowledgeId().toString(),
                     knowledge.getLevelOfKnowledge().getLevelOfKnowledgeId().toString(),
