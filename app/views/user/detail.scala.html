@@ -1,4 +1,7 @@
+@import service.SecurityService
+@import service.ActionsEnum
 @(user: User, projects: List[Project], form: Form[forms.RewardForm], submenu : List[views.data.MenuDto])
+@currentUser = @{SecurityService.fetchUser(session.get("authid"))}
 @main("Uživatel", "detail", submenu){
    <div id="memberDetail">
        <h1>Detail člena</h1>
@@ -49,7 +52,9 @@
            <a href="#">Projekt 2</a> / odpracovano 30h
        </p>
 
-       <h3>Zadání odměny</h3>
-       @reward.addRewardForm(form,user,projects)
+       @if(SecurityService.hasAccess(currentUser, ActionsEnum.REWARD_ADD)){
+           <h3>Zadání odměny</h3>
+           @reward.addRewardForm(form,user,projects)
+       }
    </div>
 }
