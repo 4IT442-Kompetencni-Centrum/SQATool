@@ -28,14 +28,16 @@ public class KnowledgeForm {
             return knowledges;
         }
         for (Map<String, String> map : this.getKnowledge()) {
+            Knowledge knowledge = null;
 
             if (map.get("id") != null && !map.get("id").equals("")) {
-                Knowledge knowledge = DAOs.getKnowledgeDao().findById(Long.parseLong(map.get("id")));
-                knowledges.add(knowledge);
-                continue;
+                knowledge = DAOs.getKnowledgeDao().findById(Long.parseLong(map.get("id")));
             }
 
-            Knowledge knowledge = new Knowledge();
+            if(knowledge == null){
+                knowledge = new Knowledge();
+            }
+
             LevelOfKnowledge levelOfKnowledge = DAOs.getLevelOfKnowledgeDao().findById(Long.parseLong(map.get("level")));
             TypeKnowledge typeKnowledge = DAOs.getTypeKnowledgeDao().findById(Long.parseLong(map.get("type")));
             knowledge.setLevelOfKnowledge(levelOfKnowledge);
