@@ -70,8 +70,48 @@ function bindActions() {
 	if (deleteButtons.length == 2) {
 		//only one remove button
 		$(deleteButtons[0]).addClass("disabled");
+		var row = $(deleteButtons[0]).parents(".contactPersonRow");
+		row.find(".mandatoryAttr").remove();
+		var required = row.find("input.form-control");
+		for (var i = 0; i < required.length; i++) {
+			var elem = $(required[i]);
+			if (elem.attr("name").indexOf("phone") < 0) {
+				$(required[i]).attr("required", "required");
+			}
+		}
+		var labels = row.find("label");
+		for (var i = 0; i < labels.length; i++) {
+			var elem = $(labels[i]);
+			if (elem.html().indexOf("Telefon") < 0) {
+				elem.append("<span class=\"mandatoryAttr\"></span>");
+			}
+		}
 	} else {
-		console.log(deleteButtons.length);
+		for (var i = 0; i < deleteButtons.length-2; i++) {
+			var row = $(deleteButtons[i]).parents(".contactPersonRow");
+			row.find(".mandatoryAttr").remove();
+			var required = row.find("input.form-control");
+			for (var i = 0; i < required.length; i++) {
+				var elem = $(required[i]);
+				if (elem.attr("name").indexOf("phone") < 0) {
+					$(required[i]).removeAttr("required");
+				}
+			}
+			var labels = row.find("label");
+			for (var i = 0; i < labels.length; i++) {
+				var elem = $(labels[i]);
+				if (elem.html().indexOf("Telefon") < 0) {
+					elem.append("<span class=\"mandatoryAttr\"></span>");
+				}
+			}		
+		}
+		var row = $(deleteButtons[deleteButtons.length-2]).parents(".contactPersonRow");
+		row.find(".mandatoryAttr").remove();
+		var required = row.find("input[required]");
+		for (var i = 0; i < required.length; i++) {
+			$(required[i]).removeAttr("required");
+		}
+		row.find(".mandatoryAttr").remove();
 	}
 
 }
