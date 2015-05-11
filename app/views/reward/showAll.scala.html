@@ -25,7 +25,7 @@
                             </a>
                         }
                         @if(SecurityService.hasAccess(user, ActionsEnum.REWARD_DELETE)) {
-                            <a href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-link" onclick="return confirm('Opravdu chcete smazat odměnu ve výši @reward.getAmount() Kč zadanou @reward.getDate().format("dd.MM.yyyy") pro @reward.getUser().getFirstName() @reward.getUser().getLastName() za projekt @reward.getProject().getName()?');">
+                            <a data-href="@routes.RewardController.delete(reward.getRewardId())" class="btn btn-xs btn-link" data-toggle="modal" data-target="#confirm-dialog" data-name="Opravdu chcete smazat odměnu ve výši @reward.getAmount() Kč zadanou @reward.getDate().format("dd.MM.yyyy") pro @reward.getUser().getFirstName() @reward.getUser().getLastName()@if(reward.getProject() != null){ za projekt @reward.getProject().getName()}?">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
                             </a>
                         }
@@ -62,5 +62,22 @@
                 }
             </ul>
         </nav>
+
+        <div id="confirm-dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Jste si jistý?</h3>
+                    </div>
+                    <div class="modal-body">
+                       <strong><span class="name"></span></strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success dismiss" data-dismiss="modal">Ne</button>
+                        <a href="#" class="btn btn-danger confirm">Ano</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 }

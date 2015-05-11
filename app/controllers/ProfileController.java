@@ -5,6 +5,7 @@ import daos.impl.DAOs;
 import forms.KnowledgeForm;
 import forms.UsersForm;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -13,7 +14,9 @@ import play.mvc.Security;
 import service.SecurityService;
 import views.html.profile.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Security.Authenticated(Secured.class)
@@ -45,7 +48,29 @@ public class ProfileController extends Controller {
             return badRequest(editUserDetail.render(form, DashboardController.getMainMenu("userDetail")));
         }
 
-        User user = form.get().getUser();
+        UsersForm formData = form.get();
+        User user = formData.getUser();
+        if(!formData.getNewPassword().equals("")) {
+            Map<String,String> emptyData = new HashMap<>();
+            emptyData.put("currentPassword","");
+            emptyData.put("newPassword","");
+            emptyData.put("newPasswordRepeated","");
+
+            if(formData.getCurrentPassword().equals(user.getPassword())){
+                if(formData.checkNewPassword()) {
+                    user.setPassword(formData.getNewPassword());
+                } else {
+                    form.reject("newPasswordRepeated", "Zadaná hesla se neshodují.");
+                    form.bind(emptyData);
+                    return badRequest(editUserDetail.render(form, DashboardController.getMainMenu("userDetail")));
+                }
+            } else {
+                form.reject("currentPassword", "Zadané heslo není platné.");
+                form.bind(emptyData);
+                return badRequest(editUserDetail.render(form, DashboardController.getMainMenu("userDetail")));
+            }
+        }
+
         DAOs.getUserDao().update(user);
 
         return redirect(routes.ProfileController.userDetail());

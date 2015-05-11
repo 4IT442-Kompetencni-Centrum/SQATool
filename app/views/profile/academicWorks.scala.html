@@ -25,7 +25,7 @@
                         </a>
                     </div>
                     <div class="col-md-1">
-                        <a href="@routes.AcademicWorkController.delete(work.getAcademicWorkId())" class="btn btn-link pull-right">
+                        <a data-href="@routes.AcademicWorkController.delete(work.getAcademicWorkId())" class="btn btn-link pull-right" data-toggle="modal" data-target="#confirm-dialog" data-name="@work.getName()">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
                         </a>
                     </div>
@@ -67,5 +67,22 @@
 
         <hr>
     }
+    </div>
+
+    <div id="confirm-dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Jste si jistý?</h3>
+                </div>
+                <div class="modal-body">
+                    Opravdu chcete smazat akademickou práci <strong><span class="name"></span></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success dismiss" data-dismiss="modal">Ne</button>
+                    <a href="#" class="btn btn-danger confirm">Ano</a>
+                </div>
+            </div>
+        </div>
     </div>
 }
