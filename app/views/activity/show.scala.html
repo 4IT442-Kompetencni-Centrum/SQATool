@@ -18,7 +18,7 @@
                     </a>
                 }
                 @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
-                    <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link btn-xs" onclick="return confirm('Opravdu chcete smazat aktivitu @activity.getName()?');">
+                    <a data-href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirm-dialog" data-name="@activity.getName()">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
                     </a>
                 }
@@ -59,4 +59,21 @@
             }
         </li>
     </ul>
+
+    <div id="confirm-dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Jste si jistý?</h3>
+                </div>
+                <div class="modal-body">
+                    Opravdu chcete smazat aktivitu <strong><span class="name"></span></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success dismiss" data-dismiss="modal">Ne</button>
+                    <a href="#" class="btn btn-danger confirm">Ano</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }

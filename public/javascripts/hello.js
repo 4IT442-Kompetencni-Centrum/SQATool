@@ -19,4 +19,9 @@ $(document).ready(function(){
 			label.append('<span class="mandatoryAttr"></span>');
 		}
 	});
+
+	$('#confirm-dialog').on('show.bs.modal', function(e) {
+		$(this).find('a.confirm').attr('href', $(e.relatedTarget).data('href'));
+		$(this).find('span.name').text($(e.relatedTarget).data('name'));
+	});
 });
