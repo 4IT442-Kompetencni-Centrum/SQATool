@@ -28,7 +28,7 @@
                             </a>
                         }
                         @if(SecurityService.hasAccess(user, ActionsEnum.ACTIVITY_DELETE)) {
-                            <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link btn-xs" onclick="return confirm('Opravdu chcete smazat odměnu @activity.getActivityId()?');">
+                            <a href="@routes.ActivityController.delete(activity.getActivityId())" class="btn btn-link btn-xs" onclick="return confirm('Opravdu chcete smazat aktivitu @activity.getName()?');">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" title="Smazat"></span>
                             </a>
                         }
