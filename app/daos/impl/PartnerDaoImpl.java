@@ -24,7 +24,7 @@ public class PartnerDaoImpl extends AbstractVersionedDaoImpl<Partner> implements
 
 	@Override
 	public List<Partner> findByName(String name) {
-		Query q = JPA.em().createQuery("SELECT p FROM Partner p WHERE p.name LIKE :pname AND p.visible = TRUE");
+		Query q = JPA.em().createQuery("SELECT p FROM Partner p WHERE upper(p.name) LIKE upper(:pname) AND p.visible = TRUE");
 		q.setParameter("pname", "%"+name+"%");
 		return q.getResultList();
 	}
