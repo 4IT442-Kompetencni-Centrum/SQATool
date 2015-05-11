@@ -47,9 +47,12 @@
 
        <p>Some text blablabla, long time ago in a galaxy far far away...</p>
        <ul>
-           <li>JAVA (pokrocily)</li>
-           <li>C++ (zacatecnik)</li>
-           <li>CSS (expert)</li>
+           @for(knowledge <- user.getKnowledges){
+               <li>
+                   <span class="bold">@knowledge.getTypeKnowledge.getValue()</span>
+                   (@knowledge.getLevelOfKnowledge.getValue()
+               </li>
+           }
        </ul>
 
        <h3>Akademické práce:</h3>
