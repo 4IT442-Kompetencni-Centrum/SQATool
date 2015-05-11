@@ -34,7 +34,7 @@ public class UserDaoImpl extends AbstractVersionedDaoImpl<User> implements UserD
 
 	@Override
 	public List<User> getUsersByQuery(String queryString) {
-		Query query = JPA.em().createQuery("SELECT u from User u WHERE upper(u.firstName || ' ' || u.lastName) LIKE upper(:queryString) AND u.visible = TRUE");
+		Query query = JPA.em().createQuery("SELECT u from User u WHERE upper(u.firstName || ' ' || u.lastName) LIKE upper(:queryString) AND u.visible = TRUE ORDER BY u.lastName").setMaxResults(10);
 		query.setParameter("queryString", "%"+queryString+"%");
 		return query.getResultList();
 	}
