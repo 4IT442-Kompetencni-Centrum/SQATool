@@ -80,7 +80,7 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 			Logger.error("EM je null");
 		}
 		Query query = JPA.em().createNativeQuery("SELECT p.*, sum(hw.numberOfHours) as numOfHours FROM SQA_PROJECT p "
-										 + " JOIN SQA_USER_ON_PROJECT uop ON p.projectid = uop.project_projectid AND (uop.user_id = :userid) "
+										 + " JOIN SQA_USER_ON_PROJECT uop ON p.projectid = uop.project_projectid AND uop.user_id = :userid AND uop.visible = TRUE"
 										 + " JOIN SQA_HOURS_WORKED hw ON p.projectid = hw.project_projectid "
 										 + " WHERE p.visible = TRUE AND (hw.user_id = uop.user_id OR uop.typeUserOnProject_typeUserOnProjectId = :projectManager) "
 										 + " GROUP BY p.projectid "
@@ -88,7 +88,7 @@ public class ProjectDaoImpl extends AbstractVersionedDaoImpl<Project> implements
 										 + " SELECT p.* , 0.0 as numOfHours FROM SQA_PROJECT p "
 										 + " WHERE p.projectid IN (SELECT uop.project_projectid FROM SQA_USER_ON_PROJECT uop "
 										 + " LEFT OUTER JOIN SQA_HOURS_WORKED hw ON hw.project_projectid = uop.project_projectid AND (hw.user_id = :userid2 OR uop.typeUserOnProject_typeUserOnProjectId = :projectManager2) "
-										 + " WHERE uop.user_id = :userid2 AND hw IS NULL AND p.visible = TRUE "
+										 + " WHERE uop.user_id = :userid2 AND hw IS NULL AND p.visible = TRUE AND uop.visible = TRUE "
 										 + " ) "
 										 + " ", Project.PROJECT_WORKED_HOURS_MAPPING)
 										 .setMaxResults(limit).setFirstResult(start);
