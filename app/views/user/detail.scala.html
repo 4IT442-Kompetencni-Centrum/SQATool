@@ -49,15 +49,17 @@
        <ul>
            @for(knowledge <- user.getKnowledges){
                <li>
-                   <span class="bold">@knowledge.getTypeKnowledge.getValue()</span>
-                   (@knowledge.getLevelOfKnowledge.getValue()
+                   <span class="bold">@knowledge.getTypeKnowledge.getValue() </span>
+                   (@knowledge.getLevelOfKnowledge.getValue())
                </li>
            }
        </ul>
 
        <h3>Akademické práce:</h3>
        @for(academicWork <- user.getAcademicWorks){
-            <p>@academicWork.getTypeAcademicWork<a href="">@academicWork.getName</a></p>
+            <p>@academicWork.getTypeAcademicWork.getValue:
+                <a href="@routes.AcademicWorkController.edit(academicWork.getAcademicWorkId)">@academicWork.getName</a>
+            </p>
             <p>@academicWork.getDescription</p>
             <br>
        }
