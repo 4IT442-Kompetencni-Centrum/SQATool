@@ -34,7 +34,9 @@
                 </li>
             }
             @for(page <- 0 until numberOfPages) {
-                <li @if(page == activePage) { class="active" }><a href="@routes.ProjectController.showAll(page)">@(page+1)</a></li>
+                <li @if(page == activePage) { class="active" }>
+                    <a href="@routes.UserController.showAllUsers(page + 1)">@(page+1)</a>
+                </li>
             }
             @if(activePage == numberOfPages-1) {
                 <li class="disabled">

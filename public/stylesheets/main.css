@@ -233,3 +233,15 @@ ul.knowledge li {
 ul.knowledge li strong {
     margin-right: 40px;
 }
+
+.page-title{
+    height: 50px;
+    margin-bottom: 20px;
+    border: 1px solid lightgray;
+    line-height: 50px;
+    vertical-align: middle;
+}
+
+.page-title h3{
+    margin-top: 15px;
+}

@@ -11,27 +11,24 @@ import play.data.validation.Constraints;
 public class NewMemberForm {
 
     public Long id;
-    @Constraints.Required
-    @Constraints.MaxLength(value= 200, message="Zadané jméno je příliš dlouhé")
     public String firstname;
-    @Constraints.Required
-    @Constraints.MaxLength(value= 200, message="Zadané příjmení je příliš dlouhé")
     public String lastname;
+    public String username;
+    public String password;
+    public String passwordConfirm;
     public String xname;
     public String degree;
-    @Constraints.Required
     public String status;
     public String role;
-    @Constraints.Required
-    @Constraints.Email(message = "Neplatný email")
     public String email;
-    @Constraints.Pattern(message = "Neplatné telefonní číslo", value = "^(\\+420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$")
     public String phonenumber;
 
     public User getMember(Long id){
         User user = DAOs.getUserDao().findById(id);
         user.firstName = this.firstname;
         user.lastName = this.lastname;
+        user.username = this.username;
+        user.password = this.password;
         user.xname = this.xname;
         user.degree = this.degree;
         user.stateUser = DAOs.getStateUserDao().findByKey(this.status);

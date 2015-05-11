@@ -68,15 +68,4 @@ public class Init extends Controller {
         return ok(index.render("4IT442 - Software Quality Assurance Tool"));
     }
 
-    @Transactional(readOnly = false)
-    public static Result initUsers(){
-        User user = new User("jenda","heslo", "Jan", "Novak", "bakalar", "email@gmail.com", "123454354");
-        DAOs.getUserDao().create(user);
-        User user1 = new User("fanda","heslo", "Frantisek", "Omacka", "magistr", "email@gmail.com", "123454354");
-        DAOs.getUserDao().create(user1);
-        User user2 = new User("zdenda","heslo", "Zdenek", "Skocdopole", "bakalar", "email@gmail.com", "123454354");
-        DAOs.getUserDao().create(user2);
-        return ok(index.render("4IT442 - Software Quality Assurance Tool"));
-    }
-    
 }

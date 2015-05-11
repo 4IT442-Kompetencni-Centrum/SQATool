@@ -1,10 +1,25 @@
 @import service.SecurityService
 @import service.ActionsEnum
-@(user: User, projects: List[Project], form: Form[forms.RewardForm], submenu : List[views.data.MenuDto])
+@(user: User, projects: List[Project], form: Form[forms.RewardForm], submenu : List[views.data.MenuDto], canEdit : Boolean, canDelete : Boolean)
 @currentUser = @{SecurityService.fetchUser(session.get("authid"))}
 @main("Uživatel", "detail", submenu){
    <div id="memberDetail">
        <h1>Detail člena</h1>
+       <div class="page-title">
+           <div class="col-sm-10"><h3>@user.toString</h3></div>
+           <div class="col-sm-2">
+               @if(canEdit){
+                   <a href="@routes.UserController.showEditForm(user.getId())" class="btn btn-link btn-xs">
+                       <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                   </a>
+               }
+               @if(canDelete){
+                   <button data-projectName="@Html(user.toString())" data-projectId="@user.getId()" data-projectDeleteUrl="@routes.UserController.deleteMember(user.getId())" class="btn btn-link btn-xs deleteButton">
+                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                   </button>
+                   }
+           </div>
+       </div>
        <table>
            <tr>
                <td><strong>Role:</strong></td>
@@ -38,19 +53,17 @@
        </ul>
 
        <h3>Akademické práce:</h3>
-
-       <p><a href="#">Diplomova prace na tema BlaBlaBla</a></p>
-       <p>
-           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus malesuada finibus. Nam leo diam, dictum quis venenatis accumsan, molestie faucibus massa. Suspendisse porttitor, enim at ullamcorper porttitor, lectus arcu viverra odio, eget vulputate mi metus vitae nulla. Vestibulum sit amet rhoncus massa.
-       </p>
-
+       @for(academicWork <- user.getAcademicWorks){
+            <p>@academicWork.getTypeAcademicWork<a href="">@academicWork.getName</a></p>
+            <p>@academicWork.getDescription</p>
+            <br>
+       }
        <h3>Přiřazené projekty:</h3>
-       <p class="border-down">
-           <a href="#">Projekt 1</a> / odpracovano 28h
-       </p>
-       <p class="border-down">
-           <a href="#">Projekt 2</a> / odpracovano 30h
-       </p>
+       @for(p <- projects){
+           <p class="border-down">
+               <a href="@routes.ProjectController.detail(p.getProjectId)">@p.getName</a> / @p.getTotalHoursWorked()h
+           </p>
+       }
 
        @if(SecurityService.hasAccess(currentUser, ActionsEnum.REWARD_ADD)){
            <h3>Zadání odměny</h3>

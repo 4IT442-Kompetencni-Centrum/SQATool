@@ -139,6 +139,13 @@ public class Project extends AbstractVersionedEntity {
 				+ stateProject + "]";
 	}
 
-	
+    //helper method
+	public Float getTotalHoursWorked(){
+        Float result = 0f;
+        for(HoursWorked hours : hoursWorked){
+            result += hours.getNumberOfHours();
+        }
+        return result;
+    }
 
 }

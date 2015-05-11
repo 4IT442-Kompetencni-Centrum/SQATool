@@ -36,29 +36,17 @@ public class User extends AbstractVersionedEntity {
 
     public User(){}
 
-    public User(String userName, String password){
-        this.username = userName;
+    //TODO role
+    public User(String username, String password, String firstName, String lastName, String xname, String degree, StateUser stateUser, String email, String phoneNumber){
+        this.username = username;
         this.password = password;
-    }
-
-    public User(String firstname, String lastname, String xname, String degree, StateUser stateUser, String email, String phoneNumber){
-        this.firstName = firstname;
-        this.lastName = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.xname = xname;
         this.degree = degree;
         this.stateUser = stateUser;
         this.email = email;
         this.phoneNumber = phoneNumber;
-    }
-
-    public User(String login, String password, String firstName, String lastName, String xname, String email, String phone){
-        this.username = login;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.xname = xname;
-        this.email = email;
-        this.phoneNumber = phone;
     }
 
     public String getBio() {

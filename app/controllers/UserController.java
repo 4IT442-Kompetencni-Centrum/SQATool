@@ -40,13 +40,13 @@ public class UserController extends Controller {
      */
 	@Transactional()
 	public static Result show(Long id){
-		Logger.debug(id + "");
 		User _user = DAOs.getUserDao().findById(id);
         User loggedUser = SecurityService.fetchUser(session("authid"));
-		Logger.debug(_user+"");
+        boolean canEdit = SecurityService.canEditMember(loggedUser);
+        boolean canDelete = SecurityService.canDeleteMember(loggedUser);
 		List<Project> projects = DAOs.getProjectDao().getAllProjectsForUser(_user.getId());
 		Form<RewardForm> rewardForm = Form.form(RewardForm.class);
-		return ok(detail.render(_user,projects,rewardForm, getBackToListMenu(loggedUser)));
+		return ok(detail.render(_user,projects,rewardForm, getBackToListMenu(loggedUser), canEdit, canDelete));
 	}
 
     /**
@@ -98,13 +98,23 @@ public class UserController extends Controller {
 	public static Result create(){
 		Form<NewMemberForm> bindForm = Form.form(NewMemberForm.class).bindFromRequest();
         if(bindForm.hasErrors()){
+            System.out.println("ERROR: " + bindForm.globalError().message());
             return redirect(routes.UserController.showCreateForm());
         }
         NewMemberForm filledForm = bindForm.get();
         StateUser stateUser = DAOs.getStateUserDao().findByKey(filledForm.status);
         TypeRoleInBusiness userRoleType = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(filledForm.role));
         RoleInBusiness userRole = new RoleInBusiness(userRoleType);
-        User user = new User(filledForm.firstname, filledForm.lastname, filledForm.xname, filledForm.degree, stateUser ,filledForm.email, filledForm.phonenumber);
+        User user = new User(
+                filledForm.username,
+                filledForm.password,
+                filledForm.firstname,
+                filledForm.lastname,
+                filledForm.xname,
+                filledForm.degree,
+                stateUser ,
+                filledForm.email,
+                filledForm.phonenumber);
         user.getRoleInBusiness().add(userRole);
         DAOs.getUserDao().create(user);
         return redirect(routes.UserController.showAllUsers(0));
@@ -150,7 +160,7 @@ public class UserController extends Controller {
         boolean canDelete = SecurityService.canDeleteMember(user);
         page = page != null ? page : 0;
         List<User> membersList = DAOs.getUserDao().getAllMembers(page* Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
-        return ok(views.html.clenove.members.render(membersList, getMainMenu(), 1, 1, canEdit, canDelete));
+        return ok(views.html.clenove.members.render(membersList, getMainMenu(), 2, 1, canEdit, canDelete));
     }
 
     /**
