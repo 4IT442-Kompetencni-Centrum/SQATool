@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="SQA_ROLE_IN_BUSINESS")
-public class RoleInBusiness {
+public class RoleInBusiness extends AbstractVersionedEntity{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,8 +26,9 @@ public class RoleInBusiness {
 
     public RoleInBusiness(){}
 
-    public RoleInBusiness(TypeRoleInBusiness typeRoleInBusiness){
+    public RoleInBusiness(TypeRoleInBusiness typeRoleInBusiness, User user){
         this.typeRoleInBusiness = typeRoleInBusiness;
+        this.user = user;
     }
 
 	public Long getRoleInBusinessId() {

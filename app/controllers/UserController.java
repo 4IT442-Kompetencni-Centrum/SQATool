@@ -103,8 +103,6 @@ public class UserController extends Controller {
         }
         NewMemberForm filledForm = bindForm.get();
         StateUser stateUser = DAOs.getStateUserDao().findByKey(filledForm.status);
-        TypeRoleInBusiness userRoleType = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(filledForm.role));
-        RoleInBusiness userRole = new RoleInBusiness(userRoleType);
         User user = new User(
                 filledForm.username,
                 filledForm.password,
@@ -115,7 +113,10 @@ public class UserController extends Controller {
                 stateUser ,
                 filledForm.email,
                 filledForm.phonenumber);
+        TypeRoleInBusiness typeRoleInBusiness = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(filledForm.roleTypeId));
+        RoleInBusiness userRole = new RoleInBusiness(typeRoleInBusiness, user);
         user.getRoleInBusiness().add(userRole);
+        DAOs.getRoleInBusinessDao().create(userRole);
         DAOs.getUserDao().create(user);
         return redirect(routes.UserController.showAllUsers(0));
 	}

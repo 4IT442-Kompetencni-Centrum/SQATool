@@ -19,7 +19,7 @@ public class NewMemberForm {
     public String xname;
     public String degree;
     public String status;
-    public String role;
+    public String roleTypeId;
     public String email;
     public String phonenumber;
 
@@ -32,7 +32,6 @@ public class NewMemberForm {
         user.xname = this.xname;
         user.degree = this.degree;
         user.stateUser = DAOs.getStateUserDao().findByKey(this.status);
-        user.getRoleInBusiness().add(new RoleInBusiness(DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(this.role))));
         user.email = this.email;
         user.phoneNumber = this.phonenumber;
         return user;

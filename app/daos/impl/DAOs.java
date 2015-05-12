@@ -31,6 +31,7 @@ public class DAOs {
 	private static AcademicWorkDao academicWorkDao;
 	private static StateAcademicWorkDao stateAcademicWorkDao;
 	private static TypeAcademicWorkDao typeAcademicWorkDao;
+    private static RoleInBusinessDao roleInBusinessDao;
     
     public static ProjectDao getProjectDao() {
 		if (projectDao == null) {
@@ -192,4 +193,11 @@ public class DAOs {
 		}
 		return typeAcademicWorkDao;
 	}
+
+    public static RoleInBusinessDao getRoleInBusinessDao(){
+        if(roleInBusinessDao == null){
+            roleInBusinessDao = new RoleInBusinessDaoImpl();
+        }
+        return roleInBusinessDao;
+    }
 }

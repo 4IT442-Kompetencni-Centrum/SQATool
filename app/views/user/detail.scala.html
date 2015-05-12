@@ -45,7 +45,6 @@
 
        <h3>Znalosti a dovednosti:</h3>
 
-       <p>Some text blablabla, long time ago in a galaxy far far away...</p>
        <ul>
            @for(knowledge <- user.getKnowledges){
                <li>
@@ -58,7 +57,7 @@
        <h3>Akademické práce:</h3>
        @for(academicWork <- user.getAcademicWorks){
             <p>@academicWork.getTypeAcademicWork.getValue:
-                <a href="@routes.AcademicWorkController.edit(academicWork.getAcademicWorkId)">@academicWork.getName</a>
+                <a href="@routes.ProfileController.academicWorks()">@academicWork.getName</a>
             </p>
             <p>@academicWork.getDescription</p>
             <br>
