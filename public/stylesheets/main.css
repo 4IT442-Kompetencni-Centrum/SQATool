@@ -245,3 +245,7 @@ ul.knowledge li strong {
 .page-title h3{
     margin-top: 15px;
 }
+
+ul.user-detail li {
+    line-height: 200%;
+}
