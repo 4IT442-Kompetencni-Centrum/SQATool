@@ -32,7 +32,7 @@ public class Login extends Controller {
         }
         LoginForm filledForm = bindForm.get();
         User candidate = userDao.getUserByUserName(filledForm.username);
-        if(!candidate.stateUser.getKey().equals("aktivni")){
+        if(candidate != null && !candidate.stateUser.getKey().equals("aktivni")){
             flash("error", "Pro přihlášení nemáte dostatečná práva.");
             return redirect(routes.Login.showLoginPage());
         }

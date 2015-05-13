@@ -66,6 +66,10 @@ public class UserController extends Controller {
             return redirect(routes.UserController.showEditForm(id));
         }
         User user = bindForm.get().getMember(id);
+        TypeRoleInBusiness typeRoleInBusiness = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(bindForm.get().roleTypeId));
+        RoleInBusiness userRole = new RoleInBusiness(typeRoleInBusiness, user);
+        user.getRoleInBusiness().add(userRole);
+        DAOs.getRoleInBusinessDao().create(userRole);
         DAOs.getUserDao().update(user);
         return redirect(routes.UserController.show(user.id));
     }

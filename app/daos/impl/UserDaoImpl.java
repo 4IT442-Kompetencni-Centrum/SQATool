@@ -34,9 +34,14 @@ public class UserDaoImpl extends AbstractVersionedDaoImpl<User> implements UserD
 
     @Override
     public User getUserByUserName(String username){
-        TypedQuery<User> query = JPA.em().createQuery("select user from User user where user.username = :username and user.visible = true ", User.class);
-        query.setParameter("username", username);
-        return query.getSingleResult();
+        try{
+            TypedQuery<User> query = JPA.em().createQuery("select user from User user where user.username = :username and user.visible = true ", User.class);
+            query.setParameter("username", username);
+            query.setMaxResults(1);
+            return query.getSingleResult();
+        }catch(NoResultException exception){
+            return null;
+        }
     }
 
 	@Override
