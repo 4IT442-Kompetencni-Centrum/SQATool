@@ -3,6 +3,8 @@ package daos.impl;
 import daos.RoleInBusinessDao;
 import models.RoleInBusiness;
 import play.db.jpa.JPA;
+
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -22,6 +24,13 @@ public class RoleInBusinessDaoImpl extends AbstractVersionedDaoImpl<RoleInBusine
         TypedQuery<RoleInBusiness> query = JPA.em().createQuery("SELECT role FROM RoleInBusiness role where role.roleInBusinessId = :roleTypeId", RoleInBusiness.class);
         query.setParameter("roleTypeId", roleTypeId);
         return query.getSingleResult();
+    }
+
+    @Override
+    public void delete(RoleInBusiness role){
+        Query query = JPA.em().createQuery("delete from RoleInBusiness r where r.id = :roleId");
+        query.setParameter("roleId", role.getRoleInBusinessId());
+        query.executeUpdate();
     }
 
 

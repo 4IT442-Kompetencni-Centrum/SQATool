@@ -73,6 +73,9 @@ public class UserController extends Controller {
         User user = bindForm.get().getMember(id);
         TypeRoleInBusiness typeRoleInBusiness = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(bindForm.get().roleTypeId));
         RoleInBusiness userRole = new RoleInBusiness(typeRoleInBusiness, user);
+        for(RoleInBusiness role : user.getRoleInBusiness()){
+            DAOs.getRoleInBusinessDao().delete(role);
+        }
         user.getRoleInBusiness().add(userRole);
         DAOs.getRoleInBusinessDao().create(userRole);
         DAOs.getUserDao().update(user);
