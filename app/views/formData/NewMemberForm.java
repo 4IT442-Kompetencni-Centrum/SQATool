@@ -1,9 +1,8 @@
 package views.formData;
 
 import daos.impl.DAOs;
-import models.RoleInBusiness;
 import models.User;
-import play.data.validation.Constraints;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Created by petr on 7.5.15.
@@ -26,7 +25,7 @@ public class NewMemberForm {
         user.firstName = this.firstname;
         user.lastName = this.lastname;
         user.username = this.username;
-        user.password = this.password;
+        user.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
         user.degree = this.degree;
         user.stateUser = DAOs.getStateUserDao().findByKey(this.status);
         user.email = this.email;

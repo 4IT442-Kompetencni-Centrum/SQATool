@@ -17,7 +17,7 @@
                    <button data-projectName="@Html(user.toString())" data-projectId="@user.getId()" data-projectDeleteUrl="@routes.UserController.deleteMember(user.getId())" class="btn btn-link btn-xs deleteButton">
                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                    </button>
-                   }
+               }
            </div>
        </div>
        <table>
@@ -72,4 +72,23 @@
            @reward.addRewardForm(form,user,projects)
        }
    </div>
+
+   <div id="deleteWarning" class="modal fade" tabindex="-1"
+    role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Jste si jistý?</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Opravdu si přejete smazat člena <span class="projectName"></span> s ID <span class="projectID"></span>?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" id="deleteCancel">Ne</button>
+                    <a href="genegatedValue" class="btn btn-danger deleteConfirm">Ano</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
