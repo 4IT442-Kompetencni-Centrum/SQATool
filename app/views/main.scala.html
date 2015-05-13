@@ -33,7 +33,7 @@
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <div class="logged-user-informations">
-                        Přihlášen jako: <strong><a href="">@session.get("user")</a></strong><a href="/logout" class="btn btn-link">Odhlásit</a>
+                        Přihlášen jako: <strong><a href="@routes.UserController.show(Long.valueOf(session.get("authid")))">@session.get("user")</a></strong><a href="/logout" class="btn btn-link">Odhlásit</a>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li @if(selectedMenuItem == "profile") { class="active" }><a class="btn" href="@routes.DashboardController.activities(0)">Moje sekce</a></li>
