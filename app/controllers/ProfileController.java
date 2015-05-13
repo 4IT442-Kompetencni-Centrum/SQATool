@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 @Security.Authenticated(Secured.class)
 public class ProfileController extends Controller {
     static Form<UsersForm> usersForm = Form.form(UsersForm.class);
@@ -62,7 +64,7 @@ public class ProfileController extends Controller {
                 form.reject("username", "Uživatel s touto přezdívkou již existuje.");
                 return badRequest(editUserDetail.render(form, DashboardController.getMainMenu("userDetail")));
             } else {
-                if(formData.getCurrentPassword().equals(user.getPassword())){
+                if(BCrypt.checkpw(formData.getCurrentPassword(), user.getPassword())){
                     user.setUsername(newUsername);
                 } else {
                     form.reject("currentPassword", "Zadané heslo není platné.");
@@ -73,9 +75,9 @@ public class ProfileController extends Controller {
         }
 
         if(!formData.getNewPassword().equals("")) {
-            if(formData.getCurrentPassword().equals(user.getPassword())){
+            if(BCrypt.checkpw(formData.getCurrentPassword(), user.getPassword())){
                 if(formData.checkNewPassword()) {
-                    user.setPassword(formData.getNewPassword());
+                    user.setPassword(BCrypt.hashpw(formData.getNewPassword(), BCrypt.gensalt()));
                 } else {
                     form.reject("newPasswordRepeated", "Zadaná hesla se neshodují.");
                     form.bind(emptyData);
