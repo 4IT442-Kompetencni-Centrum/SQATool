@@ -307,7 +307,14 @@ public class SecurityService {
 		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
 		accessMap.put(ActionsEnum.MEMBER_SHOW_ALL, showAll);
-
+	
+	HashMap<String, Boolean> showAll = new HashMap<>();
+	showAll.put(EnumerationWithKeys.MEMBER_KEY, true);
+	showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
+	showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
+	showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
+	accessMap.put(ActionsEnum.MEMBER_AUTOCOMPLETE, showAll);
+        
         HashMap<String, Boolean> add = new HashMap<>();
         add.put(EnumerationWithKeys.MEMBER_KEY, false);
         add.put(EnumerationWithKeys.MANAGER_KC_KEY, false);
