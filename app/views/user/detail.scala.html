@@ -56,7 +56,8 @@
 
        <h3>Akademické práce:</h3>
        @for(academicWork <- user.getAcademicWorks){
-            <p>@academicWork.getTypeAcademicWork.getValue:</p>
+            <p>@academicWork.getTypeAcademicWork.getValue: @academicWork.getName</p>
+            <p>ved: @academicWork.getSupervisor</p>
             <p>@academicWork.getDescription</p>
             <br>
        }
