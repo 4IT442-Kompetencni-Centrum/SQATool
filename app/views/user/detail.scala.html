@@ -14,7 +14,7 @@
                    </a>
                }
                @if(canDelete){
-                   <button data-projectName="@Html(user.toString())" data-projectId="@user.getId()" data-projectDeleteUrl="@routes.UserController.deleteMember(user.getId())" class="btn btn-link btn-xs deleteButton">
+                   <button data-href="@routes.UserController.deleteMember(user.getId())" class="btn btn-link btn-xs deleteButton" data-toggle="modal" data-target="#confirm-dialog" data-name="@user.getFirstName() @user.getLastName()">
                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                    </button>
                }
@@ -73,20 +73,18 @@
        }
    </div>
 
-   <div id="deleteWarning" class="modal fade" tabindex="-1"
-    role="dialog" aria-hidden="true">
+    <div id="confirm-dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Jste si jistý?</h3>
                 </div>
                 <div class="modal-body">
-                    <p>Opravdu si přejete smazat člena <span class="projectName"></span> s ID <span class="projectID"></span>?
-                    </p>
+                    Opravdu chcete smazat člena <strong><span class="name"></span></strong>?
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" id="deleteCancel">Ne</button>
-                    <a href="genegatedValue" class="btn btn-danger deleteConfirm">Ano</a>
+                    <button class="btn btn-success dismiss" data-dismiss="modal">Ne</button>
+                    <a href="#" class="btn btn-danger confirm">Ano</a>
                 </div>
             </div>
         </div>
