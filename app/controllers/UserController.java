@@ -133,7 +133,7 @@ public class UserController extends Controller {
 	@Transactional(readOnly=true)
 	public static Result getUserByNamePattern(String query) {
 		User user = SecurityService.fetchUser(session("authid"));
-		if (!SecurityService.hasAccess(user, ActionsEnum.MEMBER_SHOW_ALL)) {
+		if (!SecurityService.hasAccess(user, ActionsEnum.MEMBER_AUTOCOMPLETE)) {
 			return redirect(routes.Application.accessDenied());
 		}	
 		List<User> users = DAOs.getUserDao().getUsersByQuery(query);
@@ -155,7 +155,7 @@ public class UserController extends Controller {
     /**
      * Method gets the list of all members in db and sends this list to the views.html.clenove.members view.
      * @param page
-     * @return
+     * @returnj
      */
     @Transactional
     public static Result showAllUsers(Integer page){

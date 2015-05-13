@@ -11,6 +11,7 @@
 		@b3.email(form("email"), '_label -> "E-Mail",'required -> true)
 		@b3.tel(form("phoneNumber"), '_label -> "Tel. číslo", 'required -> true)
 		<hr>
+		@b3.text(form("username"), '_label -> "Uživatelské jméno")
 		@b3.password(form("currentPassword"), '_label -> "Současné heslo")
 		@b3.password(form("newPassword"), '_label -> "Nové heslo")
 		@b3.password(form("newPasswordRepeated"), '_label -> "Nové heslo znovu")

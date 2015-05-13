@@ -36,6 +36,9 @@ public class UsersForm {
 	@Constraints.MinLength(value=5, message="Zadané heslo je příliš krátké")
 	protected String newPasswordRepeated;
 
+	@Constraints.MinLength(value=3, message = "Zadaný username je příliš krátký")
+	protected String username;
+
     public UsersForm() {
     }
 
@@ -46,6 +49,7 @@ public class UsersForm {
 		this.degree = user.getDegree();
 		this.phoneNumber = user.getPhoneNumber();
 		this.email = user.getEmail();
+		this.username = user.getUsername();
 	}
 
 	public Long getUserId() {
@@ -120,6 +124,15 @@ public class UsersForm {
 
 	public UsersForm setNewPasswordRepeated(String newPasswordRepeated) {
 		this.newPasswordRepeated = newPasswordRepeated;
+		return this;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public UsersForm setUsername(String username) {
+		this.username = username;
 		return this;
 	}
 

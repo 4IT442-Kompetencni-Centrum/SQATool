@@ -13,6 +13,7 @@ public interface UserDao extends AbstractVersionedDao<User> {
     public User getUserByUserName(String userName);
     public List<User> getUsersByQuery(String query);
     public List<User> getAllMembers(Integer offset, Integer limit);
+    public User findByUsername(String username);
     public List<User> getAllMembers();
     public Integer getNumberOfMembers();
 

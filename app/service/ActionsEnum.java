@@ -39,6 +39,7 @@ public enum ActionsEnum {
     MEMBER_ADD,
     MEMBER_EDIT,
     MEMBER_DELETE,
+    MEMBER_AUTOCOMPLETE,
 
 	USER_EDIT_PROFILE,
 	//TODO pkadlec
