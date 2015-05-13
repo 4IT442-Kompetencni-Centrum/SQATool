@@ -59,7 +59,8 @@ GET         /partneri/json/:query                 controllers.PartnerController.
 GET         /uzivatel/json/:query                 controllers.UserController.getUserByNamePattern(query: String)
 
 
-#tests 
+#tests
+GET         /initPasswords                        controllers.Init.initPasswords()
 GET         /initPartners                         controllers.Init.initPartners()
 GET         /initStateUser                        controllers.Init.initStateUser()
 

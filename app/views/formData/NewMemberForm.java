@@ -15,8 +15,6 @@ public class NewMemberForm {
     public String lastname;
     public String username;
     public String password;
-    public String passwordConfirm;
-    public String xname;
     public String degree;
     public String status;
     public String roleTypeId;
@@ -29,7 +27,6 @@ public class NewMemberForm {
         user.lastName = this.lastname;
         user.username = this.username;
         user.password = this.password;
-        user.xname = this.xname;
         user.degree = this.degree;
         user.stateUser = DAOs.getStateUserDao().findByKey(this.status);
         user.email = this.email;

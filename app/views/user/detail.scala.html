@@ -56,9 +56,7 @@
 
        <h3>Akademické práce:</h3>
        @for(academicWork <- user.getAcademicWorks){
-            <p>@academicWork.getTypeAcademicWork.getValue:
-                <a href="@routes.ProfileController.academicWorks()">@academicWork.getName</a>
-            </p>
+            <p>@academicWork.getTypeAcademicWork.getValue:</p>
             <p>@academicWork.getDescription</p>
             <br>
        }

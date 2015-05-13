@@ -25,12 +25,16 @@ import daos.impl.DAOs;
 import forms.RewardForm;
 import forms.UsersForm;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class UserController extends Controller {
 
     static Form<UsersForm> usersForm = Form.form(UsersForm.class);
 
     private static List<StateUser> userStates = DAOs.getStateUserDao().findAll();
     private static List<TypeRoleInBusiness> userRoles = DAOs.getTypeRoleInBusinessDao().findAll();
+    private static Integer totalMembers = DAOs.getUserDao().getNumberOfMembers();
+    private static Integer numberOfPages = totalMembers % Configuration.PAGE_SIZE == 0 ? totalMembers/Configuration.PAGE_SIZE : totalMembers/Configuration.PAGE_SIZE + 1;
 
     /**
      * Method shows the detail page of selected member. Projects, knowledges and personal information can be found inside
@@ -105,12 +109,11 @@ public class UserController extends Controller {
         StateUser stateUser = DAOs.getStateUserDao().findByKey(filledForm.status);
         User user = new User(
                 filledForm.username,
-                filledForm.password,
+                BCrypt.hashpw(filledForm.password, BCrypt.gensalt()),
                 filledForm.firstname,
                 filledForm.lastname,
-                filledForm.xname,
                 filledForm.degree,
-                stateUser ,
+                stateUser,
                 filledForm.email,
                 filledForm.phonenumber);
         TypeRoleInBusiness typeRoleInBusiness = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(filledForm.roleTypeId));
@@ -161,7 +164,7 @@ public class UserController extends Controller {
         boolean canDelete = SecurityService.canDeleteMember(user);
         page = page != null ? page : 0;
         List<User> membersList = DAOs.getUserDao().getAllMembers(page* Configuration.PAGE_SIZE, Configuration.PAGE_SIZE);
-        return ok(views.html.clenove.members.render(membersList, getMainMenu(), 2, 1, canEdit, canDelete));
+        return ok(views.html.clenove.members.render(membersList, getMainMenu(), numberOfPages, page, canEdit, canDelete));
     }
 
     /**

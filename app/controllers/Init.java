@@ -9,6 +9,9 @@ import play.mvc.Result;
 import service.EnumerationWithKeys;
 import views.html.index;
 import daos.impl.DAOs;
+import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.List;
 
 public class Init extends Controller {
 
@@ -66,6 +69,19 @@ public class Init extends Controller {
         DAOs.getStateUserDao().create(inactive);
 
         return ok(index.render("4IT442 - Software Quality Assurance Tool"));
+    }
+
+    @Transactional
+    public static Result initPasswords(){
+        List<User> members = DAOs.getUserDao().getAllMembers();
+        for(User member : members){
+            if(member.password != null){
+                member.setPassword(BCrypt.hashpw(member.password, BCrypt.gensalt()));
+            }else{
+                member.setPassword(BCrypt.hashpw("heslo", BCrypt.gensalt()));
+            }
+        }
+        return TODO;
     }
 
 }

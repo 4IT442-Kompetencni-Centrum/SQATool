@@ -10,7 +10,10 @@ import models.User;
 public interface UserDao extends AbstractVersionedDao<User> {
 
     public User getValidUser(String userName, String password);
+    public User getUserByUserName(String userName);
     public List<User> getUsersByQuery(String query);
     public List<User> getAllMembers(Integer offset, Integer limit);
+    public List<User> getAllMembers();
+    public Integer getNumberOfMembers();
 
 }

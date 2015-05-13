@@ -21,7 +21,6 @@ public class User extends AbstractVersionedEntity {
     public String firstName;
     public String lastName;
     public String phoneNumber;
-    public String xname;
     @Column(length = 500)
     public String bio;
     
@@ -36,13 +35,11 @@ public class User extends AbstractVersionedEntity {
 
     public User(){}
 
-    //TODO role
-    public User(String username, String password, String firstName, String lastName, String xname, String degree, StateUser stateUser, String email, String phoneNumber){
+    public User(String username, String password, String firstName, String lastName, String degree, StateUser stateUser, String email, String phoneNumber){
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.xname = xname;
         this.degree = degree;
         this.stateUser = stateUser;
         this.email = email;

@@ -15,5 +15,6 @@ libraryDependencies ++= Seq(
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
   cache,
   javaWs,
-  "com.adrianhurt" %% "play-bootstrap3" % "0.4"
+  "com.adrianhurt" %% "play-bootstrap3" % "0.4",
+  "org.mindrot" % "jbcrypt" % "0.3m"
 )
