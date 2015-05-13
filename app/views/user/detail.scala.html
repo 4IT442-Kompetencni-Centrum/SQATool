@@ -13,7 +13,7 @@
                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                    </a>
                }
-               @if(canDelete){
+               @if(canDelete && currentUser.getId() != user.getId()){
                    <button data-href="@routes.UserController.deleteMember(user.getId())" class="btn btn-link btn-xs deleteButton" data-toggle="modal" data-target="#confirm-dialog" data-name="@user.getFirstName() @user.getLastName()">
                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                    </button>
