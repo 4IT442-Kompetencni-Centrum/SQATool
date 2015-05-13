@@ -303,7 +303,7 @@ public class SecurityService {
 	
 	private static void initMemberAccessMap() {
 		HashMap<String, Boolean> showAll = new HashMap<>();
-		showAll.put(EnumerationWithKeys.MEMBER_KEY, false);
+		showAll.put(EnumerationWithKeys.MEMBER_KEY, true);
 		showAll.put(EnumerationWithKeys.MANAGER_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.HEAD_KC_KEY, true);
 		showAll.put(EnumerationWithKeys.ADMIN_KEY, true);
