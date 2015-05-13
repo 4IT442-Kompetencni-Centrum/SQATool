@@ -65,6 +65,11 @@ public class UserController extends Controller {
         if(bindForm.hasErrors()){
             return redirect(routes.UserController.showEditForm(id));
         }
+        User userToEdit = DAOs.getUserDao().findById(id);
+        if(userToEdit != null && !userToEdit.username.equals(bindForm.get().username)){
+            flash("error","Uživatel se zadaným uživatelským jménem již existuje...");
+            return redirect(routes.UserController.showEditForm(id));
+        }
         User user = bindForm.get().getMember(id);
         TypeRoleInBusiness typeRoleInBusiness = DAOs.getTypeRoleInBusinessDao().findById(Long.valueOf(bindForm.get().roleTypeId));
         RoleInBusiness userRole = new RoleInBusiness(typeRoleInBusiness, user);
@@ -106,7 +111,11 @@ public class UserController extends Controller {
 	public static Result create(){
 		Form<NewMemberForm> bindForm = Form.form(NewMemberForm.class).bindFromRequest();
         if(bindForm.hasErrors()){
-            System.out.println("ERROR: " + bindForm.globalError().message());
+            return redirect(routes.UserController.showCreateForm());
+        }
+        if(DAOs.getUserDao().findByUsername(bindForm.get().username) != null){
+            User user = SecurityService.fetchUser(session("authid"));
+            flash("error", "Uživatel se zadaným uživatelským jménem již existuje...");
             return redirect(routes.UserController.showCreateForm());
         }
         NewMemberForm filledForm = bindForm.get();

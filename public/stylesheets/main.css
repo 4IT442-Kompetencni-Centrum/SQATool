@@ -249,3 +249,8 @@ ul.knowledge li strong {
 ul.user-detail li {
     line-height: 200%;
 }
+
+p.error{
+    color: #AA4442;
+    font-weight: bold;
+}
