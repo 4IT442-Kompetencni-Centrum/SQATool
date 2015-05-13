@@ -50,12 +50,29 @@ public class ProfileController extends Controller {
 
         UsersForm formData = form.get();
         User user = formData.getUser();
-        if(!formData.getNewPassword().equals("")) {
-            Map<String,String> emptyData = new HashMap<>();
-            emptyData.put("currentPassword","");
-            emptyData.put("newPassword","");
-            emptyData.put("newPasswordRepeated","");
 
+        Map<String,String> emptyData = new HashMap<>();
+        emptyData.put("currentPassword", "");
+        emptyData.put("newPassword", "");
+        emptyData.put("newPasswordRepeated","");
+
+        if(!formData.getUsername().equals("") && !formData.getUsername().equals(user.getUsername())) {
+            String newUsername = formData.getUsername();
+            if(DAOs.getUserDao().findByUsername(newUsername) != null) {
+                form.reject("username", "Uživatel s touto přezdívkou již existuje.");
+                return badRequest(editUserDetail.render(form, DashboardController.getMainMenu("userDetail")));
+            } else {
+                if(formData.getCurrentPassword().equals(user.getPassword())){
+                    user.setUsername(newUsername);
+                } else {
+                    form.reject("currentPassword", "Zadané heslo není platné.");
+                    form.bind(emptyData);
+                    return badRequest(editUserDetail.render(form, DashboardController.getMainMenu("userDetail")));
+                }
+            }
+        }
+
+        if(!formData.getNewPassword().equals("")) {
             if(formData.getCurrentPassword().equals(user.getPassword())){
                 if(formData.checkNewPassword()) {
                     user.setPassword(formData.getNewPassword());

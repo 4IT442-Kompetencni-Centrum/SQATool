@@ -12,5 +12,6 @@ public interface UserDao extends AbstractVersionedDao<User> {
     public User getValidUser(String userName, String password);
     public List<User> getUsersByQuery(String query);
     public List<User> getAllMembers(Integer offset, Integer limit);
+    public User findByUsername(String username);
 
 }
