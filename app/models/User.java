@@ -1,8 +1,7 @@
 package models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +14,7 @@ public class User extends AbstractVersionedEntity {
     public String username;
     public String password;
     @OneToMany(mappedBy="user")
-    private List<RoleInBusiness> roleInBusiness = new ArrayList<>();
+    private Set<RoleInBusiness> roleInBusiness = new HashSet<RoleInBusiness>();
     public String degree;
     public String email;
     public String firstName;
@@ -54,11 +53,11 @@ public class User extends AbstractVersionedEntity {
 		this.bio = bio;
 	}
 
-	public List<RoleInBusiness> getRoleInBusiness() {
+	public Set<RoleInBusiness> getRoleInBusiness() {
 		return roleInBusiness;
 	}
 
-	public void setRoleInBusiness(List<RoleInBusiness> roleInBusiness) {
+	public void setRoleInBusiness(Set<RoleInBusiness> roleInBusiness) {
 		this.roleInBusiness = roleInBusiness;
 	}
 

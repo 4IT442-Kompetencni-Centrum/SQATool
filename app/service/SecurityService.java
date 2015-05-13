@@ -3,6 +3,7 @@ package service;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import models.Project;
 import models.RoleInBusiness;
@@ -30,7 +31,7 @@ public class SecurityService {
 			Logger.warn("Access denied. User is null");
 			return false;
 		}
-		List<RoleInBusiness> userRoles = user.getRoleInBusiness();
+		Set<RoleInBusiness> userRoles = user.getRoleInBusiness();
 		if (userRoles == null || action == null) {
 			Logger.error("Access denied. User has no permissions or action is null.");
 			return false;
